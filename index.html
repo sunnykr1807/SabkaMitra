@@ -12,10 +12,49 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
    <style>
-        /* यहाँ पूरा CSS कोड पेस्ट करें जो मैंने ऊपर दिया था */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        #welcome-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #111; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.8s ease, visibility 0.8s ease; }
-        .welcome-title span { display: inline-block; color: #fff; font-size: 4rem; font-family: sans-serif; font-weight: 700; opacity: 0; transform: translateY(30px); animation: bounceIn 0.6s forwards; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 1. प्रीमियम डार्क बैकग्राउंड */
+        #welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, #1a1a2e 0%, #0f0c1b 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .welcome-box {
+            text-align: center;
+        }
+
+        /* 2. कलरफुल और ग्लोइंग टेक्स्ट स्टाइल */
+        .welcome-title span {
+            display: inline-block;
+            font-size: 5rem; 
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(50px) scale(0.5);
+            /* सुंदर नियॉन कलर्स (Gradient) */
+            background: linear-gradient(45deg, #ff007f, #7f00ff, #00f0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 4px 20px rgba(127, 0, 255, 0.5));
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* अक्षरों के आने का टाइम गैप (Delay) */
         .welcome-title span:nth-child(1) { animation-delay: 0.1s; }
         .welcome-title span:nth-child(2) { animation-delay: 0.2s; }
         .welcome-title span:nth-child(3) { animation-delay: 0.3s; }
@@ -23,18 +62,59 @@
         .welcome-title span:nth-child(5) { animation-delay: 0.5s; }
         .welcome-title span:nth-child(6) { animation-delay: 0.6s; }
         .welcome-title span:nth-child(7) { animation-delay: 0.7s; }
-        @keyframes bounceIn { to { opacity: 1; transform: translateY(0); } }
-        #welcome-overlay.fade-away { opacity: 0; visibility: hidden; }
-        #main-content { opacity: 0; transform: scale(0.98); transition: opacity 1s ease, transform 1s ease; }
-        #main-content.show-page { opacity: 1; transform: scale(1); }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: translateY(50px) scale(0.5); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* 3. रंगीन लोडिंग बार */
+        .loading-bar {
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff007f, #00f0ff);
+            border-radius: 2px;
+            margin-top: 20px;
+            box-shadow: 0 0 12px #00f0ff;
+            animation: loadProgress 2s ease-in-out forwards;
+        }
+
+        @keyframes loadProgress {
+            to { width: 100%; }
+        }
+
+        /* स्क्रीन ऊपर स्लाइड होकर गायब होगी */
+        #welcome-overlay.fade-away {
+            opacity: 0;
+            transform: translateY(-100%); 
+            visibility: hidden;
+        }
+
+        /* 4. मुख्य वेबसाइट कंटेंट की एंट्री स्टाइल */
+        #main-content {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s ease, transform 1.2s ease;
+            padding: 50px;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        #main-content.show-page {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 
 <body>
-  <div id="welcome-overlay">
-        <h1 class="welcome-title">
-            <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
-        </h1>
+   <div id="welcome-overlay">
+        <div class="welcome-box">
+            <h1 class="welcome-title">
+                <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
+            </h1>
+            <div class="loading-bar"></div>
+        </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
@@ -334,15 +414,16 @@
 
         });
 
-      window.addEventListener('DOMContentLoaded', () => {
+        
+        window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const overlay = document.getElementById('welcome-overlay');
                 const content = document.getElementById('main-content');
-                overlay.classList.add('fade-away'); 
-                content.classList.add('show-page');   
-            }, 2500); 
+                
+                overlay.classList.add('fade-away'); // वेलकम स्क्रीन ऊपर जाएगी
+                content.classList.add('show-page');   // मुख्य पेज सामने आएगा
+            }, 2500); // 2.5 सेकंड का टाइमर
         });
-    
     </script>
 </body>
 
