@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-   <style>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -41,7 +41,7 @@
         /* 2. कलरफुल और ग्लोइंग टेक्स्ट स्टाइल */
         .welcome-title span {
             display: inline-block;
-            font-size: 5rem; 
+            font-size: 5rem;
             font-family: 'Poppins', 'Segoe UI', sans-serif;
             font-weight: 800;
             text-transform: uppercase;
@@ -56,17 +56,44 @@
         }
 
         /* अक्षरों के आने का टाइम गैप (Delay) */
-        .welcome-title span:nth-child(1) { animation-delay: 0.1s; }
-        .welcome-title span:nth-child(2) { animation-delay: 0.2s; }
-        .welcome-title span:nth-child(3) { animation-delay: 0.3s; }
-        .welcome-title span:nth-child(4) { animation-delay: 0.4s; }
-        .welcome-title span:nth-child(5) { animation-delay: 0.5s; }
-        .welcome-title span:nth-child(6) { animation-delay: 0.6s; }
-        .welcome-title span:nth-child(7) { animation-delay: 0.7s; }
+        .welcome-title span:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .welcome-title span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .welcome-title span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .welcome-title span:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .welcome-title span:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .welcome-title span:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .welcome-title span:nth-child(7) {
+            animation-delay: 0.7s;
+        }
 
         @keyframes popIn {
-            0% { opacity: 0; transform: translateY(50px) scale(0.5); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         /* 3. रंगीन लोडिंग बार */
@@ -81,13 +108,15 @@
         }
 
         @keyframes loadProgress {
-            to { width: 100%; }
+            to {
+                width: 100%;
+            }
         }
 
         /* स्क्रीन ऊपर स्लाइड होकर गायब होगी */
         #welcome-overlay.fade-away {
             opacity: 0;
-            transform: translateY(-100%); 
+            transform: translateY(-100%);
             visibility: hidden;
         }
 
@@ -109,7 +138,7 @@
 </head>
 
 <body>
-   <div id="welcome-overlay">
+    <div id="welcome-overlay">
         <div class="welcome-box">
             <h1 class="welcome-title">
                 <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
@@ -117,6 +146,8 @@
             <div class="loading-bar"></div>
         </div>
     </div>
+    <div id="main-content">
+  
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
         <div class="container">
@@ -159,296 +190,358 @@
 
     <section class="bg-info text-white py-5">
         <div class="container text-center">
-<section class="hero d-flex flex-column justify-content-center align-items-center text-center text-light"  id="next-section">
- <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-inner animate__animated animate__fadeIn">
-    
-    
-    <h1 class="fw-bold text-shine mb-4">
-   SabkaMitra
-    </h1>
+            <section class="hero d-flex flex-column justify-content-center align-items-center text-center text-light"
+                id="next-section">
+                <div class="hero-bg" aria-hidden="true"></div>
+                <div class="hero-inner animate__animated animate__fadeIn">
 
-    <div class="d-flex justify-content-center mb-4" aria-live="polite">
-      <div class="carousel-pill py-3 px-4">
-        <i class="bi bi-stars me-2" aria-hidden="true"></i>
-        <span id="typeTarget"></span>
-        <span class="caret" aria-hidden="true"></span>
-      </div>
-    </div>
 
-  </div>
-</section>
+                    <h1 class="fw-bold text-shine mb-4">
+                        SabkaMitra
+                    </h1>
+
+                    <div class="d-flex justify-content-center mb-4" aria-live="polite">
+                        <div class="carousel-pill py-3 px-4">
+                            <i class="bi bi-stars me-2" aria-hidden="true"></i>
+                            <span id="typeTarget"></span>
+                            <span class="caret" aria-hidden="true"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
 
             <p class="lead">
                 All Form & Image Tools in One Place
             </p>
 
             <div class="hero-badges mt-4">
-      <span><a href="#tools" class="btn btn-info btn-lg">
-                Sunny Kumar Chaudhary
-            </a> <i class="bi bi-patch-check-fill me-1" aria-hidden="true"></i></span>
-      
-    </div>
-            
+                <span><a href="#tools" class="btn btn-info btn-lg">
+                        Sunny Kumar Chaudhary
+                    </a> <i class="bi bi-patch-check-fill me-1" aria-hidden="true"></i></span>
+
+            </div>
+
         </div>
     </section>
-    
-    
-  <main>
-    
-<style>
-  /* =========================================================
+
+
+    <main>
+
+        <style>
+            /* =========================================================
      ✅ 1. SHINE ANIMATION (Updated: Left to Right)
      ========================================================= */
-  .text-shine {
-    /* Colors wahi rahenge */
-    background: linear-gradient(to right, #450151 0%, #b91372 40%, #ffd700 50%, #b91372 60%, #263238 100%);
-    background-size: 200% auto;
-    
-    color: #450151; /* Fallback */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    
-    /* Animation */
-    animation: shineMove 3.5s linear infinite;
-    font-weight: 800; 
-  }
+            .text-shine {
+                /* Colors wahi rahenge */
+                background: linear-gradient(to right, #450151 0%, #b91372 40%, #ffd700 50%, #b91372 60%, #263238 100%);
+                background-size: 200% auto;
 
-  @keyframes shineMove {
-    to {
-      /* ✅ CHANGE: 200% ko -200% kar diya (Negative value = Left to Right movement) */
-      background-position: -200% center;
-    }
-  }
+                color: #450151;
+                /* Fallback */
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
 
-  /* =========================================================
+                /* Animation */
+                animation: shineMove 3.5s linear infinite;
+                font-weight: 800;
+            }
+
+            @keyframes shineMove {
+                to {
+                    /* ✅ CHANGE: 200% ko -200% kar diya (Negative value = Left to Right movement) */
+                    background-position: -200% center;
+                }
+            }
+
+            /* =========================================================
      ✅ 2. APP SPECIFIC SPACING FIX
      ========================================================= */
-  /* Jab 'in-app-view' class ho (yani App me ho) */
-  html.in-app-view .hero {
-    padding-top: 30px !important;  /* Desktop ke 96px ko hatakar 30px kar diya */
-    min-height: auto !important;   /* Height ko bhi auto kar diya taaki beech me na latke */
-    padding-bottom: 40px !important;
-  }
-  
-  /* App me Welcome text ka size thoda adjust karein taaki wo screen me fit ho */
-  html.in-app-view .text-shine {
-    font-size: clamp(24px, 6vw, 32px) !important;
-  }
-</style>
+            /* Jab 'in-app-view' class ho (yani App me ho) */
+            html.in-app-view .hero {
+                padding-top: 30px !important;
+                /* Desktop ke 96px ko hatakar 30px kar diya */
+                min-height: auto !important;
+                /* Height ko bhi auto kar diya taaki beech me na latke */
+                padding-bottom: 40px !important;
+            }
 
-  
+            /* App me Welcome text ka size thoda adjust karein taaki wo screen me fit ho */
+            html.in-app-view .text-shine {
+                font-size: clamp(24px, 6vw, 32px) !important;
+            }
+        </style>
 
-    <section class="py-5">
 
-        <div class="container">
 
-            <div class="row text-center">
+        <section class="py-5">
 
-                <div class="col-md-4">
+            <div class="container">
 
-                    <h3>⚡ Fast</h3>
+                <div class="row text-center">
 
-                    <p>
-                        Process images instantly.
-                    </p>
+                    <div class="col-md-4">
+
+                        <h3>⚡ Fast</h3>
+
+                        <p>
+                            Process images instantly.
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <h3>🔒 Secure</h3>
+
+                        <p>
+                            Files never leave your device.
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <h3>📱 Mobile Friendly</h3>
+
+                        <p>
+                            Works on every device.
+                        </p>
+
+                    </div>
 
                 </div>
 
-                <div class="col-md-4">
+            </div>
 
-                    <h3>🔒 Secure</h3>
+        </section>
+        <section class="py-5">
 
-                    <p>
-                        Files never leave your device.
-                    </p>
+            <div class="container">
 
-                </div>
+                <div class="row text-center">
 
-                <div class="col-md-4">
+                    <div class="col-md-4">
+                        <h2 class="fw-bold text-primary">
+                            10+
+                        </h2>
+                        <p>Tools</p>
+                    </div>
 
-                    <h3>📱 Mobile Friendly</h3>
+                    <div class="col-md-4">
+                        <h2 class="fw-bold text-success">
+                            100%
+                        </h2>
+                        <p>Free</p>
+                    </div>
 
-                    <p>
-                        Works on every device.
-                    </p>
+                    <div class="col-md-4">
+                        <h2 class="fw-bold text-danger">
+                            24/7
+                        </h2>
+                        <p>Available</p>
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
-    <section class="py-5">
+        <div class="container pb-5" id="tools">
 
-        <div class="container">
-
-            <div class="row text-center">
-
-                <div class="col-md-4">
-                    <h2 class="fw-bold text-primary">
-                        10+
-                    </h2>
-                    <p>Tools</p>
-                </div>
-
-                <div class="col-md-4">
-                    <h2 class="fw-bold text-success">
-                        100%
-                    </h2>
-                    <p>Free</p>
-                </div>
-
-                <div class="col-md-4">
-                    <h2 class="fw-bold text-danger">
-                        24/7
-                    </h2>
-                    <p>Available</p>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <div class="container pb-5">
-
-        <div class="row g-4">
-
-            <div class="col-md-6 col-lg-3">
-                <a href="tools/jpg-to-png.html" class="text-decoration-none">
-                    <div class="card tool-card h-100">
-                        <div class="card-body text-center">
-                            <h2>📸</h2>
-                            <h5>JPG → PNG</h5>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/Resume Maker.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>✍️</h2>
+                                <h5>Resume Maker</h5>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <a href="tools/png-to-jpg.html" class="text-decoration-none">
-                    <div class="card tool-card h-100">
-                        <div class="card-body text-center">
-                            <h2>🖼️</h2>
-                            <h5>PNG → JPG</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <a href="tools/image-resize.html" class="text-decoration-none">
-                    <div class="card tool-card h-100">
-                        <div class="card-body text-center">
-                            <h2>📏</h2>
-                            <h5>Image Resize</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <a href="tools/image-compress.html" class="text-decoration-none">
-                    <div class="card tool-card h-100">
-                        <div class="card-body text-center">
-                            <h2>📉</h2>
-                            <h5>Image Compress</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-3">
-            <a href="tools/passport-signature.html" class="text-decoration-none">
-                <div class="card tool-card h-100">
-                    <div class="card-body text-center">
-                        <h2>📸</h2>
-                        <h5>Passport + Signature</h5>
-                    </div>
+                    </a>
                 </div>
-            </a>
+
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/image-to-pdf.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>📄</h2>
+                                <h5>Image to PDF</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/pdf-to-image.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>🖼️</h2>
+                                <h5>PDF to Image</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/photo-crop.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>✂️</h2>
+                                <h5>Photo Crop</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/file-size-reducer.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>📉</h2>
+                                <h5>File Size Reducer</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/jpg-to-png.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <img src="assets/jpg-to-png.png" class="tool-preview" style="width:80px;height:80px;object-fit:cover;" alt="JPG to PNG">
+
+                                <h5 class="mt-3">JPG to PNG</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/png-to-jpg.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <img src="assets\png-to-jpg.jpg.png" class="tool-preview" style="width:80px;height:80px;object-fit:cover;" alt="JPG to PNG">
+                                <h5>PNG → JPG</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/image-resize.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>📏</h2>
+                                <h5>Image Resize</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/image-compress.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>📉</h2>
+                                <h5>Image Compress</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/passport-signature.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>📸</h2>
+                                <h5>Photo + Signature</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/resume-builder.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>📝</h2>
+                                <h5>Resume Builder</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <a href="tools/background-remover.html" class="text-decoration-none">
+                        <div class="card tool-card h-100">
+                            <div class="card-body text-center">
+                                <h2>🎨</h2>
+                                <h5>Background Remover</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-    <a href="tools/resume-builder.html" class="text-decoration-none">
-        <div class="card tool-card h-100">
-            <div class="card-body text-center">
-                <h2>📝</h2>
-                <h5>Resume Builder</h5>
-            </div>
-        </div>
-    </a>
-</div>
 
-<div class="col-md-6 col-lg-3">
-    <a href="tools/background-remover.html" class="text-decoration-none">
-        <div class="card tool-card h-100">
-            <div class="card-body text-center">
-                <h2>🎨</h2>
-                <h5>Background Remover</h5>
-            </div>
-        </div>
-    </a>
-</div>
         </div>
 
-    </div>
+        <footer class="text-center py-3">
+            © 2026 SabkaMitra<br>Good Bless Us
+        </footer>
+    </main></div>
+        <script>
 
-    <footer class=text-center py-3">
-        © 2026 SabkaMitra<br>Good Bless Us
-    </footer>
-    <script>
+            const btn = document.getElementById("themeToggle");
 
-        const btn = document.getElementById("themeToggle");
+            const savedTheme = localStorage.getItem("theme");
 
-        const savedTheme = localStorage.getItem("theme");
+            if (savedTheme) {
+                document.body.setAttribute("data-bs-theme", savedTheme);
 
-        if (savedTheme) {
-            document.body.setAttribute("data-bs-theme", savedTheme);
+                btn.innerHTML =
+                    savedTheme === "dark" ? "☀️" : "🌙";
+            }
 
-            btn.innerHTML =
-                savedTheme === "dark" ? "☀️" : "🌙";
-        }
+            btn.addEventListener("click", () => {
 
-        btn.addEventListener("click", () => {
+                let currentTheme =
+                    document.body.getAttribute("data-bs-theme");
 
-            let currentTheme =
-                document.body.getAttribute("data-bs-theme");
+                let newTheme =
+                    currentTheme === "dark"
+                        ? "light"
+                        : "dark";
 
-            let newTheme =
-                currentTheme === "dark"
-                    ? "light"
-                    : "dark";
+                document.body.setAttribute(
+                    "data-bs-theme",
+                    newTheme
+                );
 
-            document.body.setAttribute(
-                "data-bs-theme",
-                newTheme
-            );
+                localStorage.setItem(
+                    "theme",
+                    newTheme
+                );
 
-            localStorage.setItem(
-                "theme",
-                newTheme
-            );
+                btn.innerHTML =
+                    newTheme === "dark"
+                        ? "☀️"
+                        : "🌙";
 
-            btn.innerHTML =
-                newTheme === "dark"
-                    ? "☀️"
-                    : "🌙";
+            });
 
-        });
 
-        
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const overlay = document.getElementById('welcome-overlay');
-                const content = document.getElementById('main-content');
-                
-                overlay.classList.add('fade-away'); // वेलकम स्क्रीन ऊपर जाएगी
-                content.classList.add('show-page');   // मुख्य पेज सामने आएगा
-            }, 2500); // 2.5 सेकंड का टाइमर
-        });
-    </script>
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        document
+            .getElementById('welcome-overlay')
+            .classList.add('fade-away');
+
+        document
+            .getElementById('main-content')
+            .classList.add('show-page');
+
+    }, 2500);
+});
+        </script>
 </body>
 
 </html>
