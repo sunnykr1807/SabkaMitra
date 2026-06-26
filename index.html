@@ -11,10 +11,18 @@
     <meta name="description"
         content="SabkaMitra - Free Online Image, PDF, Resume and Form Tools. Fast, Secure and Mobile Friendly.">
 
+    <meta charset="UTF-8">
+    <!-- 🌐 Browser Tab mein Picture (Favicon) lagane ke liye ye code dalein -->
+    <link rel="icon" type="image/png" href="assets\logo.png.png">
+
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+     <!-- jsPDF Library CDN -->
+<script src="https://cloudflare.com"></script>
+
     <style>
         * {
             margin: 0;
@@ -137,46 +145,47 @@
             opacity: 1;
             transform: translateY(0);
         }
+.tool-card {
+    /* Sirf 2px ki jagah style aur color bhi add kiya */
+    border: 2px solid #ccc; 
+    border-radius: 8px;
+    overflow: hidden;
+    /* Border ka color badalne ko smooth karne ke liye 'border-color' add kiya */
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    min-height: 180px; /* Dono tool-card blocks ko ek sath merge kar diya */
+}
 
-        .tool-card {
-            border: none;
-            border-radius: 20px;
-            overflow: hidden;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
+.tool-card:hover {
+    transform: translateY(-12px) scale(1.08);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    /* Hover karne par border ka color blue ho jayega */
+    border-color: #007bff; 
+}
 
-        .tool-card:hover {
-            transform: translateY(-12px) scale(1.08);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-        }
+.tool-preview {
+    transition: transform 0.4s ease;
+}
 
-        .tool-preview {
-            transition: transform 0.4s ease;
-        }
+.tool-card:hover .tool-preview {
+    transform: scale(1.1);
+}
 
-        .tool-card:hover .tool-preview {
-            transform: scale(1.1);
-        }
+.tool-card h5 {
+    font-size: 1rem;
+    word-break: break-word;
+}
 
-        .tool-card {
-            min-height: 180px;
-        }
+@media (max-width: 576px) {
+    .tool-preview {
+        height: 100px;
+    }
 
-        .tool-card h5 {
-            font-size: 1rem;
-            word-break: break-word;
-        }
+    .tool-card h5 {
+        font-size: 0.9rem;
+    }
+}
 
-        @media (max-width: 576px) {
-            .tool-preview {
-                height: 100px;
-            }
-
-            .tool-card h5 {
-                font-size: 0.9rem;
-            }
-        }
     </style>
 </head>
 
@@ -241,8 +250,7 @@
 
 
                         <h1 class="fw-bold text-shine mb-4">
-                            SabkaMitra
-                        </h1>
+                         🚀 SabkaMitra</h1>
 
                         <div class="d-flex justify-content-center mb-4" aria-live="polite">
                             <div class="carousel-pill py-3 px-4">
@@ -254,11 +262,17 @@
 
                     </div>
                 </section>
+<section class="hero-premium">
+    <div class="container text-center">
+        
+        <p>All Image, PDF, Resume & Form Tools in One Place</p>
 
-                <p class="lead">
-                    All Form & Image Tools in One Place
-                </p>
-
+        <div class="hero-btns">
+            <a href="#tools" class="btn btn-primary btn-lg">Explore Tools</a>
+            <a href="#about" class="btn btn-outline-light btn-lg">Learn More</a>
+        </div>
+    </div>
+</section>
                 <div class="hero-badges mt-4">
                     <span><a href="#tools" class="btn btn-info btn-lg">
                             Sunny Kumar Chaudhary
@@ -393,14 +407,23 @@
             </section>
 
             <div class="container pb-5" id="tools">
-
+<div class="container mb-5">
+<input
+type="text"
+id="toolSearch"
+class="form-control form-control-lg"
+placeholder="🔍 Search Tools...">
+</div>
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-3">
                         <a href="tools/Resume Maker.html" class="text-decoration-none">
                             <div class="card tool-card h-100">
                                 <div class="card-body text-center">
-                                    <h2>✍️</h2>
-                                    <h5>Resume Maker</h5>
+                                    <img src="assets\student-resume.png" class="tool-preview"
+                                        style="width:80px;height:80px;object-fit:cover;" alt="PNG to JPG">
+
+                                    <h5 class="mt-3">✍️ Resume Maker</h5>
+                                    
                                 </div>
                             </div>
                         </a>
@@ -440,11 +463,13 @@
                     </div>
 
                     <div class="col-md-6 col-lg-3">
-                        <a href="tools/file-size-reducer.html" class="text-decoration-none">
+                        <a href="tools\aadhar-print.html" class="text-decoration-none">
                             <div class="card tool-card h-100">
                                 <div class="card-body text-center">
-                                    <h2>📉</h2>
-                                    <h5>File Size Reducer</h5>
+                                  <img src="assets\aadhar.png.png" class="tool-preview"
+                                        style="width:80px;height:80px;object-fit:cover;" alt="JPG to PNG">
+
+                                    <h5 class="mt-3">Aadhar one page print</h5>
                                 </div>
                             </div>
                         </a>
@@ -510,8 +535,11 @@
                         <a href="tools/resume-builder.html" class="text-decoration-none">
                             <div class="card tool-card h-100">
                                 <div class="card-body text-center">
-                                    <h2>📝</h2>
-                                    <h5>Resume Builder</h5>
+                                    <img src="assets\biodata.png.png" class="tool-preview"
+                                        style="width:80px;height:80px;object-fit:cover;" alt="PNG to JPG">
+
+                                    <h5 class="mt-3">📝 Biodata</h5>
+                                
                                 </div>
                             </div>
                         </a>
@@ -530,10 +558,80 @@
                 </div>
 
             </div>
+⭐️⭐️⭐️⭐️⭐️
+<br>
+"Best free tool website."
+<br>
+- Rahul
+<br>
+⭐️⭐️⭐️⭐️⭐️
+<br>
+"Resume Maker is amazing."
+<br>
+- Aman
+<br>
+          
 
-            <footer class="text-center py-3">
-                © 2026 SabkaMitra<br>Good Bless Us
-            </footer>
+<footer class="border-top border-2 border-secondary-subtle bg-body-tertiary py-4 px-3">
+   
+
+
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Brand -->
+            <div class="col-md-4 mb-4">
+                <h3>📄 SabkaMitra</h3>
+                <p>
+                    All Form & Image Tools in One Place.
+                    Fast, Secure & Mobile Friendly.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-md-4 mb-4">
+                <h4>Quick Links</h4>
+
+                <ul class="footer-links">
+                    <li><a href="#">🏠 Home</a></li>
+                    <li><a href="#tools">🛠 Tools</a></li>
+                    <li><a href="#">📜 Privacy Policy</a></li>
+                    <li><a href="#">📄 Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="col-md-4 mb-4">
+                <h4>Contact Us</h4>
+
+                <p>📧 Email: yourmail@gmail.com</p>
+
+                <p>📱 WhatsApp: +91 9876543210</p>
+
+                <p>📍 Bihar, India</p>
+
+                <div class="social-icons">
+
+                    <a href="https://www.instagram.com/sunnykr1807/?hl=en">📷 Instagram</a><br>
+
+                    <a href="#">▶ YouTube</a><br>
+
+                    <a href="#">💻 GitHub</a>
+
+                </div>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="text-center">
+            © 2026 SabkaMitra | Developed By Sunny Kumar Chaudhary ❤️
+        </div>
+
+    </div>
+</footer>
         </main>
     </div>
     <script>
@@ -591,6 +689,8 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   
+
 </body>
 
 </html>
