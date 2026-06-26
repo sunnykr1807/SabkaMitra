@@ -7,16 +7,12 @@ background:white;
 }
 
 .tool-card{
-border:none;
-border-radius:20px;
+border:2px;
+border-radius:8px;
 transition:0.3s;
 box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
-.tool-card:hover{
-transform:translateY(-5px);
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
 
 .tool-card h2{
 font-size:50px;
@@ -25,4 +21,117 @@ font-size:50px;
 .tool-card h5{
 margin-top:10px;
 color:#333;
+}
+
+
+.tool-preview{
+    width:100%;
+    height:120px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+
+.tool-card{
+    border:2px;
+    border-radius:8px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    overflow:hidden;
+    transition:transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.tool-card:hover{
+    transform:translateY(-8px) scale(1.05);
+    box-shadow:0 15px 35px rgba(0,0,0,0.25);
+}
+
+/* footer ke liye decoration */
+.premium-footer{
+    background:#111827;
+    color:white;
+    padding:50px 0 20px;
+    margin-top:50px;
+}
+
+.premium-footer h3,
+.premium-footer h4{
+    color:#00d4ff;
+    margin-bottom:15px;
+}
+
+.premium-footer p{
+    color:#d1d5db;
+}
+
+.footer-links{
+    list-style:none;
+    padding:0;
+}
+
+.footer-links li{
+    margin-bottom:10px;
+}
+
+.footer-links a,
+.social-icons a{
+    color:#d1d5db;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.footer-links a:hover,
+.social-icons a:hover{
+    color:#00d4ff;
+    padding-left:5px;
+}
+
+.premium-footer hr{
+    border-color:#374151;
+}
+
+.premium-footer .text-center{
+    color:#9ca3af;
+    font-size:14px;
+}
+
+/* home page design */
+.hero-premium{
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
+    padding:100px 20px;
+}
+
+.hero-premium h1{
+    font-size:4rem;
+    font-weight:800;
+}
+
+.hero-premium p{
+    font-size:1.3rem;
+    opacity:.9;
+}
+
+/* smooth */
+.tool-card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,.2);
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+
+/* Sabhi 12 cards ka default border */
+.card {
+    border: 2px solid #ccc; /* Grey color border */
+    border-radius: 8px;    /* Corners ko round karne ke liye */
+    transition: all 0.3s ease; /* Hover effect ko smooth banane ke liye */
+}
+
+/* Hover karne par border ko maintain rakhne ke liye */
+.card:hover {
+    border: 2px solid #007bff; /* Hover karne par border ka color change hoga, gayab nahi */
+    transform: translateY(-5px); /* Chaho to card ko thoda upar utha sakte ho (optional) */
 }
