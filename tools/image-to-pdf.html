@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF - SabkaMitra</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    
+    <!-- Stable Production Release CDN Link -->
+    <script src="https://cloudflare.com"></script>
+</head>
+<body class="bg-light min-vh-100 d-flex align-items-center justify-content-center m-0 p-3">
+incomplete
+    <!-- Center Card Block Layout -->
+    <div class="card p-4 border border-2 border-secondary-subtle rounded-3 shadow-sm w-100" style="max-width: 450px;">
+        
+        <h3 class="fw-bold text-center mb-3 text-dark">Image to PDF</h3>
+        <p class="text-muted text-center small mb-4">Convert your JPG or PNG files into PDF instantly.</p>
+        
+        <!-- Input Block -->
+        <div class="mb-4">
+            <label for="imageInput" class="form-label fw-bold text-secondary small">Choose Image</label>
+            <input class="form-control border-2" type="file" id="imageInput" accept="image/*">
+        </div>
+
+        <!-- Preview Block Area Container -->
+        <div class="mb-4 text-center d-none" id="previewContainer">
+            <div class="p-2 border border-2 border-dashed rounded bg-white">
+                <img id="imagePreview" src="" alt="Preview Data" class="img-fluid rounded" style="max-height: 200px;">
+            </div>
+        </div>
+
+        <!-- Direct Trigger Download Action Button -->
+        <button id="convertBtn" class="btn btn-primary btn-lg w-100 fw-bold" disabled>
+            Convert & Download PDF
+        </button>
+        
+    </div>
+
+    <!-- Error Free Pure Base64 Processing Script -->
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const convertBtn = document.getElementById('convertBtn');
+        const previewContainer = document.getElementById('previewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+
+        let imageBase64Data = "";
+
+        // File stream parsing logic via standard file reader
+        imageInput.addEventListener('change', function(e) {
+            const currentFile = e.target.files[0]; // Target individual item data stream payload array matrix
+            if (currentFile) {
+                const streamReader = new FileReader();
+                streamReader.onload = function(event) {
+                    imageBase64Data = event.target.result;
+                    imagePreview.src = imageBase64Data;
+                    
+                    // Show standard layout display preview area
+                    previewContainer.classList.remove('d-none');
+                    convertBtn.disabled = false;
+                };
+                streamReader.readAsDataURL(currentFile);
+            }
+        });
+
+        // Safe direct base64 browser trigger engine
+        convertBtn.addEventListener('click', function() {
+            if (!imageBase64Data) return;
+
+            // Instantly transition UI element state attributes
+            convertBtn.innerText = "Downloading...";
+            convertBtn.disabled = true;
+
+            try {
+                // Correct runtime instantiation of jsPDF object context
+                const { jsPDF } = window.jspdf;
+                const pdfDocument = new jsPDF('p', 'mm', 'a4'); // Standard A4 layout sizing profile
+
+                // Renders raw base64 profile block parameters smoothly into memory bounds
+                pdfDocument.addImage(imageBase64Data, 'JPEG', 10, 10, 190, 150);
+                
+                // Directly triggers standard browser binary data array download window
+                pdfDocument.save('SabkaMitra-Document.pdf');
+            } catch (error) {
+                alert("Something went wrong. Please refresh and try again.");
+                console.error("PDF Engine Failure: ", error);
+            } finally {
+                // Reset processing attributes safely
+                convertBtn.innerText = "Convert & Download PDF";
+                convertBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
