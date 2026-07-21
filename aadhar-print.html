@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aadhar 1-Page Image Downloader - SabkaMitra</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+
+    <style>
+        /* Web Layout Configuration Preview Frame */
+        .aadhar-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 8mm;
+            width: 100%;
+        }
+
+        .aadhar-box {
+            width: 86mm;
+            height: 54mm;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .aadhar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+    </style>
+</head>
+<body class="bg-light min-vh-100 d-flex flex-column align-items-center py-4">
+
+    <!-- Web Input Control Box Layout Frame -->
+    <div class="card p-4 border border-2 border-secondary-subtle rounded-3 shadow-sm w-100 mb-4" style="max-width: 500px;">
+        <h4 class="fw-bold text-center mb-3 text-dark">Aadhar Image Downloader</h4>
+        <p class="text-muted text-center small mb-4">Upload Front & Back photos. Download them side-by-side as a single printable JPG.</p>
+        
+        <!-- Front File Input Stream Component -->
+        <div class="mb-3">
+            <label class="form-label fw-bold small text-secondary">Upload Front Side</label>
+            <input class="form-control" type="file" id="frontInput" accept="image/*">
+        </div>
+
+        <!-- Back File Input Stream Component -->
+        <div class="mb-4">
+            <label class="form-label fw-bold small text-secondary">Upload Back Side</label>
+            <input class="form-control" type="file" id="backInput" accept="image/*">
+        </div>
+
+        <!-- Download Action Trigger Button Interface -->
+        <button id="downloadBtn" class="btn btn-primary btn-lg w-100 fw-bold" disabled>
+            Download Image (JPG)
+        </button>
+    </div>
+
+    <!-- Virtual Layout Area Container Box Frame -->
+    <div class="card bg-white shadow-lg p-4 mb-5" style="width: 210mm; min-height: 150mm;">
+        <p class="text-muted small mb-4 text-center">--- A4 Layout Preview (Top Row Side-by-Side) ---</p>
+
+        <div class="aadhar-row">
+            <!-- Front Frame preview holder -->
+            <div class="aadhar-box">
+                <span class="text-muted small" id="frontLabel">Front Side Preview</span>
+                <img id="frontPreview" src="" class="d-none">
+            </div>
+
+            <!-- Back Frame preview holder -->
+            <div class="aadhar-box">
+                <span class="text-muted small" id="backLabel">Back Side Preview</span>
+                <img id="backPreview" src="" class="d-none">
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Native Image Matrix Processing Script -->
+    <script>
+        const frontInput = document.getElementById('frontInput');
+        const backInput = document.getElementById('backInput');
+        const frontPreview = document.getElementById('frontPreview');
+        const backPreview = document.getElementById('backPreview');
+        const frontLabel = document.getElementById('frontLabel');
+        const backLabel = document.getElementById('backLabel');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let frontReady = false;
+        let backReady = false;
+
+        function checkPayloadStatus() {
+            if (frontReady && backReady) {
+                downloadBtn.disabled = false;
+            }
+        }
+
+        // File stream matrix reading for front data blocks
+        frontInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    frontPreview.src = event.target.result;
+                    frontPreview.classList.remove('d-none');
+                    frontLabel.style.display = 'none'; // Completely forces label removal
+                    frontReady = true;
+                    checkPayloadStatus();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // File stream matrix reading for back data blocks
+        backInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    backPreview.src = event.target.result;
+                    backPreview.classList.remove('d-none');
+                    backLabel.style.display = 'none'; // Completely forces label removal
+                    backReady = true;
+                    checkPayloadStatus();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 100% Native High Resolution Canvas Joiner Engine (No External Library Dependency)
+        downloadBtn.addEventListener('click', function() {
+            if (!frontReady || !backReady) return;
+
+            downloadBtn.innerText = "Downloading...";
+            downloadBtn.disabled = true;
+
+            // Setting up a standard high-quality A4 aspect canvas area template
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Standard High Definition A4 scale parameters mapping layout matrix bounds
+            canvas.width = 2480; 
+            canvas.height = 3508; 
+
+            // Paint entire print layer background clear white
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Precise proportional layout mapping grid scales logic
+            const marginX = 177;  // 15mm dynamic conversion ratio margins
+            const marginY = 177;  // 15mm dynamic conversion ratio margins
+            const cardW = 1015;   // 86mm dynamic card width parameters
+            const cardH = 638;    // 54mm dynamic card height parameters
+            const gap = 94;       // 8mm distance separation scale bounds
+
+            // Create synchronous image instances to safely execute canvas layers drawing operations
+            const imgFront = new Image();
+            const imgBack = new Image();
+
+            imgFront.src = frontPreview.src;
+            imgFront.onload = function() {
+                imgBack.src = backPreview.src;
+                imgBack.onload = function() {
+                    
+                    // Draw Front Card at top-left
+                    ctx.drawImage(imgFront, marginX, marginY, cardW, cardH);
+                    
+                    // Draw Back Card side-by-side right next to the front card layout bounds
+                    ctx.drawImage(imgBack, marginX + cardW + gap, marginY, cardW, cardH);
+
+                    // Pure native anchor data link download stream bridge mechanism execution
+                    const downloadLink = document.createElement('a');
+                    downloadLink.download = 'SabkaMitra-Aadhar-A4.jpg';
+                    downloadLink.href = canvas.toDataURL('image/jpeg', 0.95); // High quality compression matrix
+                    
+                    // Fire automatic user terminal save triggers
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+
+                    // Reset web dashboard buttons
+                    downloadBtn.innerText = "Download Image (JPG)";
+                    downloadBtn.disabled = false;
+                };
+            };
+        });
+    </script>
+</body>
+</html>

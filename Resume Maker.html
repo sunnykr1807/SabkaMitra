@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Resume Builder - SabkaMitra</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .template-card {
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .template-card:hover {
+            transform: translateY(-8px);
+        }
+
+        #resumeSection {
+            display: none;
+        }
+
+        .resume-preview {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff;
+            min-height: 500px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+   <div class="row">
+
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <img src=""D:\SabkaMitra\yourmitra.com\student-resume.png""
+           class="card-img-top">
+
+      <div class="card-body text-center">
+        <h5>Student Resume</h5>
+
+        <button class="btn btn-primary"
+                onclick="selectTemplate('student')">
+          Use Template
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+              <div class="col-md-4 mb-4">
+  <div class="card h-100">
+
+    <img src="D:\SabkaMitra\yourmitra.com\assest\student-resume.png"
+         class="card-img-top">
+
+    <div class="card-body text-center">
+      <h5>Professional Resume</h5>
+
+      <button class="btn btn-primary"
+              onclick="selectTemplate('professional')">
+        Use Template
+      </button>
+    </div>
+
+  </div>
+</div>
+
+             <div class="col-md-4 mb-4">
+  <div class="card h-100">
+
+    <img src="D:\SabkaMitra\yourmitra.com\assest\student-resume.png.png"
+         class="card-img-top">
+
+    <div class="card-body text-center">
+      <h5>Modern Resume</h5>
+
+      <button class="btn btn-primary"
+              onclick="selectTemplate('modern')">
+        Use Template
+      </button>
+    </div>
+
+  </div>
+</div>
+
+            </div>
+
+        </div>
+
+        <div id="resumeSection">
+
+            <div class="row">
+
+                <div class="col-lg-5">
+
+                    <input type="text" id="name" class="form-control mb-3" placeholder="Full Name"
+                        oninput="updateResume()">
+
+                    <input type="text" id="mobile" class="form-control mb-3" placeholder="Mobile Number"
+                        oninput="updateResume()">
+
+                    <input type="email" id="email" class="form-control mb-3" placeholder="Email"
+                        oninput="updateResume()">
+
+                    <textarea id="education" class="form-control mb-3" rows="3" placeholder="Education"
+                        oninput="updateResume()"></textarea>
+
+                    <textarea id="skills" class="form-control mb-3" rows="3" placeholder="Skills"
+                        oninput="updateResume()"></textarea>
+
+                    <textarea id="objective" class="form-control mb-3" rows="3" placeholder="Career Objective"
+                        oninput="updateResume()"></textarea>
+
+                </div>
+
+                <div class="col-lg-7">
+
+                    <div class="resume-preview">
+
+                        <h2 id="rName">
+                            Your Name
+                        </h2>
+
+                        <p>
+                            <b>Mobile:</b>
+                            <span id="rMobile"></span>
+                        </p>
+
+                        <p>
+                            <b>Email:</b>
+                            <span id="rEmail"></span>
+                        </p>
+
+                        <hr>
+
+                        <h4>Career Objective</h4>
+
+                        <p id="rObjective"></p>
+
+                        <h4>Education</h4>
+
+                        <p id="rEducation"></p>
+
+                        <h4>Skills</h4>
+
+                        <p id="rSkills"></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function selectTemplate(template) {
+
+            document.getElementById("templateSection").style.display = "none";
+
+            document.getElementById("resumeSection").style.display = "block";
+
+        }
+
+        function updateResume() {
+
+            rName.innerText = name.value || "Your Name";
+
+            rMobile.innerText = mobile.value;
+
+            rEmail.innerText = email.value;
+
+            rEducation.innerText = education.value;
+
+            rSkills.innerText = skills.value;
+
+            rObjective.innerText = objective.value;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

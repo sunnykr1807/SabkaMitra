@@ -1,0 +1,89 @@
+<div class="mb-3">
+    <label class="form-label">Upload Passport Photo</label>
+    <input type="file" id="photoInput" class="form-control" accept="image/*">
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Upload Signature</label>
+    <input type="file" id="signInput" class="form-control" accept="image/*">
+</div>
+
+<button class="btn btn-success" onclick="generateImage()">
+    Generate Preview
+</button>
+
+<hr>
+
+<canvas id="canvas" class="border w-100"></canvas>
+
+<div class="mt-3">
+    <button class="btn btn-primary" onclick="downloadImage()">
+        Download JPG
+    </button>
+</div>
+
+<script>
+
+let photoFile;
+let signFile;
+
+document.getElementById("photoInput").addEventListener("change", e=>{
+    photoFile = e.target.files[0];
+});
+
+document.getElementById("signInput").addEventListener("change", e=>{
+    signFile = e.target.files[0];
+});
+
+function generateImage(){
+
+    if(!photoFile || !signFile){
+        alert("Photo aur Signature dono upload karo");
+        return;
+    }
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = 400;
+    canvas.height = 450;
+
+    ctx.fillStyle = "white";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    const photo = new Image();
+    const sign = new Image();
+
+    photo.onload = function(){
+
+        ctx.drawImage(photo,100,20,200,250);
+
+        sign.onload = function(){
+
+            ctx.drawImage(sign,100,310,200,60);
+
+        }
+
+        sign.src = URL.createObjectURL(signFile);
+
+    }
+
+    photo.src = URL.createObjectURL(photoFile);
+
+}
+
+function downloadImage(){
+
+    const canvas = document.getElementById("canvas");
+
+    const link = document.createElement("a");
+
+    link.download = "passport-signature.jpg";
+
+    link.href = canvas.toDataURL("image/jpeg",1.0);
+
+    link.click();
+
+}
+
+</script>
