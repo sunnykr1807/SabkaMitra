@@ -2,694 +2,498 @@
 <html lang="en">
 
 <head>
-    <meta name="google-site-verification" content="VMgH5Cak7Eki_YsRX8uOBIO9VaAKxB6G9kY4y4QWcrw" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="VMgH5Cak7Eki_YsRX8uOBIO9VaAKxB6G9kY4y4QWcrw">
 
-    <title>SabkaMitra</title>
+    <title>SabkaMitra — Free Online Tools</title>
+    <meta name="description" content="SabkaMitra - Free online image, PDF, resume and form tools.">
 
-    <meta name="description"
-        content="SabkaMitra - Free Online Image, PDF, Resume and Form Tools. Fast, Secure and Mobile Friendly.">
-
-    <meta charset="UTF-8">
-    <!-- 🌐 Browser Tab mein Picture (Favicon) lagane ke liye ye code dalein -->
-    <link rel="icon" type="image/png" href="assets\logo.png.png">
-
-
+    <link rel="icon" href="assets/logo.png.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-     <!-- jsPDF Library CDN -->
-<script src="https://cloudflare.com"></script>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* 1. प्रीमियम डार्क बैकग्राउंड */
-        #welcome-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: radial-gradient(circle, #1a1a2e 0%, #0f0c1b 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-
-        .welcome-box {
-            text-align: center;
-        }
-
-        /* 2. कलरफुल और ग्लोइंग टेक्स्ट स्टाइल */
-        .welcome-title span {
-            display: inline-block;
-            font-size: clamp(2rem, 8vw, 5rem);
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            opacity: 0;
-            transform: translateY(50px) scale(0.5);
-            background: linear-gradient(45deg, #ff007f, #7f00ff, #00f0ff);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0px 4px 20px rgba(127, 0, 255, 0.5));
-            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        /* अक्षरों के आने का टाइम गैप (Delay) */
-        .welcome-title span:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .welcome-title span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .welcome-title span:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .welcome-title span:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .welcome-title span:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .welcome-title span:nth-child(6) {
-            animation-delay: 0.6s;
-        }
-
-        .welcome-title span:nth-child(7) {
-            animation-delay: 0.7s;
-        }
-
-        @keyframes popIn {
-            0% {
-                opacity: 0;
-                transform: translateY(50px) scale(0.5);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* 3. रंगीन लोडिंग बार */
-        .loading-bar {
-            width: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #ff007f, #00f0ff);
-            border-radius: 2px;
-            margin-top: 20px;
-            box-shadow: 0 0 12px #00f0ff;
-            animation: loadProgress 2s ease-in-out forwards;
-        }
-
-        @keyframes loadProgress {
-            to {
-                width: 100%;
-            }
-        }
-
-        /* स्क्रीन ऊपर स्लाइड होकर गायब होगी */
-        #welcome-overlay.fade-away {
-            opacity: 0;
-            transform: translateY(-100%);
-            visibility: hidden;
-        }
-
-        /* 4. मुख्य वेबसाइट कंटेंट की एंट्री स्टाइल */
-        #main-content {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1.2s ease, transform 1.2s ease;
-            padding: 0;
-            text-align: center;
-            font-family: sans-serif;
-        }
-
-        #main-content.show-page {
-            opacity: 1;
-            transform: translateY(0);
-        }
-.tool-card {
-    /* Sirf 2px ki jagah style aur color bhi add kiya */
-    border: 2px solid #ccc; 
-    border-radius: 8px;
-    overflow: hidden;
-    /* Border ka color badalne ko smooth karne ke liye 'border-color' add kiya */
-    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    min-height: 180px; /* Dono tool-card blocks ko ek sath merge kar diya */
-}
-
-.tool-card:hover {
-    transform: translateY(-12px) scale(1.08);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-    /* Hover karne par border ka color blue ho jayega */
-    border-color: #007bff; 
-}
-
-.tool-preview {
-    transition: transform 0.4s ease;
-}
-
-.tool-card:hover .tool-preview {
-    transform: scale(1.1);
-}
-
-.tool-card h5 {
-    font-size: 1rem;
-    word-break: break-word;
-}
-
-@media (max-width: 576px) {
-    .tool-preview {
-        height: 100px;
-    }
-
-    .tool-card h5 {
-        font-size: 0.9rem;
-    }
-}
-
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="welcome-overlay">
-        <div class="welcome-box">
-            <h1 class="welcome-title">
-                <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
-            </h1>
-            <div class="loading-bar"></div>
-        </div>
-    </div>
-    <div id="main-content">
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-            <div class="container">
-
-                <a class="navbar-brand fw-bold" href="#">
-                    📄 SabkaMitra
-                </a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-
-                    <span class="navbar-toggler-icon"></span>
-
-                </button>
-
-                <div class="collapse navbar-collapse" id="nav">
-
-                    <ul class="navbar-nav ms-auto">
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Home
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#tools">
-                                Tools
-                            </a>
-                        </li>
-
-                    </ul>
-                    <button id="themeToggle" class="btn btn-outline-light ms-3">
-                        🌙 Dark Mode
-                    </button>
-                </div>
-
-            </div>
-
-        </nav>
-
-        <section class="bg-info text-white py-5">
-            <div class="container text-center">
-                <section
-                    class="hero d-flex flex-column justify-content-center align-items-center text-center text-light"
-                    id="next-section">
-                    <div class="hero-bg" aria-hidden="true"></div>
-                    <div class="hero-inner animate__animated animate__fadeIn">
-
-
-                        <h1 class="fw-bold text-shine mb-4">
-                         🚀 SabkaMitra</h1>
-
-                        <div class="d-flex justify-content-center mb-4" aria-live="polite">
-                            <div class="carousel-pill py-3 px-4">
-                                <i class="bi bi-stars me-2" aria-hidden="true"></i>
-                                <span id="typeTarget"></span>
-                                <span class="caret" aria-hidden="true"></span>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-<section class="hero-premium">
-    <div class="container text-center">
-        
-        <p>All Image, PDF, Resume & Form Tools in One Place</p>
-
-        <div class="hero-btns">
-            <a href="#tools" class="btn btn-primary btn-lg">Explore Tools</a>
-            <a href="#about" class="btn btn-outline-light btn-lg">Learn More</a>
-        </div>
-    </div>
-</section>
-                <div class="hero-badges mt-4">
-                    <span><a href="#tools" class="btn btn-info btn-lg">
-                            Sunny Kumar Chaudhary
-                        </a> <i class="bi bi-patch-check-fill me-1" aria-hidden="true"></i></span>
-
-                </div>
-
-            </div>
-        </section>
-
-
-        <main>
-
-            <style>
-                /* =========================================================
-     ✅ 1. SHINE ANIMATION (Updated: Left to Right)
-     ========================================================= */
-                .text-shine {
-                    /* Colors wahi rahenge */
-                    background: linear-gradient(to right, #450151 0%, #b91372 40%, #ffd700 50%, #b91372 60%, #263238 100%);
-                    background-size: 200% auto;
-
-                    color: #450151;
-                    /* Fallback */
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-
-                    /* Animation */
-                    animation: shineMove 3.5s linear infinite;
-                    font-weight: 800;
-                }
-
-                @keyframes shineMove {
-                    to {
-                        /* ✅ CHANGE: 200% ko -200% kar diya (Negative value = Left to Right movement) */
-                        background-position: -200% center;
-                    }
-                }
-
-                /* =========================================================
-     ✅ 2. APP SPECIFIC SPACING FIX
-     ========================================================= */
-                /* Jab 'in-app-view' class ho (yani App me ho) */
-                html.in-app-view .hero {
-                    padding-top: 30px !important;
-                    /* Desktop ke 96px ko hatakar 30px kar diya */
-                    min-height: auto !important;
-                    /* Height ko bhi auto kar diya taaki beech me na latke */
-                    padding-bottom: 40px !important;
-                }
-
-                /* App me Welcome text ka size thoda adjust karein taaki wo screen me fit ho */
-                html.in-app-view .text-shine {
-                    font-size: clamp(24px, 6vw, 32px) !important;
-                }
-            </style>
-
-
-
-            <section class="py-5">
-
-                <div class="container">
-
-                    <div class="row text-center">
-
-                        <div class="col-md-4">
-
-                            <h3>⚡ Fast</h3>
-
-                            <p>
-                                Process images instantly.
-                            </p>
-
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <h3>🔒 Secure</h3>
-
-                            <p>
-                                Files never leave your device.
-                            </p>
-
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <h3>📱 Mobile Friendly</h3>
-
-                            <p>
-                                Works on every device.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-            <section class="py-5">
-
-                <div class="container">
-
-                    <div class="row text-center">
-
-                        <div class="col-md-4">
-                            <h2 class="fw-bold text-primary">
-                                10+
-                            </h2>
-                            <p>Tools</p>
-                        </div>
-
-                        <div class="col-md-4">
-                            <h2 class="fw-bold text-success">
-                                100%
-                            </h2>
-                            <p>Free</p>
-                        </div>
-
-                        <div class="col-md-4">
-                            <h2 class="fw-bold text-danger">
-                                24/7
-                            </h2>
-                            <p>Available</p>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-            <div class="container pb-5" id="tools">
-<div class="container mb-5">
-<input
-type="text"
-id="toolSearch"
-class="form-control form-control-lg"
-placeholder="🔍 Search Tools...">
-</div>
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/Resume Maker.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <img src="assets\student-resume.png" class="tool-preview"
-                                        style="width:80px;height:80px;object-fit:cover;" alt="PNG to JPG">
-
-                                    <h5 class="mt-3">✍️ Resume Maker</h5>
-                                    
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/image-to-pdf.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <h2>📄</h2>
-                                    <h5>Image to PDF</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/pdf-to-image.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <h2>🖼️</h2>
-                                    <h5>PDF to Image</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/image-crop.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <h2>✂️</h2>
-                                    <h5>Photo Crop</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools\aadhar-print.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                  <img src="assets\aadhar.png.png" class="tool-preview"
-                                        style="width:80px;height:80px;object-fit:cover;" alt="JPG to PNG">
-
-                                    <h5 class="mt-3">Aadhar one page print</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/jpg-to-png.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <img src="assets/jpg-to-png.png" class="tool-preview"
-                                        style="width:80px;height:80px;object-fit:cover;" alt="JPG to PNG">
-
-                                    <h5 class="mt-3">JPG to PNG</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/png-to-jpg.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <img src="assets/png-to-jpg.jpg.png" class="tool-preview"
-                                        style="width:80px;height:80px;object-fit:cover;" alt="PNG to JPG">
-
-                                    <h5 class="mt-3">PNG to JPG</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/image-resize.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <h2>📏</h2>
-                                    <h5>Image Resize</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/image-compress.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <h2>📉</h2>
-                                    <h5>Image Compress</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/passport-signature.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <h2>📸</h2>
-                                    <h5>Photo + Signature</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/resume-builder.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <img src="assets\biodata.png.png" class="tool-preview"
-                                        style="width:80px;height:80px;object-fit:cover;" alt="PNG to JPG">
-
-                                    <h5 class="mt-3">📝 Biodata</h5>
-                                
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <a href="tools/background-remover.html" class="text-decoration-none">
-                            <div class="card tool-card h-100">
-                                <div class="card-body text-center">
-                                    <h2>🎨</h2>
-                                    <h5>Background Remover</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-⭐️⭐️⭐️⭐️⭐️
-<br>
-"Best free tool website."
-<br>
-- Rahul
-<br>
-⭐️⭐️⭐️⭐️⭐️
-<br>
-"Resume Maker is amazing."
-<br>
-- Aman
-<br>
-          
-
-<footer class="border-top border-2 border-secondary-subtle bg-body-tertiary py-4 px-3">
-   
-
-
-    <div class="container">
-
-        <div class="row">
-
-            <!-- Brand -->
-            <div class="col-md-4 mb-4">
-                <h3>📄 SabkaMitra</h3>
-                <p>
-                    All Form & Image Tools in One Place.
-                    Fast, Secure & Mobile Friendly.
-                </p>
-            </div>
-
-            <!-- Quick Links -->
-            <div class="col-md-4 mb-4">
-                <h4>Quick Links</h4>
-
-                <ul class="footer-links">
-                    <li><a href="#">🏠 Home</a></li>
-                    <li><a href="#tools">🛠 Tools</a></li>
-                    <li><a href="#">📜 Privacy Policy</a></li>
-                    <li><a href="#">📄 Terms & Conditions</a></li>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg site-navbar sticky-top">
+        <div class="container">
+
+            <a class="navbar-brand brand" href="index.html">
+                <span class="brand-mark"><i class="bi bi-grid-1x2-fill"></i></span>
+                <span>Sabka<span class="brand-accent">Mitra</span>
+                    <small>TOOLS FOR EVERYONE</small></span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                    <li><a class="nav-link active" href="#home">Home</a></li>
+                    <li><a class="nav-link" href="#tools">Explore Tools</a></li>
+                    <li><a class="nav-link" href="#why-us">About</a></li>
+                    <li>
+                        <button id="themeToggle" class="theme-toggle">
+                            <i class="bi bi-moon-stars"></i><span>Dark mode</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
+        </div>
+    </nav>
 
-            <!-- Contact -->
-            <div class="col-md-4 mb-4">
-                <h4>Contact Us</h4>
+    <!-- HERO -->
+    <section class="hero-section" id="home">
+        <div class="hero-glow hero-glow-one"></div>
+        <div class="hero-glow hero-glow-two"></div>
 
-                <p>📧 Email: yourmail@gmail.com</p>
+        <div class="container hero-content">
+            <div class="hero-copy">
 
-                <p>📱 WhatsApp: +91 9876543210</p>
-
-                <p>📍 Bihar, India</p>
-
-                <div class="social-icons">
-
-                    <a href="https://www.instagram.com/sunnykr1807/?hl=en">📷 Instagram</a><br>
-
-                    <a href="#">▶ YouTube</a><br>
-
-                    <a href="#">💻 GitHub</a>
-
+                <div class="eyebrow">
+                    <span class="eyebrow-dot"></span>
+                    SIMPLE. FAST. FREE.
                 </div>
+
+                <h1>Everything you need.<br>
+                    <span>All in one place.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Useful online tools to make your everyday work easier.
+                    Edit images, manage PDFs and create documents — without the hassle.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#tools" class="btn btn-primary btn-lg">
+                        <i class="bi bi-grid me-2"></i>Explore all tools
+                    </a>
+                    <a href="#why-us" class="btn btn-quiet btn-lg">
+                        Discover SabkaMitra <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
+
+                <div class="hero-trust">
+                    <span><i class="bi bi-check-circle-fill"></i> Free to use</span>
+                    <span><i class="bi bi-shield-check"></i> Privacy-minded</span>
+                    <span><i class="bi bi-phone"></i> Mobile friendly</span>
+                </div>
+
+            </div>
+
+            <div class="hero-visual">
+                <div class="visual-orbit orbit-one"></div>
+                <div class="visual-orbit orbit-two"></div>
+
+                <div class="visual-main-card">
+                    <div class="visual-card-top">
+                        <span>● ● ●</span>
+                        <span>YOUR TOOLBOX</span>
+                    </div>
+
+                    <div class="visual-grid">
+                        <div class="visual-tool visual-blue">
+                            <i class="bi bi-image"></i><span>Images</span>
+                        </div>
+                        <div class="visual-tool visual-purple">
+                            <i class="bi bi-file-earmark-pdf"></i><span>PDF tools</span>
+                        </div>
+                        <div class="visual-tool visual-orange">
+                            <i class="bi bi-person-vcard"></i><span>Resume</span>
+                        </div>
+                        <div class="visual-tool visual-green">
+                            <i class="bi bi-file-earmark-text"></i><span>Forms</span>
+                        </div>
+                    </div>
+
+                    <div class="visual-status">
+                        <span class="status-pulse"></span> Ready when you are
+                    </div>
+                </div>
+
+                <div class="floating-chip chip-top">
+                    <i class="bi bi-lightning-charge-fill"></i> Quick & easy
+                </div>
+                <div class="floating-chip chip-bottom">
+                    <i class="bi bi-heart-fill"></i> Made for everyone
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-strip">
+        <div class="container stats-grid">
+
+            <div class="stat-item">
+                <span class="stat-icon"><i class="bi bi-grid"></i></span>
+                <div><strong>12+</strong><small>Useful tools</small></div>
+            </div>
+
+            <div class="stat-item">
+                <span class="stat-icon stat-icon-green"><i class="bi bi-gift"></i></span>
+                <div><strong>Free</strong><small>Easy access</small></div>
+            </div>
+
+            <div class="stat-item">
+                <span class="stat-icon stat-icon-purple"><i class="bi bi-phone"></i></span>
+                <div><strong>Any device</strong><small>Responsive design</small></div>
             </div>
 
         </div>
+    </section>
 
-        <hr>
+    <!-- TOOLS -->
+    <section class="tools-section section-space" id="tools">
+        <div class="container">
 
-        <div class="text-center">
-            © 2026 SabkaMitra | Developed By Sunny Kumar Chaudhary ❤️
+            <div class="section-heading">
+                <div>
+                    <div class="section-kicker">YOUR DIGITAL TOOLBOX</div>
+                    <h2>What would you like to <span>do today?</span></h2>
+                    <p>Pick a tool and get things done in just a few clicks.</p>
+                </div>
+                <div class="tool-count"><span id="visibleCount">12</span> tools available</div>
+            </div>
+
+            <div class="tool-controls">
+                <div class="search-wrap">
+                    <i class="bi bi-search"></i>
+                    <input type="search" id="toolSearch" class="tool-search" placeholder="Search a tool..."
+                        autocomplete="off">
+                    <kbd>⌘ K</kbd>
+                </div>
+
+                <div class="filter-list">
+                    <button class="filter-btn active" data-filter="all">All tools</button>
+                    <button class="filter-btn" data-filter="image">Image tools</button>
+                    <button class="filter-btn" data-filter="pdf">PDF tools</button>
+                    <button class="filter-btn" data-filter="document">Documents</button>
+                </div>
+            </div>
+
+            <div class="tools-grid" id="toolsGrid">
+
+                <a class="tool-card" href="tools/Resume%20Maker.html" data-category="document" data-name="resume maker">
+                    <span class="tool-icon icon-orange"><img src="assets/student-resume.png" alt=""><i
+                            class="bi bi-person-lines-fill"></i></span>
+                    <span class="tool-card-content"><strong>Resume Maker</strong><small>Create a professional
+                            resume.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/image-to-pdf.html" data-category="pdf" data-name="image to pdf">
+                    <span class="tool-icon icon-red"><i class="bi bi-file-earmark-pdf"></i></span>
+                    <span class="tool-card-content"><strong>Image to PDF</strong><small>Convert images into PDF
+                            files.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/pdf-to-image.html" data-category="pdf" data-name="pdf to image">
+                    <span class="tool-icon icon-blue"><i class="bi bi-file-earmark-image"></i></span>
+                    <span class="tool-card-content"><strong>PDF to Image</strong><small>Convert PDF pages into
+                            images.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/image-crop.html" data-category="image"
+                    data-name="photo crop image crop">
+                    <span class="tool-icon icon-violet"><i class="bi bi-crop"></i></span>
+                    <span class="tool-card-content"><strong>Photo Crop</strong><small>Crop photos to your required
+                            size.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/aadhar-print.html" data-category="document"
+                    data-name="aadhar one page print aadhaar">
+                    <span class="tool-icon icon-green"><img src="assets/aadhar.png.png" alt=""><i
+                            class="bi bi-person-vcard"></i></span>
+                    <span class="tool-card-content"><strong>Aadhaar One Page Print</strong><small>Prepare an Aadhaar
+                            print layout.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/jpg-to-png.html" data-category="image" data-name="jpg to png">
+                    <span class="tool-icon icon-purple"><img src="assets/jpg-to-png.png" alt=""><i
+                            class="bi bi-filetype-png"></i></span>
+                    <span class="tool-card-content"><strong>JPG to PNG</strong><small>Convert JPG images to
+                            PNG.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/png-to-jpg.html" data-category="image" data-name="png to jpg">
+                    <span class="tool-icon icon-cyan"><img src="assets/png-to-jpg.jpg.png" alt=""><i
+                            class="bi bi-filetype-jpg"></i></span>
+                    <span class="tool-card-content"><strong>PNG to JPG</strong><small>Convert PNG images to
+                            JPG.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/image-resize.html" data-category="image" data-name="image resize">
+                    <span class="tool-icon icon-blue"><i class="bi bi-arrows-angle-expand"></i></span>
+                    <span class="tool-card-content"><strong>Image Resize</strong><small>Adjust image dimensions
+                            easily.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/image-compress.html" data-category="image"
+                    data-name="image compress compressor">
+                    <span class="tool-icon icon-green"><i class="bi bi-file-zip"></i></span>
+                    <span class="tool-card-content"><strong>Image Compress</strong><small>Reduce image file size
+                            quickly.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/passport-signature.html" data-category="image"
+                    data-name="photo signature passport">
+                    <span class="tool-icon icon-pink"><i class="bi bi-person-bounding-box"></i></span>
+                    <span class="tool-card-content"><strong>Photo + Signature</strong><small>Arrange photo and signature
+                            together.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/resume-builder.html" data-category="document"
+                    data-name="biodata resume builder">
+                    <span class="tool-icon icon-orange"><img src="assets/biodata.png.png" alt=""><i
+                            class="bi bi-file-person"></i></span>
+                    <span class="tool-card-content"><strong>Biodata Maker</strong><small>Create a personal
+                            biodata.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+                <a class="tool-card" href="tools/image-background-remover.html" data-category="image"
+                    data-name="background remover">
+                    <span class="tool-icon icon-violet"><i class="bi bi-magic"></i></span>
+                    <span class="tool-card-content"><strong>Background Remover</strong><small>Remove image
+                            backgrounds.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+
+
+                <a class="tool-card" href="tools/qr-code-generator.html" data-category="image"
+                    data-name="qr code generator">
+                    <span class="tool-icon icon-violet"><i class="bi bi-qr-code"></i></span>
+                    <span class="tool-card-content"><strong>QR Code Generator</strong><small>Create QR codes for text,
+                            links and websites.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+
+                <a class="tool-card" href="tools/emi-calculator.html" data-category="image"
+                    data-name="emi calculator">
+                    <span class="tool-icon icon-violet"><i class="bi bi-calculator"></i></span>
+                    <span class="tool-card-content"><strong>EMI Calculator</strong><small>Calculate monthly EMI, loan interest and total payment.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+
+
+                <a class="tool-card" href="tools/age-calculator.html" data-category="image"
+                    data-name="age calculator">
+                    <span class="tool-icon icon-violet"><i class="bi bi-calculator"></i></span>
+                    <span class="tool-card-content"><strong>Age Calculator</strong><small>Calculate age based on birth date.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+
+                <a class="tool-card" href="tools/countdown-calculator.html" data-category="image"
+                    data-name="countdown calculator">
+                    <span class="tool-icon icon-violet"><i class="bi bi-calculator"></i></span>
+                    <span class="tool-card-content"><strong>Countdown Calculator</strong><small>Calculate time remaining until a specific date and time.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+
+
+
+
+
+
+
+            </div>
+
+            <div class="empty-state" id="emptyState" hidden>
+                <i class="bi bi-search"></i>
+                <strong>No tools found</strong>
+                <span>Try another search or category.</span>
+                <button type="button" id="clearSearch">Clear filters</button>
+            </div>
+
         </div>
+    </section>
 
-    </div>
-</footer>
-        </main>
-    </div>
+    <!-- WHY US -->
+    <section class="why-section section-space" id="why-us">
+        <div class="container">
+
+            <div class="why-heading">
+                <div class="section-kicker">MADE TO MAKE LIFE EASIER</div>
+                <h2>Small tools. <span>Big help.</span></h2>
+                <p>SabkaMitra brings everyday digital tasks together in one simple place.</p>
+            </div>
+
+            <div class="benefit-grid">
+                <article class="benefit-card">
+                    <span class="benefit-icon benefit-blue"><i class="bi bi-lightning-charge"></i></span>
+                    <h3>Simple & quick</h3>
+                    <p>Easy-to-use tools that help you finish routine tasks without unnecessary steps.</p>
+                </article>
+
+                <article class="benefit-card">
+                    <span class="benefit-icon benefit-green"><i class="bi bi-shield-lock"></i></span>
+                    <h3>Privacy in mind</h3>
+                    <p>We aim to keep your experience straightforward and respectful of your files.</p>
+                </article>
+
+                <article class="benefit-card">
+                    <span class="benefit-icon benefit-purple"><i class="bi bi-phone"></i></span>
+                    <h3>Works everywhere</h3>
+                    <p>A responsive experience designed for desktop, tablet and mobile screens.</p>
+                </article>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+
+            <div class="footer-main">
+
+                <div class="footer-brand-col">
+                    <a class="navbar-brand brand footer-brand" href="index.html">
+                        <span class="brand-mark"><i class="bi bi-grid-1x2-fill"></i></span>
+                        <span>Sabka<span class="brand-accent">Mitra</span><small>TOOLS FOR EVERYONE</small></span>
+                    </a>
+                    <p>Useful online tools for everyday tasks. Simple, accessible and made for everyone.</p>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/sunnykr1807/?hl=en"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                        <a href="#"><i class="bi bi-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4>Explore</h4>
+                    <a href="#home">Home</a>
+                    <a href="#tools">All tools</a>
+                    <a href="#why-us">Why SabkaMitra?</a>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4>Information</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="mailto:yourmail@gmail.com">Contact us</a>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Made with care</h4>
+                    <p><i class="bi bi-geo-alt"></i> Bihar, India</p>
+                    <p><i class="bi bi-envelope"></i> yourmail@gmail.com</p>
+                    <p>Have an idea or suggestion? We would love to hear from you.</p>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <span>© 2026 SabkaMitra. All rights reserved.</span>
+                <span>Developed by Sunny Kumar Chaudhary <i class="bi bi-heart-fill"></i></span>
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        // DARK MODE
+        const themeButton = document.getElementById("themeToggle");
+        const themeIcon = themeButton.querySelector("i");
+        const themeText = themeButton.querySelector("span");
 
-        const btn = document.getElementById("themeToggle");
+        function setTheme(theme) {
+            document.body.dataset.theme = theme;
+            const dark = theme === "dark";
 
-        const savedTheme = localStorage.getItem("theme");
+            themeIcon.className = dark ? "bi bi-sun" : "bi bi-moon-stars";
+            themeText.textContent = dark ? "Light mode" : "Dark mode";
 
-        if (savedTheme) {
-            document.body.setAttribute("data-bs-theme", savedTheme);
-
-            btn.innerHTML =
-                savedTheme === "dark" ? "☀️" : "🌙";
+            localStorage.setItem("sabkamitra-theme", theme);
         }
 
-        btn.addEventListener("click", () => {
+        setTheme(localStorage.getItem("sabkamitra-theme") === "dark" ? "dark" : "light");
 
-            let currentTheme =
-                document.body.getAttribute("data-bs-theme");
-
-            let newTheme =
-                currentTheme === "dark"
-                    ? "light"
-                    : "dark";
-
-            document.body.setAttribute(
-                "data-bs-theme",
-                newTheme
-            );
-
-            localStorage.setItem(
-                "theme",
-                newTheme
-            );
-
-            btn.innerHTML =
-                newTheme === "dark"
-                    ? "☀️"
-                    : "🌙";
-
+        themeButton.addEventListener("click", () => {
+            setTheme(document.body.dataset.theme === "dark" ? "light" : "dark");
         });
 
 
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document
-                    .getElementById('welcome-overlay')
-                    .classList.add('fade-away');
+        // TOOL SEARCH AND FILTER
+        const search = document.getElementById("toolSearch");
+        const cards = [...document.querySelectorAll(".tool-card")];
+        const filters = [...document.querySelectorAll(".filter-btn")];
+        const count = document.getElementById("visibleCount");
+        const empty = document.getElementById("emptyState");
 
-                document
-                    .getElementById('main-content')
-                    .classList.add('show-page');
+        let activeFilter = "all";
 
-            }, 2000);
+        function filterTools() {
+            const query = search.value.trim().toLowerCase();
+            let visible = 0;
+
+            cards.forEach(card => {
+                const matchesText = card.dataset.name.toLowerCase().includes(query);
+                const matchesCategory = activeFilter === "all" || card.dataset.category === activeFilter;
+                const show = matchesText && matchesCategory;
+
+                card.hidden = !show;
+                if (show) visible++;
+            });
+
+            count.textContent = visible;
+            empty.hidden = visible !== 0;
+        }
+
+        search.addEventListener("input", filterTools);
+
+        filters.forEach(button => {
+            button.addEventListener("click", () => {
+                filters.forEach(item => item.classList.toggle("active", item === button));
+                activeFilter = button.dataset.filter;
+                filterTools();
+            });
+        });
+
+        document.getElementById("clearSearch").addEventListener("click", () => {
+            search.value = "";
+            activeFilter = "all";
+
+            filters.forEach(item => {
+                item.classList.toggle("active", item.dataset.filter === "all");
+            });
+
+            filterTools();
+        });
+
+        // CTRL + K TO SEARCH
+        document.addEventListener("keydown", event => {
+            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+                event.preventDefault();
+                search.focus();
+                document.getElementById("tools").scrollIntoView({ behavior: "smooth" });
+            }
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-   
 
 </body>
 

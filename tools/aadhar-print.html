@@ -1,34 +1,206 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aadhar 1-Page Image Downloader - SabkaMitra</title>
-    
+
+    <title>Aadhaar Image Downloader | SabkaMitra</title>
+
     <!-- Bootstrap CSS -->
-    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <style>
-        /* Web Layout Configuration Preview Frame */
-        .aadhar-row {
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f6fb;
+            font-family: Arial, sans-serif;
+            color: #172033;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e8edf4;
+            padding: 16px 0;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            color: #176bdb;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: #16a477;
+        }
+
+        .back-link {
+            color: #667085;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* MAIN */
+        .main-container {
+            max-width: 1050px;
+            margin: 45px auto;
+            padding: 0 18px;
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: #7b8495;
+            font-size: 15px;
+        }
+
+        /* UPLOAD PANEL */
+        .upload-panel {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 18px;
+            border: 1px solid #e9edf4;
+            box-shadow: 0 8px 30px rgba(20, 40, 80, 0.05);
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-weight: 750;
+            font-size: 19px;
+            margin-bottom: 5px;
+        }
+
+        .section-subtitle {
+            color: #8490a2;
+            font-size: 13px;
+        }
+
+        .upload-box {
+            border: 2px dashed #cbd6e6;
+            border-radius: 13px;
+            padding: 20px;
+            background: #f9fbff;
+            transition: 0.25s;
+        }
+
+        .upload-box:hover {
+            border-color: #176bdb;
+            background: #f1f6ff;
+        }
+
+        .upload-icon {
+            width: 43px;
+            height: 43px;
+            background: #e8f1ff;
+            color: #176bdb;
             display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 8mm;
+            justify-content: center;
+            align-items: center;
+            border-radius: 11px;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .form-control {
+            font-size: 13px;
+            padding: 11px;
+        }
+
+        /* BUTTONS */
+        .download-btn {
+            background: #176bdb;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .download-btn:hover:not(:disabled) {
+            background: #1055b5;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .download-btn:disabled {
+            background: #a9bdd9;
+            cursor: not-allowed;
+        }
+
+        /* PREVIEW */
+        .preview-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid #e9edf4;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(20, 40, 80, 0.05);
+        }
+
+        .paper {
+            position: relative;
             width: 100%;
+            max-width: 794px;
+            aspect-ratio: 210 / 297;
+            margin: auto;
+            background: #ffffff;
+            border: 1px solid #dce2eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .aadhar-row {
+            position: absolute;
+            top: 5.05%;
+            left: 7.14%;
+            width: 85.72%;
+            display: flex;
+            gap: 3.81%;
         }
 
         .aadhar-box {
-            width: 86mm;
-            height: 54mm;
-            border: 2px solid #ccc;
-            border-radius: 6px;
+            width: 47.78%;
+            aspect-ratio: 86 / 54;
+            border: 1.5px solid #bfc8d5;
+            border-radius: 5px;
+            background: #f5f7fa;
             overflow: hidden;
-            background: #f8f9fa;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
         .aadhar-box img {
@@ -36,160 +208,528 @@
             height: 100%;
             object-fit: fill;
         }
-    </style>
-</head>
-<body class="bg-light min-vh-100 d-flex flex-column align-items-center py-4">
 
-    <!-- Web Input Control Box Layout Frame -->
-    <div class="card p-4 border border-2 border-secondary-subtle rounded-3 shadow-sm w-100 mb-4" style="max-width: 500px;">
-        <h4 class="fw-bold text-center mb-3 text-dark">Aadhar Image Downloader</h4>
-        <p class="text-muted text-center small mb-4">Upload Front & Back photos. Download them side-by-side as a single printable JPG.</p>
-        
-        <!-- Front File Input Stream Component -->
-        <div class="mb-3">
-            <label class="form-label fw-bold small text-secondary">Upload Front Side</label>
-            <input class="form-control" type="file" id="frontInput" accept="image/*">
-        </div>
+        .placeholder {
+            color: #8994a5;
+            font-size: clamp(7px, 1.5vw, 13px);
+            text-align: center;
+            padding: 5px;
+        }
 
-        <!-- Back File Input Stream Component -->
-        <div class="mb-4">
-            <label class="form-label fw-bold small text-secondary">Upload Back Side</label>
-            <input class="form-control" type="file" id="backInput" accept="image/*">
-        </div>
+        .paper-label {
+            position: absolute;
+            top: 1.8%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #9aa2b1;
+            font-size: clamp(7px, 1vw, 11px);
+        }
 
-        <!-- Download Action Trigger Button Interface -->
-        <button id="downloadBtn" class="btn btn-primary btn-lg w-100 fw-bold" disabled>
-            Download Image (JPG)
-        </button>
-    </div>
+        .info-text {
+            font-size: 13px;
+            color: #7d8798;
+            line-height: 1.6;
+        }
 
-    <!-- Virtual Layout Area Container Box Frame -->
-    <div class="card bg-white shadow-lg p-4 mb-5" style="width: 210mm; min-height: 150mm;">
-        <p class="text-muted small mb-4 text-center">--- A4 Layout Preview (Top Row Side-by-Side) ---</p>
+        .status-text {
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 12px;
+            text-align: center;
+        }
 
-        <div class="aadhar-row">
-            <!-- Front Frame preview holder -->
-            <div class="aadhar-box">
-                <span class="text-muted small" id="frontLabel">Front Side Preview</span>
-                <img id="frontPreview" src="" class="d-none">
-            </div>
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #98a1b1;
+            font-size: 13px;
+        }
 
-            <!-- Back Frame preview holder -->
-            <div class="aadhar-box">
-                <span class="text-muted small" id="backLabel">Back Side Preview</span>
-                <img id="backPreview" src="" class="d-none">
-            </div>
-        </div>
-    </div>
+        @media(max-width: 600px) {
+            .main-container {
+                margin: 28px auto;
+            }
 
-    <!-- Core Native Image Matrix Processing Script -->
-    <script>
-        const frontInput = document.getElementById('frontInput');
-        const backInput = document.getElementById('backInput');
-        const frontPreview = document.getElementById('frontPreview');
-        const backPreview = document.getElementById('backPreview');
-        const frontLabel = document.getElementById('frontLabel');
-        const backLabel = document.getElementById('backLabel');
-        const downloadBtn = document.getElementById('downloadBtn');
+            .page-heading h1 {
+                font-size: 27px;
+            }
 
-        let frontReady = false;
-        let backReady = false;
+            .upload-panel,
+            .preview-card {
+                padding: 17px;
+            }
 
-        function checkPayloadStatus() {
-            if (frontReady && backReady) {
-                downloadBtn.disabled = false;
+            .preview-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .aadhar-box {
+                border-width: 1px;
             }
         }
 
-        // File stream matrix reading for front data blocks
-        frontInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    frontPreview.src = event.target.result;
-                    frontPreview.classList.remove('d-none');
-                    frontLabel.style.display = 'none'; // Completely forces label removal
-                    frontReady = true;
-                    checkPayloadStatus();
-                };
-                reader.readAsDataURL(file);
+        /* PRINT */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
             }
-        });
 
-        // File stream matrix reading for back data blocks
-        backInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    backPreview.src = event.target.result;
-                    backPreview.classList.remove('d-none');
-                    backLabel.style.display = 'none'; // Completely forces label removal
-                    backReady = true;
-                    checkPayloadStatus();
-                };
-                reader.readAsDataURL(file);
+            body {
+                background: white;
             }
-        });
 
-        // 100% Native High Resolution Canvas Joiner Engine (No External Library Dependency)
-        downloadBtn.addEventListener('click', function() {
-            if (!frontReady || !backReady) return;
+            .navbar,
+            .page-heading,
+            .upload-panel,
+            .preview-heading,
+            footer,
+            .info-text {
+                display: none !important;
+            }
 
-            downloadBtn.innerText = "Downloading...";
-            downloadBtn.disabled = true;
+            .main-container {
+                margin: 0;
+                padding: 0;
+                max-width: none;
+            }
 
-            // Setting up a standard high-quality A4 aspect canvas area template
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+            .preview-card {
+                padding: 0;
+                border: none;
+                box-shadow: none;
+            }
 
-            // Standard High Definition A4 scale parameters mapping layout matrix bounds
-            canvas.width = 2480; 
-            canvas.height = 3508; 
+            .paper {
+                width: 210mm;
+                height: 297mm;
+                max-width: none;
+                border: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
 
-            // Paint entire print layer background clear white
-            ctx.fillStyle = "#FFFFFF";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+<body>
 
-            // Precise proportional layout mapping grid scales logic
-            const marginX = 177;  // 15mm dynamic conversion ratio margins
-            const marginY = 177;  // 15mm dynamic conversion ratio margins
-            const cardW = 1015;   // 86mm dynamic card width parameters
-            const cardH = 638;    // 54mm dynamic card height parameters
-            const gap = 94;       // 8mm distance separation scale bounds
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="container d-flex justify-content-between align-items-center">
 
-            // Create synchronous image instances to safely execute canvas layers drawing operations
-            const imgFront = new Image();
-            const imgBack = new Image();
+        <a href="../index.html" class="brand">
+            <i class="bi bi-stars"></i>
+            Sabka<span>Mitra</span>
+        </a>
 
-            imgFront.src = frontPreview.src;
-            imgFront.onload = function() {
-                imgBack.src = backPreview.src;
-                imgBack.onload = function() {
-                    
-                    // Draw Front Card at top-left
-                    ctx.drawImage(imgFront, marginX, marginY, cardW, cardH);
-                    
-                    // Draw Back Card side-by-side right next to the front card layout bounds
-                    ctx.drawImage(imgBack, marginX + cardW + gap, marginY, cardW, cardH);
+        <a href="../index.html" class="back-link">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
 
-                    // Pure native anchor data link download stream bridge mechanism execution
-                    const downloadLink = document.createElement('a');
-                    downloadLink.download = 'SabkaMitra-Aadhar-A4.jpg';
-                    downloadLink.href = canvas.toDataURL('image/jpeg', 0.95); // High quality compression matrix
-                    
-                    // Fire automatic user terminal save triggers
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
+    </div>
+</nav>
 
-                    // Reset web dashboard buttons
-                    downloadBtn.innerText = "Download Image (JPG)";
-                    downloadBtn.disabled = false;
-                };
-            };
-        });
-    </script>
+
+<!-- MAIN CONTENT -->
+<main class="main-container">
+
+    <div class="page-heading">
+        <h1>Aadhaar Image Downloader</h1>
+        <p>Upload front and back images and create a single printable A4 JPG.</p>
+    </div>
+
+
+    <!-- UPLOAD PANEL -->
+    <section class="upload-panel">
+
+        <div class="mb-4">
+            <h5 class="section-title">
+                <i class="bi bi-cloud-arrow-up text-primary"></i>
+                Upload Your Images
+            </h5>
+
+            <p class="section-subtitle">
+                Select both sides of your Aadhaar card to create your image.
+            </p>
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- FRONT -->
+            <div class="col-md-6">
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">
+                        <i class="bi bi-card-image"></i>
+                    </div>
+
+                    <label class="form-label" for="frontInput">
+                        Front Side Image
+                    </label>
+
+                    <input
+                        class="form-control"
+                        type="file"
+                        id="frontInput"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+
+                    <small class="text-secondary">
+                        Upload front side photo
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- BACK -->
+            <div class="col-md-6">
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">
+                        <i class="bi bi-card-image"></i>
+                    </div>
+
+                    <label class="form-label" for="backInput">
+                        Back Side Image
+                    </label>
+
+                    <input
+                        class="form-control"
+                        type="file"
+                        id="backInput"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+
+                    <small class="text-secondary">
+                        Upload back side photo
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DOWNLOAD BUTTON -->
+        <div class="mt-4">
+
+            <button
+                id="downloadBtn"
+                class="download-btn w-100"
+                disabled
+            >
+                <i class="bi bi-download"></i>
+                Download Image (JPG)
+            </button>
+
+            <p class="status-text text-secondary" id="statusText">
+                Please upload both images to continue.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PREVIEW PANEL -->
+    <section class="preview-card">
+
+        <div class="preview-heading">
+
+            <div>
+                <h5 class="section-title mb-1">
+                    <i class="bi bi-eye text-primary"></i>
+                    A4 Page Preview
+                </h5>
+
+                <p class="section-subtitle mb-0">
+                    Both images will appear side-by-side.
+                </p>
+            </div>
+
+            <span class="badge text-bg-primary">
+                A4 Portrait
+            </span>
+
+        </div>
+
+
+        <!-- A4 PAPER -->
+        <div class="paper">
+
+            <div class="paper-label">
+                A4 IMAGE LAYOUT PREVIEW
+            </div>
+
+            <div class="aadhar-row">
+
+                <!-- FRONT PREVIEW -->
+                <div class="aadhar-box">
+
+                    <span class="placeholder" id="frontLabel">
+                        <i class="bi bi-image fs-4 d-block"></i>
+                        Front Side
+                    </span>
+
+                    <img
+                        id="frontPreview"
+                        alt="Front side preview"
+                        hidden
+                    >
+
+                </div>
+
+
+                <!-- BACK PREVIEW -->
+                <div class="aadhar-box">
+
+                    <span class="placeholder" id="backLabel">
+                        <i class="bi bi-image fs-4 d-block"></i>
+                        Back Side
+                    </span>
+
+                    <img
+                        id="backPreview"
+                        alt="Back side preview"
+                        hidden
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <p class="info-text text-center mt-4 mb-0">
+            <i class="bi bi-info-circle"></i>
+            Images are processed locally in your browser. Nothing is uploaded to our server.
+        </p>
+
+    </section>
+
+</main>
+
+
+<footer>
+    © 2026 SabkaMitra. All rights reserved.
+</footer>
+
+
+<!-- JAVASCRIPT -->
+<script>
+
+const frontInput = document.getElementById("frontInput");
+const backInput = document.getElementById("backInput");
+
+const frontPreview = document.getElementById("frontPreview");
+const backPreview = document.getElementById("backPreview");
+
+const frontLabel = document.getElementById("frontLabel");
+const backLabel = document.getElementById("backLabel");
+
+const downloadBtn = document.getElementById("downloadBtn");
+const statusText = document.getElementById("statusText");
+
+let frontReady = false;
+let backReady = false;
+
+let frontURL = null;
+let backURL = null;
+
+
+// CHECK BOTH IMAGES
+function checkImages() {
+
+    frontReady = frontPreview.complete &&
+                 frontPreview.naturalWidth > 0;
+
+    backReady = backPreview.complete &&
+                backPreview.naturalWidth > 0;
+
+    downloadBtn.disabled = !(frontReady && backReady);
+
+    if(frontReady && backReady) {
+        statusText.textContent = "Both images are ready. You can download now.";
+        statusText.className = "status-text text-success";
+    } else {
+        statusText.textContent = "Please upload both images to continue.";
+        statusText.className = "status-text text-secondary";
+    }
+}
+
+
+// IMAGE LOADER
+function loadImage(input, preview, label, side) {
+
+    const file = input.files[0];
+
+    if(!file) return;
+
+    if(!file.type.startsWith("image/")) {
+        alert("Please select a valid image file.");
+        input.value = "";
+        return;
+    }
+
+    if(file.size > 15 * 1024 * 1024) {
+        alert("Image size should be less than 15 MB.");
+        input.value = "";
+        return;
+    }
+
+    if(side === "front" && frontURL) {
+        URL.revokeObjectURL(frontURL);
+    }
+
+    if(side === "back" && backURL) {
+        URL.revokeObjectURL(backURL);
+    }
+
+    const imageURL = URL.createObjectURL(file);
+
+    if(side === "front") {
+        frontURL = imageURL;
+    } else {
+        backURL = imageURL;
+    }
+
+    preview.onload = function() {
+        preview.hidden = false;
+        label.style.display = "none";
+        checkImages();
+    };
+
+    preview.onerror = function() {
+        preview.hidden = true;
+        label.style.display = "block";
+        alert("Could not load this image. Please try another image.");
+        checkImages();
+    };
+
+    preview.src = imageURL;
+
+    // Immediately mark the replaced image as not ready
+    if(side === "front") frontReady = false;
+    if(side === "back") backReady = false;
+
+    downloadBtn.disabled = true;
+    statusText.textContent = "Loading image...";
+}
+
+
+// FRONT INPUT
+frontInput.addEventListener("change", function() {
+    loadImage(frontInput, frontPreview, frontLabel, "front");
+});
+
+
+// BACK INPUT
+backInput.addEventListener("change", function() {
+    loadImage(backInput, backPreview, backLabel, "back");
+});
+
+
+// DOWNLOAD IMAGE
+downloadBtn.addEventListener("click", function() {
+
+    if(!frontReady || !backReady) return;
+
+    downloadBtn.disabled = true;
+    downloadBtn.innerHTML =
+        '<span class="spinner-border spinner-border-sm me-2"></span> Creating Image...';
+
+    try {
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        // A4 at 300 DPI
+        canvas.width = 2480;
+        canvas.height = 3508;
+
+        // WHITE BACKGROUND
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // A4 LAYOUT MEASUREMENTS
+        const marginX = 177;
+        const marginY = 177;
+        const cardW = 1015;
+        const cardH = 638;
+        const gap = 94;
+
+        // DRAW FRONT
+        ctx.drawImage(
+            frontPreview,
+            marginX,
+            marginY,
+            cardW,
+            cardH
+        );
+
+        // DRAW BACK
+        ctx.drawImage(
+            backPreview,
+            marginX + cardW + gap,
+            marginY,
+            cardW,
+            cardH
+        );
+
+        // JPG DOWNLOAD
+        canvas.toBlob(function(blob) {
+
+            if(!blob) {
+                throw new Error("Image creation failed.");
+            }
+
+            const downloadURL = URL.createObjectURL(blob);
+
+            const link = document.createElement("a");
+            link.href = downloadURL;
+            link.download = "SabkaMitra-A4-Image.jpg";
+
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            setTimeout(() => {
+                URL.revokeObjectURL(downloadURL);
+            }, 1000);
+
+            downloadBtn.disabled = false;
+            downloadBtn.innerHTML =
+                '<i class="bi bi-download"></i> Download Image (JPG)';
+
+            statusText.textContent = "Your JPG image is ready!";
+            statusText.className = "status-text text-success";
+
+        }, "image/jpeg", 0.95);
+
+    } catch(error) {
+
+        console.error(error);
+
+        alert("Something went wrong while creating the image.");
+
+        downloadBtn.disabled = false;
+        downloadBtn.innerHTML =
+            '<i class="bi bi-download"></i> Download Image (JPG)';
+
+    }
+
+});
+
+</script>
+
 </body>
 </html>

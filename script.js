@@ -1,19 +1,27 @@
 <script>
-document.getElementById("toolSearch").addEventListener("keyup", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
-    let value = this.value.toLowerCase();
+    const toolSearch = document.getElementById("toolSearch");
 
-    let cards = document.querySelectorAll(".tool-card");
+    if (!toolSearch) return;
 
-    cards.forEach(card => {
+    toolSearch.addEventListener("input", function () {
 
-        let text = card.innerText.toLowerCase();
+        let value = this.value.toLowerCase().trim();
 
-        if(text.includes(value)){
-            card.parentElement.style.display = "block";
-        }else{
-            card.parentElement.style.display = "none";
-        }
+        let cards = document.querySelectorAll(".tool-card");
+
+        cards.forEach(function (card) {
+
+            let text = card.innerText.toLowerCase();
+
+            if (text.includes(value)) {
+                card.parentElement.style.removeProperty("display");
+            } else {
+                card.parentElement.style.display = "none";
+            }
+
+        });
 
     });
 

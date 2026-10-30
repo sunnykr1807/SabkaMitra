@@ -1,131 +1,857 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Image Resize Tool</title>
+<title>Image Resize Tool | SabkaMitra</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f4f6fb;
+    color: #172033;
+    font-family: Arial, sans-serif;
+}
+
+/* NAVBAR */
+.navbar {
+    background: #fff;
+    border-bottom: 1px solid #e8edf4;
+    padding: 16px 0;
+}
+
+.brand {
+    font-size: 24px;
+    font-weight: 800;
+    color: #176bdb;
+    text-decoration: none;
+}
+
+.brand span {
+    color: #16a477;
+}
+
+.back-link {
+    text-decoration: none;
+    color: #687386;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* MAIN */
+.main-container {
+    max-width: 1100px;
+    margin: 45px auto;
+    padding: 0 18px;
+}
+
+.page-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.page-heading h1 {
+    font-size: 34px;
+    font-weight: 800;
+}
+
+.page-heading p {
+    color: #7b8495;
+    font-size: 15px;
+}
+
+/* CARD */
+.tool-card {
+    background: white;
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid #e8edf4;
+    box-shadow: 0 8px 30px rgba(20,40,80,.05);
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 750;
+    margin-bottom: 5px;
+}
+
+.section-subtitle {
+    color: #8791a2;
+    font-size: 13px;
+}
+
+/* UPLOAD */
+.upload-box {
+    border: 2px dashed #cbd6e6;
+    border-radius: 13px;
+    padding: 25px;
+    text-align: center;
+    background: #f9fbff;
+    transition: .2s;
+}
+
+.upload-box:hover {
+    border-color: #176bdb;
+    background: #f1f6ff;
+}
+
+.upload-icon {
+    font-size: 38px;
+    color: #176bdb;
+}
+
+/* FORM */
+.form-label {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-control,
+.form-select {
+    padding: 11px;
+    font-size: 14px;
+    border-color: #dce2eb;
+    border-radius: 9px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #176bdb;
+    box-shadow: 0 0 0 3px rgba(23,107,219,.1);
+}
+
+/* PREVIEW */
+.preview-box {
+    min-height: 280px;
+    border: 1px solid #e5e9f0;
+    border-radius: 13px;
+    background: #f7f8fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 15px;
+}
+
+.preview-box img {
+    max-width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+}
+
+.empty-state {
+    text-align: center;
+    color: #9aa3b2;
+}
+
+.empty-state i {
+    font-size: 50px;
+}
+
+.image-info {
+    font-size: 12px;
+    color: #7c8798;
+    margin-top: 10px;
+}
+
+/* BUTTONS */
+.btn-main {
+    background: #176bdb;
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.btn-main:hover {
+    background: #1055b5;
+    color: white;
+}
+
+.btn-download {
+    background: #16a477;
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.btn-download:hover {
+    background: #0d875e;
+    color: white;
+}
+
+.btn-download:disabled,
+.btn-main:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.status {
+    font-size: 13px;
+    text-align: center;
+    margin-top: 15px;
+    color: #7c8798;
+}
+
+footer {
+    text-align: center;
+    color: #98a1b1;
+    padding: 25px;
+    font-size: 13px;
+}
+
+@media(max-width:767px) {
+    .main-container {
+        margin: 28px auto;
+    }
+
+    .tool-card {
+        padding: 17px;
+    }
+
+    .page-heading h1 {
+        font-size: 27px;
+    }
+
+    .preview-box {
+        min-height: 220px;
+    }
+}
+</style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container py-5">
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="container d-flex justify-content-between align-items-center">
 
-<h1 class="text-center mb-4">📏 Image Resize Tool</h1>
+        <a href="../index.html" class="brand">
+            <i class="bi bi-stars"></i>
+            Sabka<span>Mitra</span>
+        </a>
 
-<div class="card shadow p-4">
+        <a href="../index.html" class="back-link">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
 
-<input type="file" id="imageInput" class="form-control mb-3" accept="image/*">
-<select id="preset" class="form-select mb-3">
-  <option value="">Select Size Preset</option>
-  <option value="200x250">Passport Photo (200×250)</option>
-  <option value="140x60">Signature (140×60)</option>
-  <option value="300x300">Square Photo (300×300)</option>
-  <option value="600x400">Landscape (600×400)</option>
-  <option value="custom">Custom Size</option>
-</select>
-<div class="row mb-3">
+    </div>
+</nav>
 
-<div class="col">
-<input type="number" id="width" class="form-control" placeholder="Width">
-</div>
 
-<div class="col">
-<input type="number" id="height" class="form-control" placeholder="Height">
-</div>
+<!-- MAIN -->
+<main class="main-container">
 
-</div>
+    <div class="page-heading">
+        <h1>Image Resize Tool</h1>
+        <p>Resize your images to any size in just a few clicks.</p>
+    </div>
 
-<div class="text-center">
-<img id="preview" class="img-fluid rounded d-none" style="max-height:300px;">
-</div>
 
-<div class="text-center mt-4">
-<button class="btn btn-success" onclick="resizeImage()">
-Resize & Download
-</button>
-</div>
+    <div class="tool-card">
 
-</div>
+        <!-- UPLOAD -->
+        <div class="mb-4">
 
-</div>
+            <h5 class="section-title">
+                <i class="bi bi-cloud-arrow-up text-primary"></i>
+                Upload Image
+            </h5>
 
+            <p class="section-subtitle">
+                Choose an image from your device.
+            </p>
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    <i class="bi bi-image"></i>
+                </div>
+
+                <p class="fw-bold mb-2">Select Your Image</p>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    class="form-control"
+                    accept="image/jpeg,image/png,image/webp"
+                >
+
+                <small class="text-secondary d-block mt-2">
+                    JPG, PNG or WEBP · Maximum 20 MB
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- SETTINGS -->
+            <div class="col-lg-5">
+
+                <h5 class="section-title mb-3">
+                    <i class="bi bi-sliders text-primary"></i>
+                    Resize Settings
+                </h5>
+
+
+                <!-- PRESET -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Select Size Preset
+                    </label>
+
+                    <select id="preset" class="form-select">
+
+                        <option value="">Select a preset</option>
+
+                        <option value="200x250">
+                            Passport Photo (200 × 250)
+                        </option>
+
+                        <option value="140x60">
+                            Signature (140 × 60)
+                        </option>
+
+                        <option value="300x300">
+                            Square Photo (300 × 300)
+                        </option>
+
+                        <option value="600x400">
+                            Landscape (600 × 400)
+                        </option>
+
+                        <option value="1920x1080">
+                            Full HD (1920 × 1080)
+                        </option>
+
+                        <option value="custom">
+                            Custom Size
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- WIDTH HEIGHT -->
+                <div class="row g-3 mb-3">
+
+                    <div class="col-6">
+
+                        <label class="form-label">
+                            Width (px)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="width"
+                            class="form-control"
+                            placeholder="Width"
+                            min="1"
+                            max="10000"
+                        >
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <label class="form-label">
+                            Height (px)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="height"
+                            class="form-control"
+                            placeholder="Height"
+                            min="1"
+                            max="10000"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- ASPECT RATIO -->
+                <div class="form-check mb-4">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="ratioLock"
+                        checked
+                    >
+
+                    <label class="form-check-label small fw-semibold" for="ratioLock">
+                        Maintain Aspect Ratio
+                    </label>
+
+                </div>
+
+
+                <!-- FORMAT -->
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Download Format
+                    </label>
+
+                    <select id="format" class="form-select">
+
+                        <option value="image/jpeg">JPG</option>
+                        <option value="image/png">PNG</option>
+                        <option value="image/webp">WEBP</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- QUALITY -->
+                <div class="mb-4" id="qualityBox">
+
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label">
+                            Image Quality
+                        </label>
+
+                        <span id="qualityValue" class="small fw-bold">
+                            90%
+                        </span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="quality"
+                        class="form-range"
+                        min="10"
+                        max="100"
+                        value="90"
+                    >
+
+                </div>
+
+
+                <button id="resizeBtn" class="btn-main w-100" disabled>
+                    <i class="bi bi-arrows-angle-expand"></i>
+                    Resize Image
+                </button>
+
+                <button id="downloadBtn" class="btn-download w-100 mt-2" disabled>
+                    <i class="bi bi-download"></i>
+                    Download Image
+                </button>
+
+                <p id="status" class="status">
+                    Upload an image to get started.
+                </p>
+
+            </div>
+
+
+            <!-- PREVIEW -->
+            <div class="col-lg-7">
+
+                <h5 class="section-title mb-3">
+                    <i class="bi bi-eye text-primary"></i>
+                    Image Preview
+                </h5>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Original Image
+                        </label>
+
+                        <div class="preview-box">
+
+                            <div class="empty-state" id="originalEmpty">
+                                <i class="bi bi-image"></i>
+                                <p class="small mb-0">Original Preview</p>
+                            </div>
+
+                            <img id="originalPreview" hidden alt="Original image">
+
+                        </div>
+
+                        <div class="image-info" id="originalInfo">
+                            No image selected
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Resized Image
+                        </label>
+
+                        <div class="preview-box">
+
+                            <div class="empty-state" id="resultEmpty">
+                                <i class="bi bi-card-image"></i>
+                                <p class="small mb-0">Resized Preview</p>
+                            </div>
+
+                            <img id="resultPreview" hidden alt="Resized image">
+
+                        </div>
+
+                        <div class="image-info" id="resultInfo">
+                            No resized image yet
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="alert alert-info small mt-4 mb-0">
+                    <i class="bi bi-info-circle"></i>
+                    Your images are processed in your browser. They are not uploaded to our server.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+    © 2026 SabkaMitra. All rights reserved.
+</footer>
+
+
+<!-- JAVASCRIPT -->
 <script>
-let selectedFile;
-document.getElementById("preset").addEventListener("change", function(){
 
-const value = this.value;
+const imageInput = document.getElementById("imageInput");
+const preset = document.getElementById("preset");
 
-if(value === "custom" || value === "") return;
+const widthInput = document.getElementById("width");
+const heightInput = document.getElementById("height");
 
-const size = value.split("x");
+const ratioLock = document.getElementById("ratioLock");
+const formatInput = document.getElementById("format");
+const qualityInput = document.getElementById("quality");
 
-document.getElementById("width").value = size[0];
-document.getElementById("height").value = size[1];
+const qualityValue = document.getElementById("qualityValue");
+const qualityBox = document.getElementById("qualityBox");
+
+const originalPreview = document.getElementById("originalPreview");
+const resultPreview = document.getElementById("resultPreview");
+
+const originalEmpty = document.getElementById("originalEmpty");
+const resultEmpty = document.getElementById("resultEmpty");
+
+const originalInfo = document.getElementById("originalInfo");
+const resultInfo = document.getElementById("resultInfo");
+
+const resizeBtn = document.getElementById("resizeBtn");
+const downloadBtn = document.getElementById("downloadBtn");
+const status = document.getElementById("status");
+
+let selectedFile = null;
+let originalURL = null;
+let resultURL = null;
+
+let originalWidth = 0;
+let originalHeight = 0;
+let resizedBlob = null;
+
+
+// FILE SIZE FORMAT
+function formatSize(bytes) {
+
+    if(bytes < 1024) return bytes + " B";
+
+    if(bytes < 1024 * 1024) {
+        return (bytes / 1024).toFixed(1) + " KB";
+    }
+
+    return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+}
+
+
+// IMAGE UPLOAD
+imageInput.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if(!file) return;
+
+    if(!file.type.startsWith("image/")) {
+        alert("Please select a valid image.");
+        this.value = "";
+        return;
+    }
+
+    if(file.size > 20 * 1024 * 1024) {
+        alert("Image must be smaller than 20 MB.");
+        this.value = "";
+        return;
+    }
+
+    if(originalURL) URL.revokeObjectURL(originalURL);
+    if(resultURL) URL.revokeObjectURL(resultURL);
+
+    selectedFile = file;
+    resizedBlob = null;
+    resultURL = null;
+
+    downloadBtn.disabled = true;
+    resultPreview.hidden = true;
+    resultEmpty.style.display = "block";
+    resultInfo.textContent = "No resized image yet";
+
+    originalURL = URL.createObjectURL(file);
+
+    const img = new Image();
+
+    img.onload = function() {
+
+        originalWidth = img.naturalWidth;
+        originalHeight = img.naturalHeight;
+
+        originalPreview.src = originalURL;
+        originalPreview.hidden = false;
+        originalEmpty.style.display = "none";
+
+        widthInput.value = originalWidth;
+        heightInput.value = originalHeight;
+
+        originalInfo.textContent =
+            originalWidth + " × " + originalHeight +
+            " px · " + formatSize(file.size);
+
+        resizeBtn.disabled = false;
+
+        status.textContent = "Image uploaded successfully.";
+
+        if(preset.value && preset.value !== "custom") {
+            applyPreset(preset.value);
+        }
+
+    };
+
+    img.onerror = function() {
+        alert("Unable to read this image.");
+        resizeBtn.disabled = true;
+    };
+
+    img.src = originalURL;
 
 });
-document.getElementById('imageInput').addEventListener('change', function(e){
 
-selectedFile = e.target.files[0];
 
-const reader = new FileReader();
+// PRESET
+function applyPreset(value) {
 
-reader.onload = function(event){
+    if(value === "" || value === "custom") return;
 
-const preview = document.getElementById('preview');
+    const size = value.split("x");
 
-preview.src = event.target.result;
-preview.classList.remove('d-none');
+    widthInput.value = size[0];
+    heightInput.value = size[1];
 
+    downloadBtn.disabled = true;
 }
 
-reader.readAsDataURL(selectedFile);
+
+preset.addEventListener("change", function() {
+
+    applyPreset(this.value);
 
 });
 
-function resizeImage(){
 
-if(!selectedFile){
-alert("Please select image");
-return;
-}
+// ASPECT RATIO
+widthInput.addEventListener("input", function() {
 
-const width = parseInt(document.getElementById("width").value);
-const height = parseInt(document.getElementById("height").value);
+    if(ratioLock.checked && originalWidth > 0) {
 
-if(!width || !height){
-alert("Enter width and height");
-return;
-}
+        const width = Number(this.value);
 
-const img = new Image();
+        if(width > 0) {
+            heightInput.value = Math.round(
+                width * originalHeight / originalWidth
+            );
+        }
 
-img.onload = function(){
+    }
 
-const canvas = document.createElement("canvas");
+    downloadBtn.disabled = true;
+});
 
-canvas.width = width;
-canvas.height = height;
 
-const ctx = canvas.getContext("2d");
+heightInput.addEventListener("input", function() {
 
-ctx.drawImage(img,0,0,width,height);
+    if(ratioLock.checked && originalHeight > 0) {
 
-const resizedImage = canvas.toDataURL("image/png");
-const a = document.createElement("a");
+        const height = Number(this.value);
 
-a.href = resizedImage;
-a.download = "resized-image.jpg";
+        if(height > 0) {
+            widthInput.value = Math.round(
+                height * originalWidth / originalHeight
+            );
+        }
 
-a.click();
+    }
 
-};
+    downloadBtn.disabled = true;
+});
 
-img.src = URL.createObjectURL(selectedFile);
 
-}
+// QUALITY
+qualityInput.addEventListener("input", function() {
+
+    qualityValue.textContent = this.value + "%";
+
+    downloadBtn.disabled = true;
+
+});
+
+
+// FORMAT
+formatInput.addEventListener("change", function() {
+
+    if(this.value === "image/png") {
+        qualityBox.style.display = "none";
+    } else {
+        qualityBox.style.display = "block";
+    }
+
+    downloadBtn.disabled = true;
+
+});
+
+
+// RESIZE IMAGE
+resizeBtn.addEventListener("click", function() {
+
+    if(!selectedFile) {
+        alert("Please upload an image first.");
+        return;
+    }
+
+    const width = Number(widthInput.value);
+    const height = Number(heightInput.value);
+
+    if(!Number.isInteger(width) || !Number.isInteger(height) ||
+       width < 1 || height < 1 || width > 10000 || height > 10000) {
+        alert("Enter valid dimensions between 1 and 10000 pixels.");
+        return;
+    }
+
+    resizeBtn.disabled = true;
+    downloadBtn.disabled = true;
+
+    status.textContent = "Resizing your image...";
+
+    const img = new Image();
+
+    img.onload = function() {
+
+        const canvas = document.createElement("canvas");
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+
+        // Draw resized image
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const format = formatInput.value;
+
+        const quality = Number(qualityInput.value) / 100;
+
+        canvas.toBlob(function(blob) {
+
+            if(!blob) {
+                status.textContent = "Image resizing failed.";
+                resizeBtn.disabled = false;
+                return;
+            }
+
+            if(resultURL) URL.revokeObjectURL(resultURL);
+
+            resizedBlob = blob;
+            resultURL = URL.createObjectURL(blob);
+
+            resultPreview.src = resultURL;
+            resultPreview.hidden = false;
+            resultEmpty.style.display = "none";
+
+            resultInfo.textContent =
+                width + " × " + height +
+                " px · " + formatSize(blob.size);
+
+            downloadBtn.disabled = false;
+            resizeBtn.disabled = false;
+
+            status.textContent = "Image resized successfully!";
+
+        }, format, quality);
+
+    };
+
+    img.onerror = function() {
+        status.textContent = "Unable to process this image.";
+        resizeBtn.disabled = false;
+    };
+
+    img.src = originalURL;
+
+});
+
+
+// DOWNLOAD
+downloadBtn.addEventListener("click", function() {
+
+    if(!resizedBlob || !resultURL) return;
+
+    const extension = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp"
+    }[formatInput.value];
+
+    const link = document.createElement("a");
+
+    link.href = resultURL;
+    link.download = "SabkaMitra-Resized-Image." + extension;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+});
 
 </script>
 
