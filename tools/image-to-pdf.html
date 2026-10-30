@@ -1,97 +1,424 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to PDF - SabkaMitra</title>
-    
+
+    <title>Image to PDF | SabkaMitra</title>
+
     <!-- Bootstrap CSS -->
-    <link href="https://jsdelivr.net" rel="stylesheet">
-    
-    <!-- Stable Production Release CDN Link -->
-    <script src="https://cloudflare.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Correct jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body {
+            background: #f4f6fb;
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 800;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .main-wrapper {
+            max-width: 850px;
+            margin: 45px auto;
+            padding: 0 15px;
+        }
+
+        .tool-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+        }
+
+        .page-title {
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            color: #6b7280;
+        }
+
+        .upload-area {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 14px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .upload-area:hover {
+            background: #eff6ff;
+            border-color: #2563eb;
+        }
+
+        .upload-icon {
+            font-size: 42px;
+            color: #2563eb;
+        }
+
+        #imagePreview {
+            max-height: 280px;
+            max-width: 100%;
+            object-fit: contain;
+            display: none;
+            margin: 20px auto 0;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            padding: 5px;
+            background: white;
+        }
+
+        .btn-convert {
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 13px 20px;
+            font-weight: 700;
+        }
+
+        .btn-convert:hover {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .btn-convert:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .file-info {
+            background: #eff6ff;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .note {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding: 25px;
+        }
+    </style>
 </head>
-<body class="bg-light min-vh-100 d-flex align-items-center justify-content-center m-0 p-3">
-incomplete
-    <!-- Center Card Block Layout -->
-    <div class="card p-4 border border-2 border-secondary-subtle rounded-3 shadow-sm w-100" style="max-width: 450px;">
-        
-        <h3 class="fw-bold text-center mb-3 text-dark">Image to PDF</h3>
-        <p class="text-muted text-center small mb-4">Convert your JPG or PNG files into PDF instantly.</p>
-        
-        <!-- Input Block -->
-        <div class="mb-4">
-            <label for="imageInput" class="form-label fw-bold text-secondary small">Choose Image</label>
-            <input class="form-control border-2" type="file" id="imageInput" accept="image/*">
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar py-3">
+        <div class="container">
+            <a href="../index.html" class="brand">
+                <i class="bi bi-tools"></i> SabkaMitra
+            </a>
+
+            <a href="../index.html" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-house"></i> Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-wrapper">
+
+        <div class="text-center mb-4">
+            <h1 class="page-title">Image to PDF Converter</h1>
+            <p class="subtitle">
+                Convert your JPG, PNG or WebP image into a PDF document.
+            </p>
         </div>
 
-        <!-- Preview Block Area Container -->
-        <div class="mb-4 text-center d-none" id="previewContainer">
-            <div class="p-2 border border-2 border-dashed rounded bg-white">
-                <img id="imagePreview" src="" alt="Preview Data" class="img-fluid rounded" style="max-height: 200px;">
+        <div class="tool-card">
+
+            <!-- Upload -->
+            <div class="upload-area">
+
+                <i class="bi bi-cloud-arrow-up upload-icon"></i>
+
+                <h5 class="fw-bold mt-3">Upload Your Image</h5>
+
+                <p class="text-muted small">
+                    Select a JPG, PNG or WebP image from your device.
+                </p>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    class="form-control"
+                    accept="image/jpeg,image/png,image/webp"
+                >
+
+                <!-- Preview -->
+                <img id="imagePreview" alt="Image Preview">
+
             </div>
+
+            <!-- File Information -->
+            <div class="file-info mt-3" id="fileInfo">
+                <div class="d-flex justify-content-between flex-wrap gap-2">
+                    <span>
+                        <i class="bi bi-file-image text-primary"></i>
+                        <strong id="fileName"></strong>
+                    </span>
+
+                    <span id="fileSize"></span>
+                </div>
+            </div>
+
+            <!-- PDF Settings -->
+            <div class="mt-4">
+
+                <label class="form-label fw-bold">
+                    PDF Page Size
+                </label>
+
+                <select id="pageSize" class="form-select">
+                    <option value="a4">A4</option>
+                    <option value="letter">Letter</option>
+                    <option value="fit">Fit to Image</option>
+                </select>
+
+            </div>
+
+            <!-- Convert Button -->
+            <button
+                id="convertBtn"
+                class="btn btn-convert w-100 mt-4"
+                disabled
+            >
+                <i class="bi bi-file-earmark-pdf"></i>
+                Convert & Download PDF
+            </button>
+
+            <p class="note text-center mt-3 mb-0">
+                <i class="bi bi-shield-check text-success"></i>
+                Your image is processed in your browser. It is not uploaded to our server.
+            </p>
+
+            <div id="statusMessage" class="mt-3 text-center small"></div>
+
         </div>
+    </main>
 
-        <!-- Direct Trigger Download Action Button -->
-        <button id="convertBtn" class="btn btn-primary btn-lg w-100 fw-bold" disabled>
-            Convert & Download PDF
-        </button>
-        
-    </div>
+    <footer>
+        © 2026 SabkaMitra. All Rights Reserved.
+    </footer>
 
-    <!-- Error Free Pure Base64 Processing Script -->
     <script>
-        const imageInput = document.getElementById('imageInput');
-        const convertBtn = document.getElementById('convertBtn');
-        const previewContainer = document.getElementById('previewContainer');
-        const imagePreview = document.getElementById('imagePreview');
+        const imageInput = document.getElementById("imageInput");
+        const imagePreview = document.getElementById("imagePreview");
+        const convertBtn = document.getElementById("convertBtn");
+        const fileInfo = document.getElementById("fileInfo");
+        const statusMessage = document.getElementById("statusMessage");
 
-        let imageBase64Data = "";
+        let imageData = "";
+        let imageFormat = "";
 
-        // File stream parsing logic via standard file reader
-        imageInput.addEventListener('change', function(e) {
-            const currentFile = e.target.files[0]; // Target individual item data stream payload array matrix
-            if (currentFile) {
-                const streamReader = new FileReader();
-                streamReader.onload = function(event) {
-                    imageBase64Data = event.target.result;
-                    imagePreview.src = imageBase64Data;
-                    
-                    // Show standard layout display preview area
-                    previewContainer.classList.remove('d-none');
-                    convertBtn.disabled = false;
-                };
-                streamReader.readAsDataURL(currentFile);
+        // Image Upload
+        imageInput.addEventListener("change", function () {
+
+            const file = this.files[0];
+
+            imageData = "";
+            imageFormat = "";
+            convertBtn.disabled = true;
+            imagePreview.style.display = "none";
+            fileInfo.style.display = "none";
+            statusMessage.textContent = "";
+
+            if (!file) return;
+
+            const allowedTypes = [
+                "image/jpeg",
+                "image/png",
+                "image/webp"
+            ];
+
+            if (!allowedTypes.includes(file.type)) {
+                alert("Please upload a JPG, PNG or WebP image.");
+                this.value = "";
+                return;
             }
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                imageData = event.target.result;
+
+                imageFormat = file.type === "image/png"
+                    ? "PNG"
+                    : "JPEG";
+
+                imagePreview.src = imageData;
+                imagePreview.style.display = "block";
+
+                document.getElementById("fileName").textContent = file.name;
+
+                document.getElementById("fileSize").textContent =
+                    (file.size / 1024).toFixed(1) + " KB";
+
+                fileInfo.style.display = "block";
+                convertBtn.disabled = false;
+            };
+
+            reader.onerror = function () {
+                alert("Image read nahi ho payi. Please try again.");
+            };
+
+            reader.readAsDataURL(file);
         });
 
-        // Safe direct base64 browser trigger engine
-        convertBtn.addEventListener('click', function() {
-            if (!imageBase64Data) return;
 
-            // Instantly transition UI element state attributes
-            convertBtn.innerText = "Downloading...";
-            convertBtn.disabled = true;
+        // Convert Image to PDF
+        convertBtn.addEventListener("click", function () {
+
+            if (!imageData) {
+                alert("Please upload an image first.");
+                return;
+            }
+
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                alert("PDF library load nahi hui. Internet connection check karke page refresh karo.");
+                return;
+            }
 
             try {
-                // Correct runtime instantiation of jsPDF object context
-                const { jsPDF } = window.jspdf;
-                const pdfDocument = new jsPDF('p', 'mm', 'a4'); // Standard A4 layout sizing profile
 
-                // Renders raw base64 profile block parameters smoothly into memory bounds
-                pdfDocument.addImage(imageBase64Data, 'JPEG', 10, 10, 190, 150);
-                
-                // Directly triggers standard browser binary data array download window
-                pdfDocument.save('SabkaMitra-Document.pdf');
+                convertBtn.disabled = true;
+                convertBtn.innerHTML =
+                    '<span class="spinner-border spinner-border-sm"></span> Creating PDF...';
+
+                const { jsPDF } = window.jspdf;
+
+                const selectedSize =
+                    document.getElementById("pageSize").value;
+
+                const img = new Image();
+
+                img.onload = function () {
+
+                    let pdf;
+
+                    if (selectedSize === "fit") {
+
+                        const width = img.width * 0.264583;
+                        const height = img.height * 0.264583;
+
+                        pdf = new jsPDF({
+                            orientation: width > height ? "landscape" : "portrait",
+                            unit: "mm",
+                            format: [width, height]
+                        });
+
+                        pdf.addImage(
+                            imageData,
+                            imageFormat,
+                            0,
+                            0,
+                            width,
+                            height
+                        );
+
+                    } else {
+
+                        pdf = new jsPDF({
+                            orientation: "portrait",
+                            unit: "mm",
+                            format: selectedSize
+                        });
+
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+
+                        const margin = 10;
+
+                        const availableWidth = pageWidth - margin * 2;
+                        const availableHeight = pageHeight - margin * 2;
+
+                        const ratio = Math.min(
+                            availableWidth / img.width,
+                            availableHeight / img.height
+                        );
+
+                        const finalWidth = img.width * ratio;
+                        const finalHeight = img.height * ratio;
+
+                        const x = (pageWidth - finalWidth) / 2;
+                        const y = (pageHeight - finalHeight) / 2;
+
+                        pdf.addImage(
+                            imageData,
+                            imageFormat,
+                            x,
+                            y,
+                            finalWidth,
+                            finalHeight
+                        );
+                    }
+
+                    pdf.save("SabkaMitra-Image.pdf");
+
+                    statusMessage.innerHTML =
+                        '<span class="text-success fw-bold">' +
+                        '<i class="bi bi-check-circle-fill"></i> PDF download started successfully!' +
+                        '</span>';
+
+                    convertBtn.disabled = false;
+                    convertBtn.innerHTML =
+                        '<i class="bi bi-file-earmark-pdf"></i> Convert & Download PDF';
+                };
+
+                img.onerror = function () {
+
+                    alert("Image process nahi ho payi. Please another image try karo.");
+
+                    convertBtn.disabled = false;
+                    convertBtn.innerHTML =
+                        '<i class="bi bi-file-earmark-pdf"></i> Convert & Download PDF';
+                };
+
+                img.src = imageData;
+
             } catch (error) {
-                alert("Something went wrong. Please refresh and try again.");
-                console.error("PDF Engine Failure: ", error);
-            } finally {
-                // Reset processing attributes safely
-                convertBtn.innerText = "Convert & Download PDF";
+
+                console.error("PDF Error:", error);
+
+                alert("PDF create nahi ho payi. Browser refresh karke dobara try karo.");
+
                 convertBtn.disabled = false;
+                convertBtn.innerHTML =
+                    '<i class="bi bi-file-earmark-pdf"></i> Convert & Download PDF';
             }
+
         });
     </script>
+
 </body>
 </html>

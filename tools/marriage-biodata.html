@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marriage Biodata Maker | SabkaMitra</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<style>
+body{background:#f4f6fb;font-family:Arial,sans-serif;color:#202938}
+.navbar{background:#fff;box-shadow:0 2px 12px #0000000a}
+.brand{font-size:22px;font-weight:800;color:#6754d9}
+.main{max-width:1250px;margin:30px auto;padding:0 15px}
+.panel{background:white;border:1px solid #e7eaf0;border-radius:15px;padding:22px;margin-bottom:20px}
+.section-title{font-size:18px;font-weight:700;margin-bottom:18px}
+.form-label{font-weight:600;font-size:13px}
+.form-control,.form-select{border-radius:9px;padding:10px}
+.template-card{border:2px solid #e5e7eb;border-radius:12px;padding:9px;cursor:pointer;background:white;transition:.2s}
+.template-card:hover{transform:translateY(-3px)}
+.template-card.active{border-color:#6754d9;background:#f5f3ff}
+.template-thumb{height:130px;border-radius:7px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:11px;overflow:hidden}
+.thumb1{background:#fffaf0;color:#9b7730;border:2px solid #c8a75b}
+.thumb2{background:#fff;color:#333;border:1px solid #ddd}
+.thumb3{background:#571b2c;color:#f3d58d;border:2px solid #c8a75b}
+.thumb4{background:#fff0f4;color:#a34d6a;border:2px solid #e9b5c5}
+.template-thumb strong{font-size:15px}
+.btn-main{background:#6754d9;color:white;border:0;border-radius:9px;padding:11px 18px}
+.btn-main:hover{background:#5140bd;color:white}
+#photoPreview{width:100px;height:120px;object-fit:cover;border-radius:8px;border:1px solid #ddd}
+.preview-wrap{background:#e9edf4;padding:18px;border-radius:12px;overflow:auto}
+.biodata{width:100%;max-width:650px;min-height:850px;margin:auto;background:white;padding:35px;box-shadow:0 4px 20px #0002;overflow-wrap:anywhere}
+.bio-photo{width:115px;height:135px;object-fit:cover;border:2px solid #ddd;border-radius:5px}
+.bio-name{font-size:27px;font-weight:800;margin:10px 0}
+.bio-heading{font-size:15px;font-weight:800;margin:22px 0 10px;padding-bottom:7px;border-bottom:1px solid}
+.bio-table{width:100%;font-size:13px;border-collapse:collapse}
+.bio-table td{padding:6px 4px;vertical-align:top}
+.bio-table td:first-child{width:38%;font-weight:700}
+.bio1{background:#fffdf7;border:8px double #c6a45d;color:#59451e}
+.bio1 .bio-heading{color:#9b7730;border-color:#c6a45d}
+.bio2{background:#fff;color:#30343b}
+.bio2 .bio-heading{color:#333;border-color:#ddd}
+.bio3{background:#fffaf7;border:7px solid #70243b;color:#542032}
+.bio3 .bio-heading{color:#873b50;border-color:#c9a15c}
+.bio4{background:#fff9fb;border:6px solid #e7b7c8;color:#793e56}
+.bio4 .bio-heading{color:#a34d6a;border-color:#e7b7c8}
+.bio-top{text-align:center}
+.bio-top img{display:block;margin:0 auto}
+@media(max-width:768px){.biodata{padding:18px;min-height:700px}.main{margin-top:15px}}
+@media print{
+ @page{size:A4;margin:8mm}
+ body{background:white!important}
+ .no-print,.navbar{display:none!important}
+ .main{margin:0!important;padding:0!important;max-width:none!important}
+ .preview-wrap{background:white!important;padding:0!important}
+ .biodata{width:100%;max-width:none;min-height:0;box-shadow:none!important;margin:0!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-light no-print">
+<div class="container">
+<a href="../index.html" class="navbar-brand brand">
+<i class="bi bi-heart-fill"></i> SabkaMitra
+</a>
+<a href="../index.html" class="btn btn-outline-secondary btn-sm">
+<i class="bi bi-house"></i> Home
+</a>
+</div>
+</nav>
+
+<div class="main">
+<div class="mb-4 no-print">
+<h2 class="fw-bold">Marriage Biodata Maker</h2>
+<p class="text-secondary">Create a beautiful marriage biodata and download it as PDF.</p>
+</div>
+
+<div class="row g-4">
+<div class="col-lg-6 no-print">
+
+<div class="panel">
+<div class="section-title"><i class="bi bi-palette"></i> Select Biodata Design</div>
+<div class="row g-3">
+<div class="col-6">
+<div class="template-card active" data-template="bio1">
+<div class="template-thumb thumb1">
+<strong>ROYAL</strong><span>TRADITIONAL</span><br>✦ ✦ ✦
+</div>
+<div class="text-center fw-bold mt-2 small">Royal Traditional</div>
+</div>
+</div>
+<div class="col-6">
+<div class="template-card" data-template="bio2">
+<div class="template-thumb thumb2">
+<strong>BIODATA</strong><span>Personal Profile</span><br>────────
+</div>
+<div class="text-center fw-bold mt-2 small">Modern Minimal</div>
+</div>
+</div>
+<div class="col-6">
+<div class="template-card" data-template="bio3">
+<div class="template-thumb thumb3">
+<strong>BIODATA</strong><span>Marriage Profile</span><br>✦ GOLD ✦
+</div>
+<div class="text-center fw-bold mt-2 small">Premium Burgundy</div>
+</div>
+</div>
+<div class="col-6">
+<div class="template-card" data-template="bio4">
+<div class="template-thumb thumb4">
+<strong>♡ BIODATA ♡</strong><span>Marriage Profile</span><br>❀ ❀ ❀
+</div>
+<div class="text-center fw-bold mt-2 small">Elegant Floral</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="panel">
+<div class="section-title"><i class="bi bi-person"></i> Personal Details</div>
+<div class="mb-3">
+<label class="form-label">Upload Profile Photo</label>
+<input type="file" id="photo" class="form-control" accept="image/*">
+<div class="mt-2"><img id="photoPreview" style="display:none" alt="Profile photo preview"></div>
+</div>
+<div class="row g-3">
+<div class="col-12"><label class="form-label">Full Name</label><input id="name" class="form-control" placeholder="Enter full name"></div>
+<div class="col-6"><label class="form-label">Date of Birth</label><input id="dob" type="date" class="form-control"></div>
+<div class="col-6"><label class="form-label">Age</label><input id="age" class="form-control" readonly placeholder="Auto calculated"></div>
+<div class="col-6"><label class="form-label">Height</label>
+<select id="height" class="form-select"><option value="">Select Height</option>
+<option>4'8" (142 cm)</option><option>4'9" (145 cm)</option><option>4'10" (147 cm)</option><option>4'11" (150 cm)</option>
+<option>5'0" (152 cm)</option><option>5'1" (155 cm)</option><option>5'2" (157 cm)</option><option>5'3" (160 cm)</option>
+<option>5'4" (163 cm)</option><option>5'5" (165 cm)</option><option>5'6" (168 cm)</option><option>5'7" (170 cm)</option>
+<option>5'8" (173 cm)</option><option>5'9" (175 cm)</option><option>5'10" (178 cm)</option><option>5'11" (180 cm)</option>
+<option>6'0" (183 cm)</option><option>6'1" (185 cm)</option><option>6'2" (188 cm)</option><option>6'3" (191 cm)</option><option>6'4" (193 cm)</option>
+</select></div>
+<div class="col-6"><label class="form-label">Weight</label>
+<select id="weight" class="form-select"><option value="">Select Weight</option>
+<option>35 kg</option><option>40 kg</option><option>45 kg</option><option>50 kg</option><option>55 kg</option><option>60 kg</option><option>65 kg</option><option>70 kg</option><option>75 kg</option><option>80 kg</option><option>85 kg</option><option>90 kg</option><option>95 kg</option><option>100 kg</option><option>105 kg</option><option>110 kg</option><option>115 kg</option><option>120 kg</option>
+</select></div>
+<div class="col-6"><label class="form-label">Blood Group</label>
+<select id="blood" class="form-select"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+<div class="col-6"><label class="form-label">Marital Status</label>
+<select id="marital" class="form-select"><option value="">Select</option><option>Never Married</option><option>Divorced</option><option>Widowed</option></select></div>
+<div class="col-6"><label class="form-label">Religion</label>
+<select id="religion" class="form-select"><option value="">Select Religion</option><option>Hindu</option><option>Muslim</option><option>Christian</option><option>Sikh</option><option>Buddhist</option><option>Jain</option><option>Other</option><option>Prefer not to say</option></select></div>
+<div class="col-6"><label class="form-label">Caste / Sub-caste</label><input id="caste" class="form-control" placeholder="Enter caste"></div>
+<div class="col-6"><label class="form-label">Gotra</label><input id="gotra" class="form-control" placeholder="Enter gotra"></div>
+<div class="col-6"><label class="form-label">Mother Tongue</label>
+<select id="tongue" class="form-select"><option value="">Select</option><option>Hindi</option><option>Bhojpuri</option><option>Maithili</option><option>Magahi</option><option>Urdu</option><option>Bengali</option><option>English</option><option>Punjabi</option><option>Other</option></select></div>
+<div class="col-6"><label class="form-label">Manglik Status</label>
+<select id="manglik" class="form-select"><option value="">Select</option><option>Manglik</option><option>Non-Manglik</option><option>Anshik Manglik</option><option>Not Known</option></select></div>
+<div class="col-6"><label class="form-label">Nationality</label><input id="nationality" class="form-control" value="Indian"></div>
+<div class="col-6"><label class="form-label">Complexion (Optional)</label>
+<select id="complexion" class="form-select"><option value="">Select</option><option>Fair</option><option>Wheatish</option><option>Medium</option><option>Dark</option><option>Prefer not to say</option></select></div>
+</div>
+</div>
+
+<div class="panel">
+<div class="section-title"><i class="bi bi-mortarboard"></i> Education & Career</div>
+<div class="row g-3">
+<div class="col-12"><label class="form-label">Highest Qualification</label><input id="education" class="form-control" placeholder="e.g. B.A., B.Tech, M.A."></div>
+<div class="col-12"><label class="form-label">College / University</label><input id="college" class="form-control"></div>
+<div class="col-6"><label class="form-label">Occupation</label><input id="occupation" class="form-control" placeholder="Job / Business"></div>
+<div class="col-6"><label class="form-label">Company</label><input id="company" class="form-control"></div>
+<div class="col-6"><label class="form-label">Job Location</label><input id="jobLocation" class="form-control"></div>
+<div class="col-6"><label class="form-label">Annual Income</label>
+<select id="income" class="form-select"><option value="">Select Income</option><option>Below ₹2 Lakh</option><option>₹2–5 Lakh</option><option>₹5–10 Lakh</option><option>₹10–15 Lakh</option><option>₹15–25 Lakh</option><option>₹25–50 Lakh</option><option>Above ₹50 Lakh</option><option>Prefer not to say</option></select></div>
+</div>
+</div>
+
+<div class="panel">
+<div class="section-title"><i class="bi bi-people"></i> Family Details</div>
+<div class="row g-3">
+<div class="col-6"><label class="form-label">Father's Name</label><input id="father" class="form-control"></div>
+<div class="col-6"><label class="form-label">Father's Occupation</label><input id="fatherJob" class="form-control"></div>
+<div class="col-6"><label class="form-label">Mother's Name</label><input id="mother" class="form-control"></div>
+<div class="col-6"><label class="form-label">Mother's Occupation</label><input id="motherJob" class="form-control"></div>
+<div class="col-6"><label class="form-label">Brothers</label><select id="brothers" class="form-select"><option value="">Select</option><option>None</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>
+<div class="col-6"><label class="form-label">Sisters</label><select id="sisters" class="form-select"><option value="">Select</option><option>None</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>
+<div class="col-6"><label class="form-label">Family Type</label><select id="familyType" class="form-select"><option value="">Select</option><option>Joint Family</option><option>Nuclear Family</option></select></div>
+<div class="col-6"><label class="form-label">Family Location</label><input id="familyLocation" class="form-control"></div>
+<div class="col-12"><label class="form-label">About Family</label><textarea id="aboutFamily" class="form-control" rows="3"></textarea></div>
+</div>
+</div>
+
+<div class="panel">
+<div class="section-title"><i class="bi bi-stars"></i> Lifestyle & Hobbies</div>
+<div class="row g-3">
+<div class="col-6"><label class="form-label">Diet</label><select id="diet" class="form-select"><option value="">Select</option><option>Vegetarian</option><option>Non-Vegetarian</option><option>Eggetarian</option><option>Vegan</option></select></div>
+<div class="col-6"><label class="form-label">Smoking</label><select id="smoking" class="form-select"><option value="">Select</option><option>No</option><option>Yes</option><option>Prefer not to say</option></select></div>
+<div class="col-6"><label class="form-label">Drinking</label><select id="drinking" class="form-select"><option value="">Select</option><option>No</option><option>Yes</option><option>Prefer not to say</option></select></div>
+<div class="col-6"><label class="form-label">Languages Known</label><input id="languages" class="form-control" placeholder="Hindi, English..."></div>
+<div class="col-12"><label class="form-label">Hobbies & Interests</label><textarea id="hobbies" class="form-control" rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="panel">
+<div class="section-title"><i class="bi bi-telephone"></i> Contact Details</div>
+<div class="row g-3">
+<div class="col-6"><label class="form-label">Contact Person</label><input id="contactPerson" class="form-control"></div>
+<div class="col-6"><label class="form-label">Mobile Number</label><input id="mobile" type="tel" class="form-control"></div>
+<div class="col-6"><label class="form-label">WhatsApp Number</label><input id="whatsapp" type="tel" class="form-control"></div>
+<div class="col-6"><label class="form-label">Email</label><input id="email" type="email" class="form-control"></div>
+<div class="col-12"><label class="form-label">Full Address</label><textarea id="address" class="form-control" rows="2"></textarea></div>
+</div>
+</div>
+
+<div class="d-flex gap-2 flex-wrap mb-4">
+<button class="btn btn-main" onclick="saveDraft()"><i class="bi bi-save"></i> Save Draft</button>
+<button class="btn btn-outline-secondary" onclick="loadDraft()">Load Draft</button>
+<button class="btn btn-outline-danger" onclick="resetForm()">Reset</button>
+</div>
+</div>
+
+<div class="col-lg-6">
+<div class="panel no-print">
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div class="section-title mb-0">Live Biodata Preview</div>
+<button class="btn btn-main" onclick="downloadPDF()"><i class="bi bi-file-earmark-pdf"></i> Download PDF</button>
+</div>
+<p class="small text-secondary mt-2 mb-0">Your selected design and details appear here.</p>
+</div>
+<div class="preview-wrap">
+<div id="biodata" class="biodata bio1">
+<div class="bio-top">
+<img id="outPhoto" class="bio-photo" style="display:none" alt="Profile photo">
+<div class="bio-name" id="outName">Your Name</div>
+<div class="small">MARRIAGE BIODATA</div>
+</div>
+<div id="previewSections"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const ids=[
+"name","dob","age","height","weight","blood","marital","religion","caste","gotra","tongue","manglik","nationality","complexion",
+"education","college","occupation","company","jobLocation","income",
+"father","fatherJob","mother","motherJob","brothers","sisters","familyType","familyLocation","aboutFamily",
+"diet","smoking","drinking","languages","hobbies",
+"contactPerson","mobile","whatsapp","email","address"
+];
+
+let photoData="";
+let currentTemplate="bio1";
+
+const groups=[
+{title:"Personal Details",fields:[["Date of Birth","dob"],["Age","age"],["Height","height"],["Weight","weight"],["Blood Group","blood"],["Marital Status","marital"],["Religion","religion"],["Caste / Sub-caste","caste"],["Gotra","gotra"],["Mother Tongue","tongue"],["Manglik Status","manglik"],["Nationality","nationality"],["Complexion","complexion"]]},
+{title:"Education & Career",fields:[["Qualification","education"],["College / University","college"],["Occupation","occupation"],["Company","company"],["Job Location","jobLocation"],["Annual Income","income"]]},
+{title:"Family Details",fields:[["Father's Name","father"],["Father's Occupation","fatherJob"],["Mother's Name","mother"],["Mother's Occupation","motherJob"],["Brothers","brothers"],["Sisters","sisters"],["Family Type","familyType"],["Family Location","familyLocation"],["About Family","aboutFamily"]]},
+{title:"Lifestyle & Hobbies",fields:[["Diet","diet"],["Smoking","smoking"],["Drinking","drinking"],["Languages Known","languages"],["Hobbies","hobbies"]]},
+{title:"Contact Details",fields:[["Contact Person","contactPerson"],["Mobile Number","mobile"],["WhatsApp Number","whatsapp"],["Email","email"],["Address","address"]]}
+];
+
+function value(id){return document.getElementById(id).value.trim()}
+
+function updateAge(){
+ const dob=value("dob");
+ if(!dob){document.getElementById("age").value="";return}
+ const birth=new Date(dob+"T00:00:00");
+ const today=new Date();
+ if(birth>today){document.getElementById("age").value="";return}
+ let age=today.getFullYear()-birth.getFullYear();
+ const m=today.getMonth()-birth.getMonth();
+ if(m<0||(m===0&&today.getDate()<birth.getDate()))age--;
+ document.getElementById("age").value=age+" Years";
+}
+
+function render(){
+ updateAge();
+ document.getElementById("outName").textContent=value("name")||"Your Name";
+ const photo=document.getElementById("outPhoto");
+ photo.src=photoData;
+ photo.style.display=photoData?"block":"none";
+ let html="";
+ groups.forEach(group=>{
+ let rows="";
+ group.fields.forEach(([label,id])=>{
+ const v=value(id);
+ if(v) rows+=`<tr><td>${label}</td><td>${escapeHTML(v)}</td></tr>`;
+ });
+ if(rows) html+=`<div class="bio-heading">${group.title}</div><table class="bio-table">${rows}</table>`;
+ });
+ document.getElementById("previewSections").innerHTML=html||'<p class="text-center mt-5">Fill in your details to see your biodata.</p>';
+}
+
+function escapeHTML(s){
+ return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+ids.forEach(id=>{
+ document.getElementById(id).addEventListener("input",render);
+ document.getElementById(id).addEventListener("change",render);
+});
+
+document.getElementById("photo").addEventListener("change",function(e){
+ const file=e.target.files[0];
+ if(!file)return;
+ if(!file.type.startsWith("image/")){alert("Please select an image.");return}
+ if(file.size>5*1024*1024){alert("Photo must be under 5 MB.");this.value="";return}
+ const reader=new FileReader();
+ reader.onload=()=>{photoData=reader.result;render();};
+ reader.readAsDataURL(file);
+});
+
+document.querySelectorAll(".template-card").forEach(card=>{
+ card.addEventListener("click",()=>{
+ document.querySelectorAll(".template-card").forEach(c=>c.classList.remove("active"));
+ card.classList.add("active");
+ currentTemplate=card.dataset.template;
+ const bio=document.getElementById("biodata");
+ bio.className="biodata "+currentTemplate;
+ });
+});
+
+function saveDraft(){
+ const data={};
+ ids.forEach(id=>data[id]=document.getElementById(id).value);
+ data.photo=photoData;
+ data.template=currentTemplate;
+ try{
+ localStorage.setItem("sabkamitraMarriageBiodata",JSON.stringify(data));
+ alert("Biodata draft saved on this device!");
+ }catch(e){alert("Could not save draft. The photo may be too large.");}
+}
+
+function loadDraft(){
+ const raw=localStorage.getItem("sabkamitraMarriageBiodata");
+ if(!raw){alert("No saved draft found.");return}
+ const data=JSON.parse(raw);
+ ids.forEach(id=>{if(data[id]!==undefined)document.getElementById(id).value=data[id]});
+ photoData=data.photo||"";
+ currentTemplate=data.template||"bio1";
+ document.querySelectorAll(".template-card").forEach(c=>c.classList.toggle("active",c.dataset.template===currentTemplate));
+ document.getElementById("biodata").className="biodata "+currentTemplate;
+ if(photoData){
+ document.getElementById("photoPreview").src=photoData;
+ document.getElementById("photoPreview").style.display="inline-block";
+ }
+ render();
+}
+
+function resetForm(){
+ if(!confirm("Clear all biodata details?"))return;
+ document.querySelectorAll("input,textarea,select").forEach(el=>{
+ if(el.type==="file")el.value="";
+ else if(el.id==="nationality")el.value="Indian";
+ else el.value="";
+ });
+ photoData="";
+ document.getElementById("photoPreview").style.display="none";
+ currentTemplate="bio1";
+ document.querySelectorAll(".template-card").forEach(c=>c.classList.toggle("active",c.dataset.template==="bio1"));
+ document.getElementById("biodata").className="biodata bio1";
+ render();
+}
+
+function downloadPDF(){
+ window.print();
+}
+
+render();
+</script>
+</body>
+</html>

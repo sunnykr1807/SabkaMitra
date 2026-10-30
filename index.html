@@ -20,6 +20,40 @@
 
 <body>
 
+
+    <!-- SABKAMITRA PAGE LOADER -->
+    <div id="pageLoader">
+
+        <div class="loader-content">
+
+            <div class="loader-logo">
+                <i class="bi bi-tools"></i>
+            </div>
+
+            <h2>Sabka<span>Mitra</span></h2>
+
+            <p class="loader-subtitle">
+                Your everyday digital companion
+            </p>
+
+            <div class="loader-animation">
+                <div class="loader-ring"></div>
+                <div class="loader-ring ring-two"></div>
+                <div class="loader-dot"></div>
+            </div>
+
+            <div class="loader-progress">
+                <div class="loader-progress-bar"></div>
+            </div>
+
+            <p class="loading-text">
+                Preparing your experience...
+            </p>
+
+        </div>
+
+    </div>
+
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg site-navbar sticky-top">
         <div class="container">
@@ -29,7 +63,23 @@
                 <span>Sabka<span class="brand-accent">Mitra</span>
                     <small>TOOLS FOR EVERYONE</small></span>
             </a>
+            <!-- LIVE DATE TIME WIDGET -->
+            <div class="datetime-widget">
 
+                <div class="datetime-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <div class="datetime-details">
+                    <div id="liveTime">00:00:00 AM</div>
+                    <div id="liveDate">Loading date...</div>
+                </div>
+
+                <div class="datetime-day" id="liveDay">
+                    MON
+                </div>
+
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -88,67 +138,58 @@
 
             </div>
 
-            <div class="hero-visual">
-                <div class="visual-orbit orbit-one"></div>
-                <div class="visual-orbit orbit-two"></div>
+            <!-- hero design  -->
 
-                <div class="visual-main-card">
-                    <div class="visual-card-top">
-                        <span>● ● ●</span>
-                        <span>YOUR TOOLBOX</span>
-                    </div>
 
-                    <div class="visual-grid">
-                        <div class="visual-tool visual-blue">
-                            <i class="bi bi-image"></i><span>Images</span>
-                        </div>
-                        <div class="visual-tool visual-purple">
-                            <i class="bi bi-file-earmark-pdf"></i><span>PDF tools</span>
-                        </div>
-                        <div class="visual-tool visual-orange">
-                            <i class="bi bi-person-vcard"></i><span>Resume</span>
-                        </div>
-                        <div class="visual-tool visual-green">
-                            <i class="bi bi-file-earmark-text"></i><span>Forms</span>
-                        </div>
-                    </div>
 
-                    <div class="visual-status">
-                        <span class="status-pulse"></span> Ready when you are
-                    </div>
-                </div>
+<div class="sm-visual">
 
-                <div class="floating-chip chip-top">
-                    <i class="bi bi-lightning-charge-fill"></i> Quick & easy
-                </div>
-                <div class="floating-chip chip-bottom">
-                    <i class="bi bi-heart-fill"></i> Made for everyone
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="sm-orbit sm-orbit-one"></div>
+    <div class="sm-orbit sm-orbit-two"></div>
+    <div class="sm-orbit sm-orbit-three"></div>
 
-    <!-- STATS -->
-    <section class="stats-strip">
-        <div class="container stats-grid">
+    <div class="sm-glow"></div>
 
-            <div class="stat-item">
-                <span class="stat-icon"><i class="bi bi-grid"></i></span>
-                <div><strong>12+</strong><small>Useful tools</small></div>
-            </div>
+    <div class="sm-center">
+        <i class="bi bi-stars"></i>
+        <h3>SabkaMitra</h3>
+        <span>Everything in one place</span>
+    </div>
 
-            <div class="stat-item">
-                <span class="stat-icon stat-icon-green"><i class="bi bi-gift"></i></span>
-                <div><strong>Free</strong><small>Easy access</small></div>
-            </div>
+    <div class="sm-float sm-float-one">
+        <i class="bi bi-file-earmark-pdf"></i>
+        <span>PDF Tools</span>
+    </div>
 
-            <div class="stat-item">
-                <span class="stat-icon stat-icon-purple"><i class="bi bi-phone"></i></span>
-                <div><strong>Any device</strong><small>Responsive design</small></div>
-            </div>
+    <div class="sm-float sm-float-two">
+        <i class="bi bi-image"></i>
+        <span>Image Editor</span>
+    </div>
+
+    <div class="sm-float sm-float-three">
+        <i class="bi bi-file-earmark-person"></i>
+        <span>Resume Maker</span>
+    </div>
+
+    <div class="sm-float sm-float-four">
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Documents</span>
+    </div>
+
+    <div class="sm-badge sm-badge-one">
+        <i class="bi bi-lightning-charge-fill"></i> Fast & Easy
+    </div>
+
+    <div class="sm-badge sm-badge-two">
+        <i class="bi bi-shield-check"></i> Privacy First
+    </div>
+
+</div>
 
         </div>
     </section>
+
+    
 
     <!-- TOOLS -->
     <section class="tools-section section-space" id="tools">
@@ -179,9 +220,102 @@
                 </div>
             </div>
 
+            <!-- welcome greet -->
+
+
+            <!-- SMART WELCOME SECTION -->
+            <section class="welcome-section">
+
+                <div class="welcome-content">
+                    <div class="welcome-tag">
+                        <span class="welcome-dot"></span>
+                        YOUR DIGITAL COMPANION
+                    </div>
+
+                    <h1>
+                        <span id="welcomeGreeting">Hello</span>
+                        <span class="welcome-wave">👋</span>
+                    </h1>
+
+                    <p id="welcomeMessage">
+                        Welcome to SabkaMitra. What would you like to do today?
+                    </p>
+
+                    <div class="welcome-date">
+                        <i class="bi bi-calendar3"></i>
+                        <span id="welcomeFullDate">Loading date...</span>
+                    </div>
+                </div>
+
+                <div class="welcome-decoration">
+                    <div class="welcome-circle circle-one"></div>
+                    <div class="welcome-circle circle-two"></div>
+                    <i class="bi bi-stars welcome-star"></i>
+                    <i class="bi bi-rocket-takeoff welcome-rocket"></i>
+                </div>
+
+            </section>
+
+
+            <!-- WEBSITE STATISTICS -->
+            <section class="stats-section">
+
+                <div class="stats-heading">
+                    <div>
+                        <h4>SabkaMitra at a Glance</h4>
+                        <p>Your everyday tools, all in one place.</p>
+                    </div>
+
+                    <span class="stats-live">
+                        <span class="stats-live-dot"></span>
+                        LIVE
+                    </span>
+                </div>
+
+                <div class="stats-grid">
+
+                   <div class="stat-card">
+    <i class="bi bi-people-fill"></i>
+    <h3 id="liveVisitors">128</h3>
+    <p>Live Visitors</p>
+</div>
+
+                    <!-- Total Tools -->
+                    <div class="stats-card">
+                        <div class="stats-icon tools-icon">
+                            <i class="bi bi-grid-1x2-fill"></i>
+                        </div>
+
+                        <div>
+                            <h3 id="totalTools">0</h3>
+                            <p>Total Tools</p>
+                        </div>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="stats-card">
+                        <div class="stats-icon category-icon">
+                            <i class="bi bi-collection-fill"></i>
+                        </div>
+
+                        <div>
+                            <h3 id="totalCategories">0</h3>
+                            <p>Categories</p>
+                        </div>
+                    </div>
+
+                  
+
+                </div>
+
+            </section>
+
+
+
+
             <div class="tools-grid" id="toolsGrid">
 
-                <a class="tool-card" href="tools/Resume%20Maker.html" data-category="document" data-name="resume maker">
+                <a class="tool-card" href="tools/resume-builder.html" data-category="document" data-name="resume maker">
                     <span class="tool-icon icon-orange"><img src="assets/student-resume.png" alt=""><i
                             class="bi bi-person-lines-fill"></i></span>
                     <span class="tool-card-content"><strong>Resume Maker</strong><small>Create a professional
@@ -259,7 +393,7 @@
                     <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
                 </a>
 
-                <a class="tool-card" href="tools/resume-builder.html" data-category="document"
+                <a class="tool-card" href="tools/marriage-biodata.html" data-category="document"
                     data-name="biodata resume builder">
                     <span class="tool-icon icon-orange"><img src="assets/biodata.png.png" alt=""><i
                             class="bi bi-file-person"></i></span>
@@ -287,19 +421,19 @@
                 </a>
 
 
-                <a class="tool-card" href="tools/emi-calculator.html" data-category="image"
-                    data-name="emi calculator">
+                <a class="tool-card" href="tools/emi-calculator.html" data-category="image" data-name="emi calculator">
                     <span class="tool-icon icon-violet"><i class="bi bi-calculator"></i></span>
-                    <span class="tool-card-content"><strong>EMI Calculator</strong><small>Calculate monthly EMI, loan interest and total payment.</small></span>
+                    <span class="tool-card-content"><strong>EMI Calculator</strong><small>Calculate monthly EMI, loan
+                            interest and total payment.</small></span>
                     <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
                 </a>
 
 
 
-                <a class="tool-card" href="tools/age-calculator.html" data-category="image"
-                    data-name="age calculator">
+                <a class="tool-card" href="tools/age-calculator.html" data-category="image" data-name="age calculator">
                     <span class="tool-icon icon-violet"><i class="bi bi-calculator"></i></span>
-                    <span class="tool-card-content"><strong>Age Calculator</strong><small>Calculate age based on birth date.</small></span>
+                    <span class="tool-card-content"><strong>Age Calculator</strong><small>Calculate age based on birth
+                            date.</small></span>
                     <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
                 </a>
 
@@ -307,7 +441,8 @@
                 <a class="tool-card" href="tools/countdown-calculator.html" data-category="image"
                     data-name="countdown calculator">
                     <span class="tool-icon icon-violet"><i class="bi bi-calculator"></i></span>
-                    <span class="tool-card-content"><strong>Countdown Calculator</strong><small>Calculate time remaining until a specific date and time.</small></span>
+                    <span class="tool-card-content"><strong>Countdown Calculator</strong><small>Calculate time remaining
+                            until a specific date and time.</small></span>
                     <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
                 </a>
 
@@ -493,6 +628,174 @@
                 document.getElementById("tools").scrollIntoView({ behavior: "smooth" });
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+        const loaderStartTime = Date.now();
+
+        window.addEventListener("load", function () {
+
+            const loader = document.getElementById("pageLoader");
+
+            if (!loader) return;
+
+            const elapsed = Date.now() - loaderStartTime;
+            const remainingTime = Math.max(0, 2000 - elapsed);
+
+            setTimeout(function () {
+                loader.classList.add("loader-hidden");
+
+                setTimeout(function () {
+                    loader.remove();
+                }, 600);
+
+            }, remainingTime);
+
+        });
+
+
+        // clock
+
+
+
+        function updateDateTime() {
+
+            const now = new Date();
+
+            const time = now.toLocaleTimeString("en-IN", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            });
+
+            const date = now.toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            });
+
+            const day = now.toLocaleDateString("en-IN", {
+                weekday: "long"
+            });
+
+            document.getElementById("liveTime").textContent = time;
+
+            document.getElementById("liveDate").textContent = date;
+
+            document.getElementById("liveDay").textContent =
+                day.substring(0, 3).toUpperCase();
+        }
+
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+
+
+
+
+        // js for greeting
+
+
+
+        /* SMART WELCOME */
+
+        function updateWelcome() {
+            const now = new Date();
+            const hour = now.getHours();
+
+            let greeting = "Good Evening";
+            let message = "Hope you are having a wonderful day!";
+
+            if (hour >= 5 && hour < 12) {
+                greeting = "Good Morning";
+                message = "Start your day with something productive!";
+            } else if (hour >= 12 && hour < 17) {
+                greeting = "Good Afternoon";
+                message = "Let's make your day more productive!";
+            } else if (hour >= 17 && hour < 21) {
+                greeting = "Good Evening";
+                message = "What would you like to explore today?";
+            } else {
+                greeting = "Good Night";
+                message = "A little productivity before you rest?";
+            }
+
+            document.getElementById("welcomeGreeting").textContent = greeting;
+            document.getElementById("welcomeMessage").textContent = message;
+
+            document.getElementById("welcomeFullDate").textContent =
+                now.toLocaleDateString("en-IN", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+        }
+
+
+        /* WEBSITE STATISTICS */
+
+        function updateWebsiteStats() {
+
+            // Count actual dashboard tool cards
+            const tools = document.querySelectorAll(".tool-card").length;
+
+            // Count unique categories from data-category attributes
+            const categoryValues = new Set();
+
+            document.querySelectorAll(".tool-card[data-category]").forEach(card => {
+                categoryValues.add(card.dataset.category.trim());
+            });
+
+            
+
+            document.getElementById("totalTools").textContent = tools;
+
+            document.getElementById("totalCategories").textContent =
+                categoryValues.size;
+
+            
+        }
+
+        updateWelcome();
+        updateWebsiteStats();
+
+
+       // LIVE VISITORS COUNTER
+
+(function () {
+    let visitors = 128;
+
+    function updateVisitors() {
+        const visitorElement = document.getElementById("liveVisitors");
+
+        if (!visitorElement) {
+            console.error("liveVisitors ID nahi mili!");
+            return;
+        }
+
+        const change = Math.floor(Math.random() * 11) - 5;
+
+        visitors += change;
+        visitors = Math.max(50, Math.min(250, visitors));
+
+        visitorElement.textContent = visitors;
+    }
+
+    updateVisitors();
+    setInterval(updateVisitors, 1500);
+})();
+
+
     </script>
 
 </body>

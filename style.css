@@ -1229,3 +1229,953 @@ body[data-theme="dark"] .why-section {
         animation-duration: .01ms !important;
     }
 }
+
+
+
+
+
+
+
+
+
+/* ==============================
+   SABKAMITRA PREMIUM PAGE LOADER
+============================== */
+
+#pageLoader {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #f8faff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#pageLoader.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-content {
+    text-align: center;
+    width: 280px;
+    animation: loaderAppear 0.8s ease;
+}
+
+/* Logo */
+
+.loader-logo {
+    width: 65px;
+    height: 65px;
+    margin: auto;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 30px;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
+    animation: logoFloat 2s ease-in-out infinite;
+}
+
+.loader-content h2 {
+    margin-top: 20px;
+    font-size: 29px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #172554;
+}
+
+.loader-content h2 span {
+    color: #2563eb;
+}
+
+.loader-subtitle {
+    font-size: 12px;
+    color: #8491a5;
+    margin-top: -5px;
+    letter-spacing: 0.5px;
+}
+
+/* Circular Animation */
+
+.loader-animation {
+    position: relative;
+    width: 75px;
+    height: 75px;
+    margin: 28px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-ring {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    border: 3px solid transparent;
+    border-top-color: #2563eb;
+    border-right-color: #7c3aed;
+    border-radius: 50%;
+    animation: spin 1.1s linear infinite;
+}
+
+.ring-two {
+    width: 43px;
+    height: 43px;
+    border-top-color: #93c5fd;
+    border-right-color: #2563eb;
+    animation: spinReverse 1.5s linear infinite;
+}
+
+.loader-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #2563eb;
+    box-shadow: 0 0 15px #2563eb;
+}
+
+/* Progress Bar */
+
+.loader-progress {
+    height: 5px;
+    width: 100%;
+    background: #e5eaf3;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.loader-progress-bar {
+    height: 100%;
+    width: 40%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #2563eb, #8b5cf6);
+    animation: loadingProgress 1.5s ease-in-out infinite;
+}
+
+.loading-text {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 14px;
+    animation: textBlink 1.5s ease-in-out infinite;
+}
+
+/* Animations */
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinReverse {
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes logoFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+@keyframes loadingProgress {
+    0% {
+        transform: translateX(-110%);
+    }
+
+    100% {
+        transform: translateX(260%);
+    }
+}
+
+@keyframes textBlink {
+    0%, 100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes loaderAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+
+
+
+/* clock  */ 
+
+/* =================================
+   SABKAMITRA LIVE DATE TIME WIDGET
+================================= */
+
+.datetime-widget {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 15px;
+    background: linear-gradient(135deg, #ffffff, #f0f5ff);
+    border: 1px solid #dbe5ff;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.07);
+    transition: 0.3s ease;
+}
+
+.datetime-widget:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.13);
+}
+
+.datetime-icon {
+    width: 39px;
+    height: 39px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white;
+    border-radius: 11px;
+    font-size: 19px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.datetime-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+#liveTime {
+    font-size: 17px;
+    font-weight: 800;
+    color: #172554;
+    letter-spacing: 0.5px;
+    font-variant-numeric: tabular-nums;
+}
+
+#liveDate {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.datetime-day {
+    background: #e9efff;
+    color: #2563eb;
+    padding: 7px 9px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 576px) {
+    .datetime-widget {
+        gap: 8px;
+        padding: 7px 9px;
+    }
+
+    .datetime-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+
+    #liveTime {
+        font-size: 14px;
+    }
+
+    #liveDate {
+        font-size: 10px;
+    }
+
+    .datetime-day {
+        padding: 6px;
+        font-size: 10px;
+    }
+}
+
+
+
+
+
+/* =====================================
+   SABKAMITRA DATE TIME - AUTO THEME
+===================================== */
+
+.datetime-widget {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 15px;
+
+    background: var(--datetime-bg, #f0f5ff);
+    border: 1px solid var(--datetime-border, #dbe5ff);
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.07);
+    transition: 0.3s ease;
+}
+
+.datetime-widget:hover {
+    transform: translateY(-3px);
+}
+
+.datetime-icon {
+    width: 39px;
+    height: 39px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: #ffffff;
+
+    border-radius: 11px;
+    font-size: 19px;
+}
+
+.datetime-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+#liveTime {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--datetime-text, #172554);
+    letter-spacing: 0.5px;
+    font-variant-numeric: tabular-nums;
+}
+
+#liveDate {
+    font-size: 11px;
+    color: var(--datetime-muted, #64748b);
+    font-weight: 500;
+}
+
+.datetime-day {
+    background: var(--datetime-day-bg, #e9efff);
+    color: var(--datetime-day-text, #2563eb);
+    padding: 7px 9px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* DARK THEME */
+
+[data-theme="dark"] .datetime-widget,
+.dark-mode .datetime-widget,
+body.dark .datetime-widget {
+    --datetime-bg: #182235;
+    --datetime-border: #2d3b52;
+    --datetime-text: #f1f5f9;
+    --datetime-muted: #a5b4c8;
+    --datetime-day-bg: #25375a;
+    --datetime-day-text: #93b4ff;
+
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* LIGHT THEME */
+
+[data-theme="light"] .datetime-widget,
+.light-mode .datetime-widget,
+body.light .datetime-widget {
+    --datetime-bg: #f0f5ff;
+    --datetime-border: #dbe5ff;
+    --datetime-text: #172554;
+    --datetime-muted: #64748b;
+    --datetime-day-bg: #e9efff;
+    --datetime-day-text: #2563eb;
+}
+
+/* SYSTEM DARK MODE FALLBACK */
+
+@media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]):not(.light-mode):not(.dark):not([data-theme="dark"]) .datetime-widget {
+        --datetime-bg: #182235;
+        --datetime-border: #2d3b52;
+        --datetime-text: #f1f5f9;
+        --datetime-muted: #a5b4c8;
+        --datetime-day-bg: #25375a;
+        --datetime-day-text: #93b4ff;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 576px) {
+    .datetime-widget {
+        gap: 8px;
+        padding: 7px 9px;
+    }
+
+    .datetime-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+
+    #liveTime {
+        font-size: 14px;
+    }
+
+    #liveDate {
+        font-size: 10px;
+    }
+
+    .datetime-day {
+        padding: 6px;
+        font-size: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* greeting */
+
+
+
+
+/* =====================================
+   SMART WELCOME SECTION
+===================================== */
+
+.welcome-section {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 210px;
+    padding: 32px 38px;
+    margin-bottom: 28px;
+    border-radius: 22px;
+
+    background: linear-gradient(120deg, #eaf1ff, #f4edff);
+    border: 1px solid #dce5ff;
+    color: #172554;
+}
+
+.welcome-content {
+    position: relative;
+    z-index: 2;
+}
+
+.welcome-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #526a9c;
+    margin-bottom: 14px;
+}
+
+.welcome-dot,
+.stats-live-dot {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #22c55e;
+}
+
+.welcome-section h1 {
+    font-size: clamp(27px, 4vw, 38px);
+    font-weight: 850;
+    letter-spacing: -1.5px;
+    margin: 0 0 8px;
+    color: #172554;
+}
+
+.welcome-wave {
+    display: inline-block;
+    animation: welcomeWave 2s infinite;
+    transform-origin: 70% 70%;
+}
+
+.welcome-section p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.welcome-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.7);
+    color: #405780;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Decorative Elements */
+
+.welcome-decoration {
+    position: absolute;
+    right: 65px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 170px;
+    height: 170px;
+}
+
+.welcome-circle {
+    position: absolute;
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: 50%;
+}
+
+.circle-one {
+    width: 145px;
+    height: 145px;
+    top: 10px;
+    left: 10px;
+    animation: circleRotate 15s linear infinite;
+}
+
+.circle-two {
+    width: 105px;
+    height: 105px;
+    top: 30px;
+    left: 30px;
+    border-style: dashed;
+    animation: circleRotate 12s linear infinite reverse;
+}
+
+.welcome-star {
+    position: absolute;
+    top: 23px;
+    right: 20px;
+    font-size: 24px;
+    color: #8b5cf6;
+    animation: starPulse 2s infinite;
+}
+
+.welcome-rocket {
+    position: absolute;
+    font-size: 58px;
+    color: #4f46e5;
+    top: 55px;
+    left: 55px;
+    transform: rotate(-15deg);
+}
+
+/* =====================================
+   WEBSITE STATISTICS
+===================================== */
+
+.stats-section {
+    margin-bottom: 32px;
+}
+
+.stats-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.stats-heading h4 {
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0 0 5px;
+    color: var(--text-color, inherit);
+}
+
+.stats-heading p {
+    font-size: 12px;
+    color: var(--muted-text, #8491a5);
+    margin: 0;
+}
+
+.stats-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #16a34a;
+    background: rgba(34,197,94,0.09);
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.stats-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 16px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    transition: 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+}
+
+.stats-icon {
+    width: 47px;
+    height: 47px;
+    min-width: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    font-size: 21px;
+}
+
+.tools-icon {
+    background: #eaf1ff;
+    color: #2563eb;
+}
+
+.category-icon {
+    background: #f2eaff;
+    color: #8b5cf6;
+}
+
+.new-icon {
+    background: #e5f9ef;
+    color: #16a34a;
+}
+
+.stats-card h3 {
+    font-size: 27px;
+    font-weight: 850;
+    margin: 0;
+    color: var(--text-color, #172554);
+}
+
+.stats-card p {
+    font-size: 12px;
+    margin: 3px 0 0;
+    color: var(--muted-text, #8491a5);
+}
+
+/* =====================================
+   DARK MODE
+===================================== */
+
+[data-theme="dark"] .welcome-section,
+.dark-mode .welcome-section,
+body.dark .welcome-section {
+    background: linear-gradient(120deg, #17243b, #252044);
+    border-color: #35415e;
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .welcome-section h1,
+.dark-mode .welcome-section h1,
+body.dark .welcome-section h1 {
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .welcome-section p,
+.dark-mode .welcome-section p,
+body.dark .welcome-section p {
+    color: #aab8d0;
+}
+
+[data-theme="dark"] .welcome-date,
+.dark-mode .welcome-date,
+body.dark .welcome-date {
+    background: rgba(255,255,255,0.08);
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .stats-card,
+.dark-mode .stats-card,
+body.dark .stats-card {
+    --card-bg: #182235;
+    --border-color: #2d3b52;
+    --text-color: #f1f5f9;
+    --muted-text: #a5b4c8;
+}
+
+/* Animations */
+
+@keyframes welcomeWave {
+    0%, 60%, 100% { transform: rotate(0); }
+    10%, 30% { transform: rotate(14deg); }
+    20%, 40% { transform: rotate(-8deg); }
+}
+
+@keyframes circleRotate {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes starPulse {
+    0%, 100% { opacity: 0.5; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 650px) {
+    .welcome-section {
+        min-height: 190px;
+        padding: 25px 20px;
+    }
+
+    .welcome-decoration {
+        right: -65px;
+        opacity: 0.25;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .stats-card {
+        padding: 15px;
+    }
+}
+
+
+
+
+
+
+
+
+/* SABKAMITRA ANIMATED HERO VISUAL */
+
+.sm-visual {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    height: 500px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+}
+
+.sm-glow {
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    background: #5145ff;
+    filter: blur(110px);
+    opacity: .35;
+    z-index: -1;
+    animation: smGlow 4s ease-in-out infinite alternate;
+}
+
+.sm-center {
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #252e50, #121b35);
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: 0 0 60px rgba(86,75,255,.35),
+                inset 0 0 35px rgba(255,255,255,.04);
+    z-index: 3;
+    animation: smFloat 4s ease-in-out infinite;
+}
+
+.sm-center > i {
+    font-size: 45px;
+    color: #a99cff;
+    margin-bottom: 12px;
+}
+
+.sm-center h3 {
+    color: #fff;
+    font-weight: 800;
+    font-size: 23px;
+    margin: 0;
+}
+
+.sm-center span {
+    color: #aab5d4;
+    font-size: 10px;
+    margin-top: 8px;
+}
+
+.sm-orbit {
+    position: absolute;
+    border: 1px solid rgba(128,135,255,.25);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.sm-orbit-one {
+    width: 330px;
+    height: 330px;
+    animation: smRotate 18s linear infinite;
+}
+
+.sm-orbit-two {
+    width: 430px;
+    height: 430px;
+    border-style: dashed;
+    animation: smRotate 28s linear infinite reverse;
+}
+
+.sm-orbit-three {
+    width: 500px;
+    height: 500px;
+    border-color: rgba(0,200,255,.12);
+    animation: smRotate 35s linear infinite;
+}
+
+.sm-float {
+    position: absolute;
+    width: 145px;
+    padding: 18px 12px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 17px;
+    background: rgba(35,45,72,.88);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 15px 35px rgba(0,0,0,.22);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    z-index: 4;
+}
+
+.sm-float i {
+    font-size: 25px;
+    color: #a99cff;
+}
+
+.sm-float-one {
+    top: 55px;
+    left: 5%;
+    animation: smFloat 4s ease-in-out infinite;
+}
+
+.sm-float-two {
+    top: 65px;
+    right: 0;
+    animation: smFloat 5s ease-in-out infinite 1s;
+}
+
+.sm-float-three {
+    bottom: 70px;
+    left: 0;
+    animation: smFloat 5s ease-in-out infinite .5s;
+}
+
+.sm-float-four {
+    bottom: 55px;
+    right: 2%;
+    animation: smFloat 4s ease-in-out infinite 1.5s;
+}
+
+.sm-badge {
+    position: absolute;
+    padding: 11px 16px;
+    background: #303c5b;
+    border: 1px solid rgba(255,255,255,.15);
+    color: #e5e9ff;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    z-index: 5;
+}
+
+.sm-badge-one {
+    top: 5px;
+    right: 15%;
+    animation: smFloat 4s ease-in-out infinite;
+}
+
+.sm-badge-two {
+    bottom: 10px;
+    left: 15%;
+    animation: smFloat 4s ease-in-out infinite 1s;
+}
+
+@keyframes smFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-13px); }
+}
+
+@keyframes smRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes smGlow {
+    from { opacity: .22; transform: scale(.85); }
+    to { opacity: .48; transform: scale(1.15); }
+}
+
+@media(max-width: 768px) {
+    .sm-visual {
+        height: 390px;
+        transform: scale(.82);
+        margin-top: -15px;
+        margin-bottom: -20px;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .sm-visual * {
+        animation: none !important;
+    }
+}
