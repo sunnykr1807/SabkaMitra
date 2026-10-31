@@ -89,6 +89,9 @@
                     <li><a class="nav-link active" href="#home">Home</a></li>
                     <li><a class="nav-link" href="#tools">Explore Tools</a></li>
                     <li><a class="nav-link" href="#why-us">About</a></li>
+                    <li><a class="nav-link" href="reviews.html">
+                            <i class="bi bi-star-fill me-1"></i> Reviews
+                        </a></li>
                     <li>
                         <button id="themeToggle" class="theme-toggle">
                             <i class="bi bi-moon-stars"></i><span>Dark mode</span>
@@ -128,6 +131,9 @@
                     <a href="#why-us" class="btn btn-quiet btn-lg">
                         Discover SabkaMitra <i class="bi bi-arrow-up-right"></i>
                     </a>
+                    <a href="reviews.html" class="btn btn-quiet btn-lg">
+                        <i class="bi bi-star-fill me-2"></i> Give a Review
+                    </a>
                 </div>
 
                 <div class="hero-trust">
@@ -142,54 +148,54 @@
 
 
 
-<div class="sm-visual">
+            <div class="sm-visual">
 
-    <div class="sm-orbit sm-orbit-one"></div>
-    <div class="sm-orbit sm-orbit-two"></div>
-    <div class="sm-orbit sm-orbit-three"></div>
+                <div class="sm-orbit sm-orbit-one"></div>
+                <div class="sm-orbit sm-orbit-two"></div>
+                <div class="sm-orbit sm-orbit-three"></div>
 
-    <div class="sm-glow"></div>
+                <div class="sm-glow"></div>
 
-    <div class="sm-center">
-        <i class="bi bi-stars"></i>
-        <h3>SabkaMitra</h3>
-        <span>Everything in one place</span>
-    </div>
+                <div class="sm-center">
+                    <i class="bi bi-stars"></i>
+                    <h3>SabkaMitra</h3>
+                    <span>Everything in one place</span>
+                </div>
 
-    <div class="sm-float sm-float-one">
-        <i class="bi bi-file-earmark-pdf"></i>
-        <span>PDF Tools</span>
-    </div>
+                <div class="sm-float sm-float-one">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    <span>PDF Tools</span>
+                </div>
 
-    <div class="sm-float sm-float-two">
-        <i class="bi bi-image"></i>
-        <span>Image Editor</span>
-    </div>
+                <div class="sm-float sm-float-two">
+                    <i class="bi bi-image"></i>
+                    <span>Image Editor</span>
+                </div>
 
-    <div class="sm-float sm-float-three">
-        <i class="bi bi-file-earmark-person"></i>
-        <span>Resume Maker</span>
-    </div>
+                <div class="sm-float sm-float-three">
+                    <i class="bi bi-file-earmark-person"></i>
+                    <span>Resume Maker</span>
+                </div>
 
-    <div class="sm-float sm-float-four">
-        <i class="bi bi-file-earmark-text"></i>
-        <span>Documents</span>
-    </div>
+                <div class="sm-float sm-float-four">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Documents</span>
+                </div>
 
-    <div class="sm-badge sm-badge-one">
-        <i class="bi bi-lightning-charge-fill"></i> Fast & Easy
-    </div>
+                <div class="sm-badge sm-badge-one">
+                    <i class="bi bi-lightning-charge-fill"></i> Fast & Easy
+                </div>
 
-    <div class="sm-badge sm-badge-two">
-        <i class="bi bi-shield-check"></i> Privacy First
-    </div>
+                <div class="sm-badge sm-badge-two">
+                    <i class="bi bi-shield-check"></i> Privacy First
+                </div>
 
-</div>
+            </div>
 
         </div>
     </section>
 
-    
+
 
     <!-- TOOLS -->
     <section class="tools-section section-space" id="tools">
@@ -201,7 +207,7 @@
                     <h2>What would you like to <span>do today?</span></h2>
                     <p>Pick a tool and get things done in just a few clicks.</p>
                 </div>
-                <div class="tool-count"><span id="visibleCount">12</span> tools available</div>
+                <div class="tool-count"><span id="visibleCount">16+</span> tools available</div>
             </div>
 
             <div class="tool-controls">
@@ -274,11 +280,11 @@
 
                 <div class="stats-grid">
 
-                   <div class="stat-card">
-    <i class="bi bi-people-fill"></i>
-    <h3 id="liveVisitors">128</h3>
-    <p>Live Visitors</p>
-</div>
+                    <div class="stat-card">
+                        <i class="bi bi-people-fill"></i>
+                        <h3 id="liveVisitors">128</h3>
+                        <p>Live Visitors</p>
+                    </div>
 
                     <!-- Total Tools -->
                     <div class="stats-card">
@@ -304,7 +310,7 @@
                         </div>
                     </div>
 
-                  
+
 
                 </div>
 
@@ -443,6 +449,14 @@
                     <span class="tool-icon icon-violet"><i class="bi bi-calculator"></i></span>
                     <span class="tool-card-content"><strong>Countdown Calculator</strong><small>Calculate time remaining
                             until a specific date and time.</small></span>
+                    <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
+                </a>
+
+
+                <a class="tool-card" href="tools/barcode-generator.html" data-category="image"
+                    data-name="barcode generator scanner">
+                    <span class="tool-icon icon-violet"><i class="bi bi-calculator"></i></span>
+                    <span class="tool-card-content"><strong>Barcode Generator</strong><small>Generate, download and scan barcodes.</small></span>
                     <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
                 </a>
 
@@ -756,44 +770,44 @@
                 categoryValues.add(card.dataset.category.trim());
             });
 
-            
+
 
             document.getElementById("totalTools").textContent = tools;
 
             document.getElementById("totalCategories").textContent =
                 categoryValues.size;
 
-            
+
         }
 
         updateWelcome();
         updateWebsiteStats();
 
 
-       // LIVE VISITORS COUNTER
+        // LIVE VISITORS COUNTER
 
-(function () {
-    let visitors = 128;
+        (function () {
+            let visitors = 128;
 
-    function updateVisitors() {
-        const visitorElement = document.getElementById("liveVisitors");
+            function updateVisitors() {
+                const visitorElement = document.getElementById("liveVisitors");
 
-        if (!visitorElement) {
-            console.error("liveVisitors ID nahi mili!");
-            return;
-        }
+                if (!visitorElement) {
+                    console.error("liveVisitors ID nahi mili!");
+                    return;
+                }
 
-        const change = Math.floor(Math.random() * 11) - 5;
+                const change = Math.floor(Math.random() * 11) - 5;
 
-        visitors += change;
-        visitors = Math.max(50, Math.min(250, visitors));
+                visitors += change;
+                visitors = Math.max(50, Math.min(250, visitors));
 
-        visitorElement.textContent = visitors;
-    }
+                visitorElement.textContent = visitors;
+            }
 
-    updateVisitors();
-    setInterval(updateVisitors, 1500);
-})();
+            updateVisitors();
+            setInterval(updateVisitors, 1500);
+        })();
 
 
     </script>

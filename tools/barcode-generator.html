@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barcode Generator & Scanner | SabkaMitra</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+<style>
+:root {
+    --primary: #7055df;
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --text: #202238;
+    --muted: #777b91;
+    --border: #e8e8f0;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "DM Sans", Arial, sans-serif;
+}
+.topbar {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 15px 0;
+}
+.brand {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 21px;
+    font-weight: 800;
+}
+.brand span { color: var(--primary); }
+.back-link {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600;
+}
+.hero { padding: 42px 0 25px; text-align: center; }
+.hero-icon {
+    width: 65px; height: 65px;
+    border-radius: 20px;
+    background: #ece8ff;
+    color: var(--primary);
+    display: grid; place-items: center;
+    font-size: 29px;
+    margin: 0 auto 15px;
+}
+.hero h1 { font-size: clamp(27px, 5vw, 38px); font-weight: 800; }
+.hero h1 span { color: var(--primary); }
+.hero p { color: var(--muted); }
+.main-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 25px;
+    height: 100%;
+    box-shadow: 0 8px 30px rgba(30,30,60,.04);
+}
+.card-heading {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+.subheading { color: var(--muted); font-size: 14px; margin-bottom: 23px; }
+.form-label { font-weight: 700; font-size: 14px; }
+.form-control, .form-select {
+    padding: 12px 14px;
+    border-radius: 11px;
+    border-color: var(--border);
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(112,85,223,.12);
+}
+.btn-main {
+    background: var(--primary);
+    color: white;
+    border: 0;
+    border-radius: 11px;
+    padding: 12px 18px;
+    font-weight: 700;
+}
+.btn-main:hover { background: #5d43ca; color: white; }
+.btn-outline-main {
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    border-radius: 11px;
+    padding: 10px 16px;
+    font-weight: 700;
+}
+.btn-outline-main:hover { background: var(--primary); color: white; }
+.barcode-preview {
+    min-height: 190px;
+    border: 1px dashed #d8d4eb;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px 0;
+    overflow: hidden;
+    background: #fff;
+}
+#barcode {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 100px;
+    overflow: visible;
+}
+.placeholder { color: #a3a3b3; text-align: center; }
+.placeholder i { font-size: 35px; display: block; margin-bottom: 10px; }
+.action-row { display: flex; flex-wrap: wrap; gap: 10px; }
+#reader {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+#reader video { border-radius: 12px; }
+.scan-result {
+    background: #f0edff;
+    color: #4933a8;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 16px;
+    overflow-wrap: anywhere;
+    display: none;
+}
+.scan-result strong { display: block; margin-bottom: 6px; }
+.status-message { font-size: 13px; margin-top: 12px; }
+footer { text-align: center; padding: 30px 10px; color: var(--muted); font-size: 13px; }
+@media(max-width:576px) {
+    .main-card { padding: 19px; }
+    .hero { padding-top: 30px; }
+}
+@media print {
+    body * { visibility: hidden; }
+    #barcode, #barcode * { visibility: visible; }
+    #barcode {
+        position: absolute; left: 0; top: 40px;
+        width: 100%; max-width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a href="../index.html" class="brand">
+            <i class="bi bi-grid-1x2-fill"></i> Sabka<span>Mitra</span>
+        </a>
+        <a href="../index.html" class="back-link">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</nav>
+
+<header class="hero container">
+    <div class="hero-icon"><i class="bi bi-upc-scan"></i></div>
+    <h1>Barcode <span>Generator & Scanner</span></h1>
+    <p>Create, download and scan barcodes directly from your device.</p>
+</header>
+
+<main class="container pb-5">
+    <div class="row g-4">
+
+        <!-- GENERATOR -->
+        <div class="col-lg-6">
+            <section class="main-card">
+                <div class="card-heading">
+                    <i class="bi bi-magic text-primary me-2"></i>Generate Barcode
+                </div>
+                <p class="subheading">Enter your text or product number to create a barcode.</p>
+
+                <label class="form-label" for="barcodeType">Barcode format</label>
+                <select class="form-select mb-3" id="barcodeType">
+                    <option value="CODE128">CODE 128 (Text & Numbers)</option>
+                    <option value="EAN13">EAN-13 (Product Barcode)</option>
+                    <option value="UPC">UPC-A (Product Barcode)</option>
+                    <option value="CODE39">CODE 39</option>
+                    <option value="ITF14">ITF-14</option>
+                    <option value="EAN8">EAN-8</option>
+                </select>
+
+                <label class="form-label" for="barcodeText">Enter value</label>
+                <input type="text" id="barcodeText" class="form-control"
+                       placeholder="Example: SM2026001" maxlength="80">
+
+                <div class="form-text mb-3" id="inputHint">
+                    CODE 128 supports letters and numbers.
+                </div>
+
+                <button class="btn btn-main w-100" id="generateBtn">
+                    <i class="bi bi-upc me-2"></i>Generate Barcode
+                </button>
+
+                <div class="barcode-preview">
+                    <div class="placeholder" id="barcodePlaceholder">
+                        <i class="bi bi-upc"></i>
+                        Your barcode will appear here
+                    </div>
+                    <svg id="barcode" hidden></svg>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn btn-outline-main flex-grow-1" id="downloadBtn" disabled>
+                        <i class="bi bi-download me-1"></i>Download PNG
+                    </button>
+                    <button class="btn btn-outline-main flex-grow-1" id="printBtn" disabled>
+                        <i class="bi bi-printer me-1"></i>Print
+                    </button>
+                </div>
+
+                <div id="generateStatus" class="status-message" aria-live="polite"></div>
+            </section>
+        </div>
+
+        <!-- SCANNER -->
+        <div class="col-lg-6">
+            <section class="main-card">
+                <div class="card-heading">
+                    <i class="bi bi-camera text-primary me-2"></i>Scan Barcode
+                </div>
+                <p class="subheading">Use your phone camera or laptop webcam to scan a barcode.</p>
+
+                <div class="d-grid gap-2 mb-3">
+                    <button class="btn btn-main" id="startScanBtn">
+                        <i class="bi bi-camera-video me-2"></i>Start Camera Scanner
+                    </button>
+                    <button class="btn btn-outline-main" id="stopScanBtn" disabled>
+                        <i class="bi bi-stop-circle me-2"></i>Stop Scanner
+                    </button>
+                </div>
+
+                <div id="reader"></div>
+
+                <div class="scan-result" id="scanResult" aria-live="polite">
+                    <strong><i class="bi bi-check-circle-fill me-1"></i> Barcode detected</strong>
+                    <span id="scanValue"></span>
+                    <div class="action-row mt-3">
+                        <button class="btn btn-sm btn-main" id="copyScanBtn">
+                            <i class="bi bi-copy me-1"></i>Copy Result
+                        </button>
+                    </div>
+                </div>
+
+                <div class="status-message text-secondary" id="scanStatus" aria-live="polite">
+                    Camera permission is required to scan.
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-4 text-secondary small">
+        <i class="bi bi-shield-check me-1"></i>
+        Barcode generation happens in your browser. Camera access is used only while scanning.
+    </div>
+</main>
+
+<footer>
+    © 2026 SabkaMitra. Made with care for everyone.
+</footer>
+
+<script>
+const barcodeType = document.getElementById("barcodeType");
+const barcodeText = document.getElementById("barcodeText");
+const barcodeSvg = document.getElementById("barcode");
+const placeholder = document.getElementById("barcodePlaceholder");
+const generateStatus = document.getElementById("generateStatus");
+const downloadBtn = document.getElementById("downloadBtn");
+const printBtn = document.getElementById("printBtn");
+
+let generated = false;
+
+const hints = {
+    CODE128: "Letters and numbers are supported.",
+    EAN13: "Enter exactly 12 or 13 digits.",
+    UPC: "Enter exactly 11 or 12 digits.",
+    CODE39: "Use capital letters, numbers and - . $ / + % space.",
+    ITF14: "Enter exactly 13 or 14 digits.",
+    EAN8: "Enter exactly 7 or 8 digits."
+};
+
+barcodeType.addEventListener("change", () => {
+    document.getElementById("inputHint").textContent = hints[barcodeType.value];
+    clearBarcode();
+});
+
+function clearBarcode() {
+    barcodeSvg.hidden = true;
+    barcodeSvg.innerHTML = "";
+    placeholder.hidden = false;
+    generated = false;
+    downloadBtn.disabled = true;
+    printBtn.disabled = true;
+    generateStatus.textContent = "";
+}
+
+document.getElementById("generateBtn").addEventListener("click", () => {
+    const value = barcodeText.value.trim();
+    const format = barcodeType.value;
+
+    if (!value) {
+        generateStatus.className = "status-message text-danger";
+        generateStatus.textContent = "Please enter a value first.";
+        return;
+    }
+
+    try {
+        JsBarcode(barcodeSvg, value, {
+            format: format,
+            lineColor: "#111111",
+            background: "#ffffff",
+            width: 2,
+            height: 90,
+            displayValue: true,
+            fontSize: 16,
+            margin: 12
+        });
+
+       barcodeSvg.removeAttribute("hidden");
+barcodeSvg.style.display = "block";
+barcodeSvg.style.visibility = "visible";
+
+placeholder.style.display = "none";
+
+barcodeSvg.setAttribute("width", "100%");
+barcodeSvg.style.maxWidth = "100%";
+
+generated = true;
+        downloadBtn.disabled = false;
+        printBtn.disabled = false;
+
+        generateStatus.className = "status-message text-success";
+        generateStatus.textContent = "Barcode generated successfully!";
+    } catch (error) {
+        clearBarcode();
+        generateStatus.className = "status-message text-danger";
+        generateStatus.textContent = "Invalid value for " + format + ". Please check the required format.";
+    }
+});
+
+downloadBtn.addEventListener("click", () => {
+    if (!generated) return;
+
+    const svgData = new XMLSerializer().serializeToString(barcodeSvg);
+    const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+    const img = new Image();
+
+    img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width * 2;
+        canvas.height = img.height * 2;
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const link = document.createElement("a");
+        link.download = "sabkamitra-barcode.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+        URL.revokeObjectURL(url);
+    };
+
+    img.onerror = () => {
+        URL.revokeObjectURL(url);
+        alert("Could not download the barcode. Please try again.");
+    };
+
+    img.src = url;
+});
+
+printBtn.addEventListener("click", () => {
+    if (generated) window.print();
+});
+
+// SCANNER
+let scanner = null;
+let scanning = false;
+
+const startScanBtn = document.getElementById("startScanBtn");
+const stopScanBtn = document.getElementById("stopScanBtn");
+const scanStatus = document.getElementById("scanStatus");
+const scanResult = document.getElementById("scanResult");
+
+const supportedFormats = [
+    Html5QrcodeSupportedFormats.CODE_128,
+    Html5QrcodeSupportedFormats.CODE_39,
+    Html5QrcodeSupportedFormats.CODE_93,
+    Html5QrcodeSupportedFormats.EAN_13,
+    Html5QrcodeSupportedFormats.EAN_8,
+    Html5QrcodeSupportedFormats.UPC_A,
+    Html5QrcodeSupportedFormats.UPC_E,
+    Html5QrcodeSupportedFormats.ITF,
+    Html5QrcodeSupportedFormats.CODABAR,
+    Html5QrcodeSupportedFormats.QR_CODE
+];
+
+startScanBtn.addEventListener("click", async () => {
+    if (scanning) return;
+
+    if (!window.isSecureContext) {
+        scanStatus.textContent = "Camera scanning requires HTTPS or localhost.";
+        return;
+    }
+
+    try {
+        scanStatus.textContent = "Starting camera... Please allow camera permission.";
+
+        scanner = new Html5Qrcode("reader", {
+            formatsToSupport: supportedFormats,
+            verbose: false
+        });
+
+        await scanner.start(
+            { facingMode: "environment" },
+            {
+                fps: 10,
+                qrbox: { width: 260, height: 150 },
+                aspectRatio: 1.5
+            },
+            (decodedText, decodedResult) => {
+                document.getElementById("scanValue").textContent = decodedText;
+                scanResult.style.display = "block";
+                scanStatus.textContent = "Barcode scanned successfully!";
+                stopScanner();
+            },
+            () => {}
+        );
+
+        scanning = true;
+        startScanBtn.disabled = true;
+        stopScanBtn.disabled = false;
+        scanStatus.textContent = "Point your camera at a barcode.";
+    } catch (error) {
+        scanStatus.textContent = "Could not access camera. Check permission and ensure no other app is using it.";
+        console.error(error);
+        if (scanner) {
+            try { await scanner.clear(); } catch (e) {}
+            scanner = null;
+        }
+    }
+});
+
+async function stopScanner() {
+    if (!scanner || !scanning) return;
+
+    try {
+        await scanner.stop();
+        await scanner.clear();
+    } catch (error) {
+        console.warn(error);
+    }
+
+    scanner = null;
+    scanning = false;
+    startScanBtn.disabled = false;
+    stopScanBtn.disabled = true;
+}
+
+stopScanBtn.addEventListener("click", stopScanner);
+
+document.getElementById("copyScanBtn").addEventListener("click", async () => {
+    const value = document.getElementById("scanValue").textContent;
+    try {
+        await navigator.clipboard.writeText(value);
+        scanStatus.textContent = "Scanned result copied!";
+    } catch (error) {
+        scanStatus.textContent = "Copy failed. Please select and copy the result manually.";
+    }
+});
+
+window.addEventListener("beforeunload", () => {
+    if (scanner && scanning) scanner.stop();
+});
+</script>
+
+</body>
+</html>

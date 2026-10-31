@@ -1,286 +1,343 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Generator | SabkaMitra</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Studio | SabkaMitra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box
+        }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+        body {
+            margin: 0;
+            background: #f4f6fb;
+            color: #172033;
+            font-family: Inter, Arial, sans-serif
+        }
 
-<style>
-* { box-sizing: border-box; }
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #e8edf5;
+            padding: 15px 0
+        }
 
-body {
-    margin: 0;
-    background: #f5f7fb;
-    color: #202938;
-    font-family: Arial, sans-serif;
-}
+        .brand {
+            font-size: 22px;
+            font-weight: 800;
+            color: #172033;
+            text-decoration: none
+        }
 
-.navbar {
-    background: white;
-    border-bottom: 1px solid #e8ebf1;
-    padding: 17px 0;
-}
+        .brand span {
+            color: #4f46e5
+        }
 
-.brand {
-    font-size: 23px;
-    font-weight: 700;
-    color: #202938;
-    text-decoration: none;
-}
+        .main {
+            max-width: 1160px;
+            margin: 38px auto;
+            padding: 0 16px
+        }
 
-.brand span { color: #2563eb; }
+        .hero {
+            text-align: center;
+            margin-bottom: 28px
+        }
 
-.main {
-    max-width: 1050px;
-    margin: 55px auto;
-    padding: 0 18px;
-}
+        .hero h1 {
+            font-weight: 850;
+            letter-spacing: -1px
+        }
 
-.heading { text-align: center; margin-bottom: 35px; }
+        .hero p,
+        .helper {
+            color: #64748b
+        }
 
-.heading h1 {
-    font-size: 36px;
-    font-weight: 750;
-}
+        .panel {
+            background: #fff;
+            border: 1px solid #e5eaf2;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 12px 35px rgba(20, 35, 70, .05)
+        }
 
-.heading p { color: #64748b; }
+        .form-label {
+            font-weight: 700;
+            font-size: 14px
+        }
 
-.tool-box {
-    background: white;
-    border: 1px solid #e7eaf0;
-    border-radius: 18px;
-    padding: 30px;
-    box-shadow: 0 10px 35px rgba(0,0,0,.04);
-}
+        .form-control,
+        .form-select {
+            border-radius: 10px;
+            padding: 11px;
+            border-color: #dce3ee
+        }
 
-.form-label { font-weight: 600; }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px #4f46e51a
+        }
 
-.form-control, .form-select {
-    padding: 12px;
-    border-radius: 9px;
-}
+        .section-label {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin: 20px 0 10px
+        }
 
-.form-control:focus, .form-select:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37,99,235,.1);
-}
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 9px
+        }
 
-.btn-generate {
-    background: #2563eb;
-    color: white;
-    padding: 13px 25px;
-    border-radius: 9px;
-    font-weight: 600;
-    border: none;
-}
+        .template {
+            border: 1px solid #dce3ee;
+            background: #fff;
+            border-radius: 12px;
+            padding: 10px 5px;
+            font-size: 12px;
+            font-weight: 700
+        }
 
-.btn-generate:hover {
-    background: #1d4ed8;
-    color: white;
-}
+        .template.active {
+            border: 2px solid #4f46e5;
+            background: #eef2ff;
+            color: #3730a3
+        }
 
-.qr-result {
-    background: #f8fafc;
-    border: 1px dashed #cbd5e1;
-    border-radius: 15px;
-    min-height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-    flex-direction: column;
-}
+        .swatch {
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 6px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 1px #dbe1eb
+        }
 
-#qrcode {
-    background: white;
-    padding: 12px;
-    border-radius: 8px;
-    min-height: 0;
-}
+        .btn-main {
+            background: #4f46e5;
+            color: white;
+            border: 0;
+            border-radius: 11px;
+            padding: 13px 18px;
+            font-weight: 750
+        }
 
-#qrcode img, #qrcode canvas {
-    max-width: 100%;
-    height: auto !important;
-}
+        .btn-main:hover {
+            background: #4338ca;
+            color: white
+        }
 
-#downloadBtn { display: none; }
+        .preview-wrap {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 18px;
+            min-height: 390px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column
+        }
 
-.footer {
-    text-align: center;
-    padding: 25px;
-    color: #64748b;
-}
+        #qrPreview {
+            background: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            max-width: 100%;
+            overflow: hidden
+        }
 
-@media(max-width: 600px) {
-    .heading h1 { font-size: 28px; }
-    .tool-box { padding: 18px; }
-}
-</style>
+        #qrPreview canvas,
+        #qrPreview svg {
+            max-width: 100%;
+            height: auto
+        }
+
+        #emptyState {
+            color: #94a3b8;
+            text-align: center
+        }
+
+        #downloadBtn:disabled {
+            opacity: .5
+        }
+
+        .footer {
+            text-align: center;
+            color: #64748b;
+            padding: 26px 10px;
+            font-size: 13px
+        }
+
+        .logo-preview {
+            width: 46px;
+            height: 46px;
+            object-fit: contain;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            padding: 3px;
+            background: #fff;
+            display: none
+        }
+
+        .helper {
+            font-size: 12px
+        }
+
+        @media(max-width:767px) {
+            .main {
+                margin: 25px auto
+            }
+
+            .panel {
+                padding: 17px
+            }
+
+            .preview-wrap {
+                min-height: 330px
+            }
+
+            .template-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-<nav class="navbar">
-    <div class="container">
-        <a href="../index.html" class="brand">
-            <i class="bi bi-grid-fill"></i>
-            Sabka<span>Mitra</span>
-        </a>
-        <a href="../index.html" class="btn btn-outline-primary btn-sm">
-            <i class="bi bi-house"></i> Home
-        </a>
-    </div>
-</nav>
-
-<main class="main">
-
-    <div class="heading">
-        <h1><i class="bi bi-qr-code text-primary"></i> QR Code Generator</h1>
-        <p>Create and download your own QR code instantly.</p>
-    </div>
-
-    <div class="tool-box">
-        <div class="row g-4">
-
-            <div class="col-lg-6">
-
-                <label class="form-label">Enter Text or Website URL</label>
-
-                <textarea id="qrText" class="form-control mb-3"
-                rows="5" placeholder="https://example.com"></textarea>
-
-                <label class="form-label">QR Code Size</label>
-
-                <select id="qrSize" class="form-select mb-3">
-                    <option value="200">200 × 200</option>
-                    <option value="300" selected>300 × 300</option>
-                    <option value="400">400 × 400</option>
-                    <option value="500">500 × 500</option>
-                </select>
-
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <label class="form-label">QR Color</label>
-                        <input type="color" id="darkColor"
-                        class="form-control form-control-color w-100"
-                        value="#000000">
-                    </div>
-
-                    <div class="col-6">
-                        <label class="form-label">Background</label>
-                        <input type="color" id="lightColor"
-                        class="form-control form-control-color w-100"
-                        value="#ffffff">
-                    </div>
-                </div>
-
-                <button class="btn-generate w-100" id="generateBtn">
-                    <i class="bi bi-magic"></i> Generate QR Code
-                </button>
-
-                <div id="message" class="small mt-3 text-danger"></div>
-
-            </div>
-
-            <div class="col-lg-6">
-
-                <h5 class="fw-bold mb-3">Your QR Code</h5>
-
-                <div class="qr-result">
-                    <div id="placeholder" class="text-center text-secondary">
-                        <i class="bi bi-qr-code display-1"></i>
-                        <p class="mt-2 mb-0">Your QR code will appear here</p>
-                    </div>
-
-                    <div id="qrcode"></div>
-                </div>
-
-                <button id="downloadBtn"
-                class="btn btn-success w-100 mt-3">
-                    <i class="bi bi-download"></i> Download QR Code
-                </button>
-
-            </div>
-
+    <nav class="navbar">
+        <div class="container d-flex justify-content-between align-items-center"><a href="../index.html"
+                class="brand"><i class="bi bi-grid-fill"></i> Sabka<span>Mitra</span></a><a href="../index.html"
+                class="btn btn-outline-primary btn-sm"><i class="bi bi-house"></i> Home</a></div>
+    </nav>
+    <main class="main">
+        <div class="hero">
+            <h1><i class="bi bi-qr-code text-primary"></i> QR Studio</h1>
+            <p>Create, customize and download stylish, scan-friendly QR codes.</p>
         </div>
-    </div>
-
-</main>
-
-<div class="footer">
-    Made with ❤️ by SabkaMitra
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script>
-const qrText = document.getElementById("qrText");
-const qrSize = document.getElementById("qrSize");
-const darkColor = document.getElementById("darkColor");
-const lightColor = document.getElementById("lightColor");
-const qrContainer = document.getElementById("qrcode");
-const placeholder = document.getElementById("placeholder");
-const downloadBtn = document.getElementById("downloadBtn");
-const message = document.getElementById("message");
-
-let currentQR = null;
-
-document.getElementById("generateBtn").addEventListener("click", function () {
-
-    const text = qrText.value.trim();
-
-    message.textContent = "";
-
-    if (!text) {
-        message.textContent = "Please enter some text or a URL.";
-        qrText.focus();
-        return;
-    }
-
-    if (typeof QRCode === "undefined") {
-        message.textContent = "QR library could not load. Check your internet connection.";
-        return;
-    }
-
-    qrContainer.innerHTML = "";
-
-    const size = Number(qrSize.value);
-
-    currentQR = new QRCode(qrContainer, {
-        text: text,
-        width: size,
-        height: size,
-        colorDark: darkColor.value,
-        colorLight: lightColor.value,
-        correctLevel: QRCode.CorrectLevel.H
-    });
-
-    placeholder.style.display = "none";
-    downloadBtn.style.display = "block";
-
-});
-
-downloadBtn.addEventListener("click", function () {
-
-    const canvas = qrContainer.querySelector("canvas");
-
-    if (!canvas) {
-        message.textContent = "Please generate a QR code first.";
-        return;
-    }
-
-    const link = document.createElement("a");
-
-    link.download = "SabkaMitra-QR-Code.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-
-});
-</script>
-
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <section class="panel">
+                    <div class="section-label mt-0">1. Choose QR content</div>
+                    <label class="form-label" for="contentType">Content type</label><select id="contentType"
+                        class="form-select mb-3">
+                        <option value="url">Website URL</option>
+                        <option value="text">Plain text</option>
+                        <option value="wifi">Wi-Fi details</option>
+                        <option value="vcard">Contact / vCard</option>
+                        <option value="email">Email</option>
+                        <option value="phone">Phone number</option>
+                        <option value="sms">SMS message</option>
+                    </select>
+                    <div id="fields"></div>
+                    <div class="section-label">2. Choose a design template</div>
+                    <div class="template-grid">
+                        <button class="template active" data-template="classic"><span class="swatch"
+                                style="background:#111827"></span>Classic</button><button class="template"
+                            data-template="ocean"><span class="swatch" style="background:#2563eb"></span>Ocean
+                            Blue</button><button class="template" data-template="royal"><span class="swatch"
+                                style="background:#6d28d9"></span>Royal Purple</button><button class="template"
+                            data-template="forest"><span class="swatch"
+                                style="background:#047857"></span>Emerald</button>
+                    </div>
+                    <div class="section-label">3. Customize your QR</div>
+                    <div class="row g-3">
+                        <div class="col-6"><label class="form-label" for="darkColor">QR color</label><input
+                                id="darkColor" type="color" class="form-control form-control-color w-100"
+                                value="#111827"></div>
+                        <div class="col-6"><label class="form-label" for="lightColor">Background</label><input
+                                id="lightColor" type="color" class="form-control form-control-color w-100"
+                                value="#ffffff"></div>
+                        <div class="col-6"><label class="form-label" for="dotStyle">Dot style</label><select
+                                id="dotStyle" class="form-select">
+                                <option value="square">Square (best scan)</option>
+                                <option value="dots">Rounded dots</option>
+                                <option value="rounded">Rounded</option>
+                                <option value="classy">Classy</option>
+                            </select></div>
+                        <div class="col-6"><label class="form-label" for="qrSize">Download size</label><select
+                                id="qrSize" class="form-select">
+                                <option value="300">300 × 300</option>
+                                <option value="500" selected>500 × 500</option>
+                                <option value="800">800 × 800</option>
+                                <option value="1000">1000 × 1000</option>
+                            </select></div>
+                    </div>
+                    <div class="section-label">4. Add a center logo (optional)</div>
+                    <div class="d-flex align-items-center gap-3"><input id="logoFile" type="file"
+                            accept="image/png,image/jpeg,image/webp" class="form-control"><img id="logoPreview"
+                            class="logo-preview" alt="Logo preview"></div>
+                    <div class="helper mt-2">Use a small, clear logo. For best scanning, keep it simple and avoid a
+                        large logo.</div>
+                    <button id="generateBtn" class="btn-main w-100 mt-4"><i class="bi bi-magic"></i> Generate QR
+                        Code</button>
+                    <div id="message" class="small mt-3" role="status"></div>
+                </section>
+            </div>
+            <div class="col-lg-5">
+                <section class="panel h-100">
+                    <h5 class="fw-bold mb-3">Your QR preview</h5>
+                    <div class="preview-wrap">
+                        <div id="emptyState"><i class="bi bi-qr-code display-1"></i>
+                            <p class="mt-2 mb-0">Your QR code will appear here</p>
+                        </div>
+                        <div id="qrPreview"></div>
+                    </div><button id="downloadBtn" class="btn btn-success w-100 mt-3" disabled><i
+                            class="bi bi-download"></i> Download PNG</button>
+                    <p class="helper mt-3 mb-0"><i class="bi bi-shield-check"></i> Test your downloaded QR with Google
+                        Lens before sharing or printing.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">Made with ❤️ by SabkaMitra</footer>
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+    <script>
+        const fields = document.getElementById('fields'), typeSelect = document.getElementById('contentType'), preview = document.getElementById('qrPreview'), emptyState = document.getElementById('emptyState'), message = document.getElementById('message'), downloadBtn = document.getElementById('downloadBtn'), darkColor = document.getElementById('darkColor'), lightColor = document.getElementById('lightColor'), dotStyle = document.getElementById('dotStyle'), qrSize = document.getElementById('qrSize'), logoFile = document.getElementById('logoFile'), logoPreview = document.getElementById('logoPreview');
+        let logoData = '', qr = null, generated = false;
+        const templates = { classic: { dark: '#111827', light: '#ffffff', dots: 'square' }, ocean: { dark: '#2563eb', light: '#ffffff', dots: 'rounded' }, royal: { dark: '#6d28d9', light: '#ffffff', dots: 'classy' }, forest: { dark: '#047857', light: '#ffffff', dots: 'rounded' } };
+        function inputField(id, label, placeholder, type = 'text') { return `<div class="mb-3"><label class="form-label" for="${id}">${label}</label><input class="form-control" id="${id}" type="${type}" placeholder="${placeholder}"></div>` }
+        function renderFields() {
+            const t = typeSelect.value; let h = '';
+            if (t === 'url') h = inputField('url', 'Website URL', 'https://example.com', 'url');
+            if (t === 'text') h = `<div class="mb-3"><label class="form-label" for="plainText">Your text</label><textarea class="form-control" id="plainText" rows="4" placeholder="Type your message here..."></textarea></div>`;
+            if (t === 'wifi') h = inputField('ssid', 'Wi-Fi network name (SSID)', 'My WiFi') + inputField('wifiPassword', 'Wi-Fi password', 'Enter password') + `<div class="mb-3"><label class="form-label" for="wifiSecurity">Security</label><select id="wifiSecurity" class="form-select"><option value="WPA">WPA / WPA2</option><option value="WEP">WEP</option><option value="nopass">No password</option></select></div><div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="wifiHidden"><label class="form-check-label" for="wifiHidden">Hidden network</label></div>`;
+            if (t === 'vcard') h = inputField('contactName', 'Full name', 'Your full name') + inputField('contactPhone', 'Phone number', '+91 9876543210', 'tel') + inputField('contactEmail', 'Email (optional)', 'name@example.com', 'email') + inputField('contactOrg', 'Organization (optional)', 'Company / school');
+            if (t === 'email') h = inputField('emailTo', 'Email address', 'name@example.com', 'email') + inputField('emailSubject', 'Subject (optional)', 'Hello') + `<div class="mb-3"><label class="form-label" for="emailBody">Message (optional)</label><textarea id="emailBody" class="form-control" rows="3"></textarea></div>`;
+            if (t === 'phone') h = inputField('phone', 'Phone number', '+91 9876543210', 'tel');
+            if (t === 'sms') h = inputField('smsPhone', 'Phone number', '+91 9876543210', 'tel') + `<div class="mb-3"><label class="form-label" for="smsBody">Message</label><textarea id="smsBody" class="form-control" rows="3"></textarea></div>`;
+            fields.innerHTML = h
+        }
+        function val(id) { const e = document.getElementById(id); return e ? e.value.trim() : '' }
+        function buildPayload() {
+            const t = typeSelect.value;
+            if (t === 'url') { let v = val('url'); if (!v) throw Error('Please enter a website URL.'); if (!/^https?:\/\//i.test(v)) v = 'https://' + v; return v }
+            if (t === 'text') { const v = val('plainText'); if (!v) throw Error('Please enter some text.'); return v }
+            if (t === 'wifi') { const s = val('ssid'); if (!s) throw Error('Please enter the Wi-Fi name.'); const sec = val('wifiSecurity'), p = val('wifiPassword'); if (sec !== 'nopass' && !p) throw Error('Please enter the Wi-Fi password.'); const esc = x => x.replace(/([\\;,:"])/g, '\\$1'); return `WIFI:T:${sec};S:${esc(s)};${sec === 'nopass' ? '' : 'P:' + esc(p) + ';'}H:${document.getElementById('wifiHidden').checked};;` }
+            if (t === 'vcard') { const n = val('contactName'); if (!n) throw Error('Please enter the contact name.'); return `BEGIN:VCARD\nVERSION:3.0\nFN:${n}\nTEL:${val('contactPhone')}\nEMAIL:${val('contactEmail')}\nORG:${val('contactOrg')}\nEND:VCARD` }
+            if (t === 'email') { const to = val('emailTo'); if (!to) throw Error('Please enter an email address.'); return `mailto:${to}?subject=${encodeURIComponent(val('emailSubject'))}&body=${encodeURIComponent(val('emailBody'))}` }
+            if (t === 'phone') { const p = val('phone'); if (!p) throw Error('Please enter a phone number.'); return `tel:${p}` }
+            if (t === 'sms') { const p = val('smsPhone'); if (!p) throw Error('Please enter a phone number.'); return `SMSTO:${p}:${val('smsBody')}` }
+        }
+        function options() { return { width: +qrSize.value, height: +qrSize.value, type: 'canvas', data: buildPayload(), image: logoData || undefined, margin: 24, qrOptions: { errorCorrectionLevel: 'H', mode: 'Byte' }, imageOptions: { hideBackgroundDots: true, imageSize: .18, margin: 5, crossOrigin: 'anonymous' }, dotsOptions: { color: darkColor.value, type: dotStyle.value }, backgroundOptions: { color: lightColor.value }, cornersSquareOptions: { color: darkColor.value, type: 'square' }, cornersDotOptions: { color: darkColor.value, type: 'square' } } }
+        function generate() { message.textContent = ''; message.className = 'small mt-3 text-danger'; if (typeof QRCodeStyling === 'undefined') { message.textContent = 'QR library could not load. Check your internet connection and refresh.'; return } try { const o = options(); if (qr) { qr.update(o) } else { qr = new QRCodeStyling(o); preview.innerHTML = ''; qr.append(preview) } generated = true; emptyState.style.display = 'none'; downloadBtn.disabled = false; message.className = 'small mt-3 text-success'; message.textContent = 'QR generated. Download and test it with Google Lens.' } catch (e) { message.textContent = e.message || 'Could not generate QR. Check the entered details.' } }
+        typeSelect.addEventListener('change', renderFields); document.getElementById('generateBtn').addEventListener('click', generate);
+        document.querySelectorAll('.template').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('.template').forEach(x => x.classList.remove('active')); b.classList.add('active'); const t = templates[b.dataset.template]; darkColor.value = t.dark; lightColor.value = t.light; dotStyle.value = t.dots; if (generated) generate() }));
+        [darkColor, lightColor, dotStyle, qrSize].forEach(e => e.addEventListener('change', () => { if (generated) generate() }));
+        logoFile.addEventListener('change', () => { const f = logoFile.files && logoFile.files[0]; if (!f) return; if (!f.type.startsWith('image/')) { message.textContent = 'Please choose an image file.'; return } const r = new FileReader(); r.onload = () => { logoData = r.result; logoPreview.src = logoData; logoPreview.style.display = 'block'; if (generated) generate() }; r.onerror = () => message.textContent = 'Could not read this image.'; r.readAsDataURL(f) });
+        downloadBtn.addEventListener('click', () => { if (qr && generated) qr.download({ name: 'SabkaMitra-QR-Code', extension: 'png' }) });
+        renderFields();
+    </script>
 </body>
+
 </html>
