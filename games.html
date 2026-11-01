@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#10152b">
+    <title>Games | SabkaMitra</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, Arial, sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 80% 0%, #49348a55, transparent 40%),
+                #10152b;
+        }
+
+        .navbar {
+            background: #11182deF;
+            border-bottom: 1px solid #ffffff18;
+            padding: 14px 0;
+        }
+
+        .navbar-brand {
+            color: #fff !important;
+            font-weight: 900;
+            font-size: 22px;
+        }
+
+        .navbar-brand span {
+            color: #9b83ff
+        }
+
+        .nav-link {
+            color: #c9cce0 !important;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #a997ff !important
+        }
+
+        .page-wrap {
+            max-width: 1100px;
+            margin: auto;
+            padding: 45px 20px
+        }
+
+        .hero {
+            text-align: center;
+            margin: 10px 0 42px
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 30px;
+            background: #8b72ff20;
+            border: 1px solid #9b83ff55;
+            color: #c8bbff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 7vw, 54px);
+            font-weight: 900;
+            margin: 17px 0 10px;
+            letter-spacing: -1.5px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #9b83ff, #55d9ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            color: #aab2cb;
+            font-size: 15px
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .section-heading h2 {
+            font-size: 19px;
+            font-weight: 800;
+            margin: 0
+        }
+
+        .section-heading span {
+            font-size: 12px;
+            color: #9da8c5
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+            gap: 20px;
+        }
+
+        .xo-feature-card {
+            display: block;
+            text-decoration: none;
+            color: white;
+            padding: 22px;
+            min-height: 235px;
+            border-radius: 22px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 85% 20%, #7865ff55, transparent 38%),
+                linear-gradient(125deg, #211b48, #5943a7);
+            border: 1px solid #927cff55;
+            box-shadow: 0 12px 35px #0003;
+            transition: .25s ease;
+        }
+
+        .xo-feature-card:hover {
+            color: white;
+            transform: translateY(-6px);
+            box-shadow: 0 18px 38px #5943a755;
+        }
+
+        .xo-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #ded7ff;
+        }
+
+        .xo-card-top span:last-child {
+            background: #ffffff20;
+            padding: 6px 11px;
+            border-radius: 20px;
+        }
+
+        .xo-card-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 27px 0 20px;
+        }
+
+        .xo-card-main h3 {
+            font-size: 28px;
+            font-weight: 950;
+            letter-spacing: 1px;
+            margin: 0 0 6px;
+        }
+
+        .xo-card-main p {
+            color: #d1c9ef;
+            font-size: 13px;
+            margin-bottom: 17px;
+        }
+
+        .xo-card-main strong {
+            display: inline-block;
+            background: white;
+            color: #49378d;
+            padding: 10px 16px;
+            border-radius: 9px;
+            font-size: 11px;
+            letter-spacing: .5px;
+        }
+
+        .xo-board {
+            flex-shrink: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 43px);
+            gap: 5px;
+            padding: 9px;
+            border-radius: 14px;
+            background: #ffffff15;
+            transform: rotate(5deg);
+        }
+
+        .xo-board span {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            background: #ffffff17;
+            border-radius: 8px;
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .xo-board span:nth-child(odd) {
+            color: #70e0ff
+        }
+
+        .xo-board span:nth-child(even) {
+            color: #ff9acb
+        }
+
+        .coming-card {
+            min-height: 235px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            border: 1px dashed #ffffff35;
+            border-radius: 22px;
+            background: #ffffff06;
+            color: #9da8c5;
+        }
+
+        .coming-card i {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #9b83ff
+        }
+
+        .coming-card strong {
+            color: #e2e5f5;
+            font-size: 15px
+        }
+
+        .coming-card p {
+            font-size: 12px;
+            margin: 6px 0 0
+        }
+
+        footer {
+            text-align: center;
+            color: #77829e;
+            font-size: 12px;
+            padding: 30px 15px;
+            border-top: 1px solid #ffffff12;
+        }
+
+        @media(max-width:480px) {
+            .page-wrap {
+                padding: 30px 15px
+            }
+
+            .hero {
+                margin-bottom: 30px
+            }
+
+            .xo-feature-card {
+                padding: 18px
+            }
+
+            .xo-board {
+                grid-template-columns: repeat(2, 36px);
+                gap: 5px
+            }
+
+            .xo-board span {
+                width: 36px;
+                height: 36px;
+                font-size: 22px
+            }
+
+            .xo-card-main h3 {
+                font-size: 24px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-grid-1x2-fill"></i> Sabka<span>Mitra</span>
+            </a>
+
+            <button class="navbar-toggler text-white border-secondary" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-3"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <div class="navbar-nav ms-auto gap-lg-3">
+                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" href="index.html#tools">Tools</a>
+                    <a class="nav-link active" href="games.html">Games</a>
+                    <a class="nav-link" href="reviews.html">Reviews</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page-wrap">
+
+        <section class="hero">
+            <span class="hero-tag">🎮 SABKAMITRA ARCADE</span>
+            <h1>Time to <span>Play!</span></h1>
+            <p>Take a break, challenge yourself and have some fun.</p>
+        </section>
+
+        <section>
+            <div class="section-heading">
+                <h2><i class="bi bi-controller"></i> All Games</h2>
+                <span>Fun starts here</span>
+            </div>
+
+            <div class="games-grid">
+
+                <a href="tools/tic-tac-toe.html" class="xo-feature-card">
+                    <div class="xo-card-top">
+                        <span>✦ MINI ARCADE</span>
+                        <span>FREE</span>
+                    </div>
+
+                    <div class="xo-card-main">
+                        <div>
+                            <h3>XO ARENA</h3>
+                            <p>Ready for a battle?</p>
+                            <strong><i class="bi bi-play-fill"></i> PLAY NOW</strong>
+                        </div>
+
+                        <div class="xo-board" aria-hidden="true">
+                            <span>X</span><span>O</span>
+                            <span>O</span><span>X</span>
+                        </div>
+                    </div>
+                </a>
+
+
+
+                <a href="tools/number-slide.html" class="xo-feature-card">
+                    <div class="xo-card-top">
+                        <span>🧠 BRAIN CHALLENGE</span>
+                        <span>FREE</span>
+                    </div>
+
+                    <div class="xo-card-main">
+                        <div>
+                            <h3>NUMBER SLIDE</h3>
+                            <p>Arrange numbers. Challenge your brain!</p>
+                            <strong>▶ PLAY NOW</strong>
+                        </div>
+
+                        <div class="xo-board" aria-hidden="true">
+                            <span>1</span><span>2</span>
+                            <span>3</span><span>4</span>
+                        </div>
+                    </div>
+                </a>
+
+
+
+                <a href="tools/aviator.html" class="xo-feature-card">
+                    <div class="xo-card-top">
+                        <span>✈ ARCADE FLIGHT</span>
+                        <span>DEMO</span>
+                    </div>
+                    <div class="xo-card-main">
+                        <div>
+                            <h3>AVIATOR</h3>
+                            <p>Fly high. Watch the multiplier!</p>
+                            <strong>▶ PLAY NOW</strong>
+                        </div>
+                        <div class="xo-board" aria-hidden="true">
+                            <span>✈</span><span>2x</span>
+                            <span>3x</span><span>5x</span>
+                        </div>
+                    </div>
+                </a>
+
+
+                <div class="coming-card">
+                    <i class="bi bi-controller"></i>
+                    <strong>More Games Coming Soon</strong>
+                    <p>New exciting games will be added here!</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        © 2026 SabkaMitra • Play. Enjoy. Repeat.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

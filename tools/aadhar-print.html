@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,8 @@
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-
+    <!-- OpenCV.js for Aadhaar Perspective Crop -->
+    <script async src="https://docs.opencv.org/4.10.0/opencv.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -177,7 +178,7 @@
             margin: auto;
             background: #ffffff;
             border: 1px solid #dce2eb;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             overflow: hidden;
         }
 
@@ -206,7 +207,7 @@
         .aadhar-box img {
             width: 100%;
             height: 100%;
-            object-fit: fill;
+            object-fit: contain;
         }
 
         .placeholder {
@@ -310,426 +311,1182 @@
                 box-shadow: none;
             }
         }
+
+        /* AADHAAR CROP EDITOR */
+        #frontCropSection {
+            margin-top: 25px;
+        }
+
+        #frontCropCanvas {
+            display: block;
+            width: 100%;
+            max-width: 650px;
+            height: auto;
+            margin: 15px auto;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #ffffff;
+            touch-action: none;
+            cursor: crosshair;
+        }
+
+        #frontCropSection .btn {
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 700;
+        }
+
+        #backCropCanvas {
+            display: block;
+            width: 100%;
+            max-width: 650px;
+            height: auto;
+            margin: 15px auto;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #fff;
+            touch-action: none;
+            cursor: crosshair;
+        }
     </style>
+
+    <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="container d-flex justify-content-between align-items-center">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container d-flex justify-content-between align-items-center">
 
-        <a href="../index.html" class="brand">
-            <i class="bi bi-stars"></i>
-            Sabka<span>Mitra</span>
-        </a>
+            <a href="../index.html" class="brand">
+                <i class="bi bi-stars"></i>
+                Sabka<span>Mitra</span>
+            </a>
 
-        <a href="../index.html" class="back-link">
-            <i class="bi bi-arrow-left"></i> Back to Home
-        </a>
+            <a href="../index.html" class="back-link">
+                <i class="bi bi-arrow-left"></i> Back to Home
+            </a>
 
-    </div>
-</nav>
-
-
-<!-- MAIN CONTENT -->
-<main class="main-container">
-
-    <div class="page-heading">
-        <h1>Aadhaar Image Downloader</h1>
-        <p>Upload front and back images and create a single printable A4 JPG.</p>
-    </div>
+        </div>
+    </nav>
 
 
-    <!-- UPLOAD PANEL -->
-    <section class="upload-panel">
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
 
-        <div class="mb-4">
-            <h5 class="section-title">
-                <i class="bi bi-cloud-arrow-up text-primary"></i>
-                Upload Your Images
-            </h5>
-
-            <p class="section-subtitle">
-                Select both sides of your Aadhaar card to create your image.
-            </p>
+        <div class="page-heading">
+            <h1>Aadhaar Image Downloader</h1>
+            <p>Upload front and back images and create a single printable A4 JPG.</p>
         </div>
 
 
-        <div class="row g-4">
+        <!-- UPLOAD PANEL -->
+        <section class="upload-panel">
 
-            <!-- FRONT -->
-            <div class="col-md-6">
-
-                <div class="upload-box">
-
-                    <div class="upload-icon">
-                        <i class="bi bi-card-image"></i>
-                    </div>
-
-                    <label class="form-label" for="frontInput">
-                        Front Side Image
-                    </label>
-
-                    <input
-                        class="form-control"
-                        type="file"
-                        id="frontInput"
-                        accept="image/jpeg,image/png,image/webp"
-                    >
-
-                    <small class="text-secondary">
-                        Upload front side photo
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <!-- BACK -->
-            <div class="col-md-6">
-
-                <div class="upload-box">
-
-                    <div class="upload-icon">
-                        <i class="bi bi-card-image"></i>
-                    </div>
-
-                    <label class="form-label" for="backInput">
-                        Back Side Image
-                    </label>
-
-                    <input
-                        class="form-control"
-                        type="file"
-                        id="backInput"
-                        accept="image/jpeg,image/png,image/webp"
-                    >
-
-                    <small class="text-secondary">
-                        Upload back side photo
-                    </small>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- DOWNLOAD BUTTON -->
-        <div class="mt-4">
-
-            <button
-                id="downloadBtn"
-                class="download-btn w-100"
-                disabled
-            >
-                <i class="bi bi-download"></i>
-                Download Image (JPG)
-            </button>
-
-            <p class="status-text text-secondary" id="statusText">
-                Please upload both images to continue.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- PREVIEW PANEL -->
-    <section class="preview-card">
-
-        <div class="preview-heading">
-
-            <div>
-                <h5 class="section-title mb-1">
-                    <i class="bi bi-eye text-primary"></i>
-                    A4 Page Preview
+            <div class="mb-4">
+                <h5 class="section-title">
+                    <i class="bi bi-cloud-arrow-up text-primary"></i>
+                    Upload Your Images
                 </h5>
 
-                <p class="section-subtitle mb-0">
-                    Both images will appear side-by-side.
+                <p class="section-subtitle">
+                    Select both sides of your Aadhaar card to create your image.
                 </p>
             </div>
 
-            <span class="badge text-bg-primary">
-                A4 Portrait
-            </span>
 
-        </div>
+            <div class="row g-4">
 
+                <!-- FRONT -->
+                <div class="col-md-6">
 
-        <!-- A4 PAPER -->
-        <div class="paper">
+                    <div class="upload-box">
 
-            <div class="paper-label">
-                A4 IMAGE LAYOUT PREVIEW
-            </div>
+                        <div class="upload-icon">
+                            <i class="bi bi-card-image"></i>
+                        </div>
 
-            <div class="aadhar-row">
+                        <label class="form-label" for="frontInput">
+                            Front Side Image
+                        </label>
 
-                <!-- FRONT PREVIEW -->
-                <div class="aadhar-box">
+                        <input class="form-control" type="file" id="frontInput"
+                            accept="image/jpeg,image/png,image/webp">
 
-                    <span class="placeholder" id="frontLabel">
-                        <i class="bi bi-image fs-4 d-block"></i>
-                        Front Side
-                    </span>
+                        <small class="text-secondary">
+                            Upload front side photo
+                        </small>
 
-                    <img
-                        id="frontPreview"
-                        alt="Front side preview"
-                        hidden
-                    >
+                    </div>
 
                 </div>
 
 
-                <!-- BACK PREVIEW -->
-                <div class="aadhar-box">
+                <!-- BACK -->
+                <div class="col-md-6">
 
-                    <span class="placeholder" id="backLabel">
-                        <i class="bi bi-image fs-4 d-block"></i>
-                        Back Side
-                    </span>
+                    <div class="upload-box">
 
-                    <img
-                        id="backPreview"
-                        alt="Back side preview"
-                        hidden
-                    >
+                        <div class="upload-icon">
+                            <i class="bi bi-card-image"></i>
+                        </div>
+
+                        <label class="form-label" for="backInput">
+                            Back Side Image
+                        </label>
+
+                        <input class="form-control" type="file" id="backInput" accept="image/jpeg,image/png,image/webp">
+
+                        <small class="text-secondary">
+                            Upload back side photo
+                        </small>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+
+            <!-- FRONT SIDE CROP EDITOR -->
+            <div id="frontCropSection" class="mt-4" hidden>
+
+                <div class="p-3 border rounded-3 bg-light">
+
+                    <h5 class="fw-bold text-primary">
+                        <i class="bi bi-crop"></i>
+                        Front Side - Select Aadhaar Area
+                    </h5>
+
+                    <p class="text-secondary small">
+                        Chaaron blue dots ko Aadhaar card ke corners par set karo.
+                    </p>
+
+                    <div class="text-center">
+                        <canvas id="frontCropCanvas"
+                            style="width:100%; max-width:650px; border:1px solid #ddd; touch-action:none; background:white;"></canvas>
+                    </div>
+
+                    <button type="button" id="applyFrontCrop" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-check-circle"></i>
+                        Apply Front Crop
+                    </button>
+
+                    <p id="frontCropStatus" class="small text-secondary text-center mt-2 mb-0">
+                        Dots ko Aadhaar ke chaar corners par set karo.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- BACK SIDE CROP EDITOR -->
+            <div id="backCropSection" class="mt-4" hidden>
+                <div class="p-3 border rounded-3 bg-light">
+                    <h5 class="fw-bold text-primary">
+                        <i class="bi bi-crop"></i>
+                        Back Side - Select Aadhaar Area
+                    </h5>
+
+                    <p class="text-secondary small">
+                        Chaaron blue dots ko Aadhaar card ke corners par set karo.
+                    </p>
+
+                    <div class="text-center">
+                        <canvas id="backCropCanvas"></canvas>
+                    </div>
+
+                    <button type="button" id="applyBackCrop" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-check-circle"></i>
+                        Apply Back Crop
+                    </button>
+
+                    <p id="backCropStatus" class="small text-secondary text-center mt-2 mb-0">
+                        Dots ko Aadhaar ke chaar corners par set karo.
+                    </p>
+                </div>
+            </div>
+
+            <!-- DOWNLOAD BUTTON -->
+            <div class="mt-4">
+
+                <button id="downloadBtn" class="download-btn w-100" disabled>
+                    <i class="bi bi-download"></i>
+                    Download Image (JPG)
+                </button>
+
+                <button type="button" id="printBtn" class="btn btn-success w-100 mt-3">
+                    <i class="bi bi-printer"></i>
+                    Print Aadhaar (A4)
+                </button>
+
+                <p class="status-text text-secondary" id="statusText">
+                    Please upload both images to continue.
+                </p>
+
+            </div>
+
+        </section>
 
 
-        <p class="info-text text-center mt-4 mb-0">
-            <i class="bi bi-info-circle"></i>
-            Images are processed locally in your browser. Nothing is uploaded to our server.
-        </p>
+        <!-- PREVIEW PANEL -->
+        <section class="preview-card">
 
-    </section>
+            <div class="preview-heading">
 
-</main>
+                <div>
+                    <h5 class="section-title mb-1">
+                        <i class="bi bi-eye text-primary"></i>
+                        A4 Page Preview
+                    </h5>
 
+                    <p class="section-subtitle mb-0">
+                        Both images will appear side-by-side.
+                    </p>
+                </div>
 
-<footer>
-    © 2026 SabkaMitra. All rights reserved.
-</footer>
+                <span class="badge text-bg-primary">
+                    A4 Portrait
+                </span>
 
-
-<!-- JAVASCRIPT -->
-<script>
-
-const frontInput = document.getElementById("frontInput");
-const backInput = document.getElementById("backInput");
-
-const frontPreview = document.getElementById("frontPreview");
-const backPreview = document.getElementById("backPreview");
-
-const frontLabel = document.getElementById("frontLabel");
-const backLabel = document.getElementById("backLabel");
-
-const downloadBtn = document.getElementById("downloadBtn");
-const statusText = document.getElementById("statusText");
-
-let frontReady = false;
-let backReady = false;
-
-let frontURL = null;
-let backURL = null;
+            </div>
 
 
-// CHECK BOTH IMAGES
-function checkImages() {
+            <!-- A4 PAPER -->
+            <div class="paper">
 
-    frontReady = frontPreview.complete &&
-                 frontPreview.naturalWidth > 0;
+                <div class="paper-label">
+                    A4 IMAGE LAYOUT PREVIEW
+                </div>
 
-    backReady = backPreview.complete &&
-                backPreview.naturalWidth > 0;
+                <div class="aadhar-row">
 
-    downloadBtn.disabled = !(frontReady && backReady);
+                    <!-- FRONT PREVIEW -->
+                    <div class="aadhar-box">
 
-    if(frontReady && backReady) {
-        statusText.textContent = "Both images are ready. You can download now.";
-        statusText.className = "status-text text-success";
-    } else {
-        statusText.textContent = "Please upload both images to continue.";
-        statusText.className = "status-text text-secondary";
-    }
-}
+                        <span class="placeholder" id="frontLabel">
+                            <i class="bi bi-image fs-4 d-block"></i>
+                            Front Side
+                        </span>
 
+                        <img id="frontPreview" alt="Front side preview" hidden>
 
-// IMAGE LOADER
-function loadImage(input, preview, label, side) {
-
-    const file = input.files[0];
-
-    if(!file) return;
-
-    if(!file.type.startsWith("image/")) {
-        alert("Please select a valid image file.");
-        input.value = "";
-        return;
-    }
-
-    if(file.size > 15 * 1024 * 1024) {
-        alert("Image size should be less than 15 MB.");
-        input.value = "";
-        return;
-    }
-
-    if(side === "front" && frontURL) {
-        URL.revokeObjectURL(frontURL);
-    }
-
-    if(side === "back" && backURL) {
-        URL.revokeObjectURL(backURL);
-    }
-
-    const imageURL = URL.createObjectURL(file);
-
-    if(side === "front") {
-        frontURL = imageURL;
-    } else {
-        backURL = imageURL;
-    }
-
-    preview.onload = function() {
-        preview.hidden = false;
-        label.style.display = "none";
-        checkImages();
-    };
-
-    preview.onerror = function() {
-        preview.hidden = true;
-        label.style.display = "block";
-        alert("Could not load this image. Please try another image.");
-        checkImages();
-    };
-
-    preview.src = imageURL;
-
-    // Immediately mark the replaced image as not ready
-    if(side === "front") frontReady = false;
-    if(side === "back") backReady = false;
-
-    downloadBtn.disabled = true;
-    statusText.textContent = "Loading image...";
-}
+                    </div>
 
 
-// FRONT INPUT
-frontInput.addEventListener("change", function() {
-    loadImage(frontInput, frontPreview, frontLabel, "front");
-});
+                    <!-- BACK PREVIEW -->
+                    <div class="aadhar-box">
+
+                        <span class="placeholder" id="backLabel">
+                            <i class="bi bi-image fs-4 d-block"></i>
+                            Back Side
+                        </span>
+
+                        <img id="backPreview" alt="Back side preview" hidden>
+
+                    </div>
+
+                </div>
+
+            </div>
 
 
-// BACK INPUT
-backInput.addEventListener("change", function() {
-    loadImage(backInput, backPreview, backLabel, "back");
-});
+            <p class="info-text text-center mt-4 mb-0">
+                <i class="bi bi-info-circle"></i>
+                Images are processed locally in your browser. Nothing is uploaded to our server.
+            </p>
+
+        </section>
+
+    </main>
 
 
-// DOWNLOAD IMAGE
-downloadBtn.addEventListener("click", function() {
+    <footer>
+        © 2026 SabkaMitra. All rights reserved.
+    </footer>
 
-    if(!frontReady || !backReady) return;
 
-    downloadBtn.disabled = true;
-    downloadBtn.innerHTML =
-        '<span class="spinner-border spinner-border-sm me-2"></span> Creating Image...';
+    <!-- JAVASCRIPT -->
 
-    try {
+    <script>
+        const frontInput = document.getElementById("frontInput");
+        const backInput = document.getElementById("backInput");
 
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
+        const frontPreview = document.getElementById("frontPreview");
+        const backPreview = document.getElementById("backPreview");
 
-        // A4 at 300 DPI
-        canvas.width = 2480;
-        canvas.height = 3508;
+        const frontLabel = document.getElementById("frontLabel");
+        const backLabel = document.getElementById("backLabel");
 
-        // WHITE BACKGROUND
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const downloadBtn = document.getElementById("downloadBtn");
+        const statusText = document.getElementById("statusText");
 
-        // A4 LAYOUT MEASUREMENTS
-        const marginX = 177;
-        const marginY = 177;
-        const cardW = 1015;
-        const cardH = 638;
-        const gap = 94;
+        let frontReady = false;
+        let backReady = false;
 
-        // DRAW FRONT
-        ctx.drawImage(
-            frontPreview,
-            marginX,
-            marginY,
-            cardW,
-            cardH
-        );
+        let frontCanvas = null;
+        let backCanvas = null;
 
-        // DRAW BACK
-        ctx.drawImage(
-            backPreview,
-            marginX + cardW + gap,
-            marginY,
-            cardW,
-            cardH
-        );
+        let cvReady = false;
 
-        // JPG DOWNLOAD
-        canvas.toBlob(function(blob) {
+        window.addEventListener("load", () => {
+            if (window.cv && window.cv.Mat) {
+                cvReady = true;
+            } else if (window.cv) {
+                window.cv.onRuntimeInitialized = () => {
+                    cvReady = true;
+                };
+            }
+        });
 
-            if(!blob) {
-                throw new Error("Image creation failed.");
+        function checkImages() {
+            downloadBtn.disabled = !(frontReady && backReady);
+        }
+
+        function showCanvas(canvas, preview, label, side) {
+            canvas.toBlob(blob => {
+                if (!blob) {
+                    statusText.textContent = "Image processing failed.";
+                    return;
+                }
+
+                const url = URL.createObjectURL(blob);
+
+                preview.onload = () => {
+                    preview.hidden = false;
+                    label.style.display = "none";
+
+                    if (side === "front") frontReady = true;
+                    if (side === "back") backReady = true;
+
+                    checkImages();
+                    URL.revokeObjectURL(url);
+                };
+
+                preview.src = url;
+            }, "image/jpeg", 0.95);
+        }
+
+        // Detect card boundary and correct perspective
+        function detectAadhaar(source) {
+            if (!cvReady || !window.cv || !cv.Mat) {
+                throw new Error("OpenCV is still loading. Please wait and try again.");
             }
 
-            const downloadURL = URL.createObjectURL(blob);
+            const inputMat = cv.imread(source);
+            const gray = new cv.Mat();
+            const blurred = new cv.Mat();
+            const edges = new cv.Mat();
+            const contours = new cv.MatVector();
+            const hierarchy = new cv.Mat();
 
-            const link = document.createElement("a");
-            link.href = downloadURL;
-            link.download = "SabkaMitra-A4-Image.jpg";
+            let bestContour = null;
+            let bestArea = 0;
+            let resultCanvas = document.createElement("canvas");
 
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+            try {
+                cv.cvtColor(inputMat, gray, cv.COLOR_RGBA2GRAY);
+                cv.GaussianBlur(gray, blurred, new cv.Size(5, 5), 0);
+                cv.Canny(blurred, edges, 50, 150);
 
-            setTimeout(() => {
-                URL.revokeObjectURL(downloadURL);
-            }, 1000);
+                const kernel = cv.getStructuringElement(
+                    cv.MORPH_RECT,
+                    new cv.Size(5, 5)
+                );
 
-            downloadBtn.disabled = false;
-            downloadBtn.innerHTML =
-                '<i class="bi bi-download"></i> Download Image (JPG)';
+                cv.dilate(edges, edges, kernel);
+                kernel.delete();
 
-            statusText.textContent = "Your JPG image is ready!";
-            statusText.className = "status-text text-success";
+                cv.findContours(
+                    edges,
+                    contours,
+                    hierarchy,
+                    cv.RETR_LIST,
+                    cv.CHAIN_APPROX_SIMPLE
+                );
 
-        }, "image/jpeg", 0.95);
+                for (let i = 0; i < contours.size(); i++) {
+                    const contour = contours.get(i);
+                    const area = cv.contourArea(contour);
 
-    } catch(error) {
+                    if (area < inputMat.cols * inputMat.rows * 0.02) {
+                        contour.delete();
+                        continue;
+                    }
 
-        console.error(error);
+                    const perimeter = cv.arcLength(contour, true);
+                    const approx = new cv.Mat();
 
-        alert("Something went wrong while creating the image.");
+                    cv.approxPolyDP(
+                        contour,
+                        approx,
+                        0.02 * perimeter,
+                        true
+                    );
 
-        downloadBtn.disabled = false;
-        downloadBtn.innerHTML =
-            '<i class="bi bi-download"></i> Download Image (JPG)';
+                    if (approx.rows === 4 && area > bestArea) {
+                        bestArea = area;
 
+                        if (bestContour) bestContour.delete();
+
+                        bestContour = approx.clone();
+                    }
+
+                    approx.delete();
+                    contour.delete();
+                }
+
+                if (!bestContour) {
+                    throw new Error("Aadhaar boundary not detected.");
+                }
+
+                const points = [];
+
+                for (let i = 0; i < 4; i++) {
+                    points.push({
+                        x: bestContour.intAt(i, 0),
+                        y: bestContour.intAt(i, 1)
+                    });
+                }
+
+                // Order points: top-left, top-right,
+                // bottom-right, bottom-left
+                const sum = points.map(p => p.x + p.y);
+                const diff = points.map(p => p.x - p.y);
+
+                const tl = points[sum.indexOf(Math.min(...sum))];
+                const br = points[sum.indexOf(Math.max(...sum))];
+                const tr = points[diff.indexOf(Math.max(...diff))];
+                const bl = points[diff.indexOf(Math.min(...diff))];
+
+                const srcPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+                    tl.x, tl.y,
+                    tr.x, tr.y,
+                    br.x, br.y,
+                    bl.x, bl.y
+                ]);
+
+                const dstPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+                    0, 0,
+                    1015, 0,
+                    1015, 638,
+                    0, 638
+                ]);
+
+                const transform = cv.getPerspectiveTransform(
+                    srcPoints,
+                    dstPoints
+                );
+
+                const warped = new cv.Mat();
+
+                cv.warpPerspective(
+                    inputMat,
+                    warped,
+                    transform,
+                    new cv.Size(1015, 638)
+                );
+
+                resultCanvas.width = 1015;
+                resultCanvas.height = 638;
+
+                cv.imshow(resultCanvas, warped);
+
+                srcPoints.delete();
+                dstPoints.delete();
+                transform.delete();
+                warped.delete();
+
+                return resultCanvas;
+
+            } finally {
+                inputMat.delete();
+                gray.delete();
+                blurred.delete();
+                edges.delete();
+                contours.delete();
+                hierarchy.delete();
+
+                if (bestContour) bestContour.delete();
+            }
+        }
+
+        function loadImage(input, preview, label, side) {
+            const file = input.files[0];
+
+            if (!file) return;
+
+            if (!file.type.startsWith("image/")) {
+                alert("Please select a valid image.");
+                input.value = "";
+                return;
+            }
+
+            if (file.size > 15 * 1024 * 1024) {
+                alert("Image size should be less than 15 MB.");
+                input.value = "";
+                return;
+            }
+
+            if (side === "front") {
+                frontReady = false;
+                frontCanvas = null;
+            } else {
+                backReady = false;
+                backCanvas = null;
+            }
+
+            downloadBtn.disabled = true;
+            statusText.textContent = "Detecting Aadhaar card...";
+
+            const image = new Image();
+            const url = URL.createObjectURL(file);
+
+            image.onload = () => {
+                try {
+                    const detectedCanvas = detectAadhaar(image);
+
+                    if (side === "front") {
+                        frontCanvas = detectedCanvas;
+                    } else {
+                        backCanvas = detectedCanvas;
+                    }
+
+                    showCanvas(
+                        detectedCanvas,
+                        preview,
+                        label,
+                        side
+                    );
+
+                    statusText.textContent =
+                        "Aadhaar card detected successfully!";
+
+                } catch (error) {
+                    console.warn(error);
+
+                    // Fallback: use the complete original image.
+                    // No automatic crop is applied.
+                    const canvas = document.createElement("canvas");
+                    canvas.width = image.naturalWidth;
+                    canvas.height = image.naturalHeight;
+
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(image, 0, 0);
+
+                    if (side === "front") {
+                        frontCanvas = canvas;
+                    } else {
+                        backCanvas = canvas;
+                    }
+
+                    showCanvas(canvas, preview, label, side);
+
+                    statusText.textContent =
+                        "Card boundary not detected. Original image used. Please check preview.";
+                }
+
+                URL.revokeObjectURL(url);
+            };
+
+            image.onerror = () => {
+                URL.revokeObjectURL(url);
+                alert("Could not load image.");
+            };
+
+            image.src = url;
+        }
+
+        frontInput.addEventListener("change", () => {
+            loadImage(frontInput, frontPreview, frontLabel, "front");
+        });
+
+        backInput.addEventListener("change", () => {
+            loadImage(backInput, backPreview, backLabel, "back");
+        });
+
+        // Download A4 JPG
+        downloadBtn.addEventListener("click", () => {
+            if (!frontReady || !backReady) return;
+
+            downloadBtn.disabled = true;
+            downloadBtn.textContent = "Creating Image...";
+
+            try {
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                canvas.width = 2480;
+                canvas.height = 3508;
+
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const marginX = 177;
+                const marginY = 177;
+                const cardW = 1015;
+                const cardH = 638;
+                const gap = 94;
+
+                ctx.drawImage(
+                    frontCanvas,
+                    marginX,
+                    marginY,
+                    cardW,
+                    cardH
+                );
+
+                ctx.drawImage(
+                    backCanvas,
+                    marginX + cardW + gap,
+                    marginY,
+                    cardW,
+                    cardH
+                );
+
+                canvas.toBlob(blob => {
+                    if (!blob) {
+                        alert("Image creation failed.");
+                        downloadBtn.disabled = false;
+                        downloadBtn.innerHTML =
+                            '<i class="bi bi-download"></i> Download Image (JPG)';
+                        return;
+                    }
+
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+
+                    link.href = url;
+                    link.download = "SabkaMitra-A4-Image.jpg";
+
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+
+                    setTimeout(() => URL.revokeObjectURL(url), 1500);
+
+                    downloadBtn.disabled = false;
+                    downloadBtn.innerHTML =
+                        '<i class="bi bi-download"></i> Download Image (JPG)';
+
+                    statusText.textContent = "Your JPG image is ready!";
+                    statusText.className = "status-text text-success";
+
+                }, "image/jpeg", 0.95);
+
+            } catch (error) {
+                console.error(error);
+
+                alert("Something went wrong.");
+
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML =
+                    '<i class="bi bi-download"></i> Download Image (JPG)';
+            }
+        });
+
+        // PRINT A4
+document.getElementById("printBtn").addEventListener("click", function () {
+
+    if (!frontReady || !backReady) {
+        alert("Please upload and crop both Aadhaar images first.");
+        return;
     }
 
-});
+    window.print();
 
-</script>
+});
+    </script>
+
+    <!-- front ka javascript code -->
+
+    <script>
+        (function () {
+            const frontInput = document.getElementById("frontInput");
+            const frontPreview = document.getElementById("frontPreview");
+            const cropSection = document.getElementById("frontCropSection");
+            const cropCanvas = document.getElementById("frontCropCanvas");
+            const cropCtx = cropCanvas.getContext("2d");
+            const applyCropBtn = document.getElementById("applyFrontCrop");
+            const cropStatus = document.getElementById("frontCropStatus");
+
+            let originalFrontImage = new Image();
+            let cropPoints = [];
+            let activePoint = -1;
+            let frontCropReady = false;
+
+            // Image upload
+            frontInput.addEventListener("change", function () {
+                const file = this.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+                    originalFrontImage = new Image();
+
+                    originalFrontImage.onload = function () {
+                        cropSection.hidden = false;
+                        frontCropReady = false;
+
+                        const maxWidth = 650;
+                        const scale = Math.min(1, maxWidth / originalFrontImage.naturalWidth);
+
+                        cropCanvas.width = Math.round(originalFrontImage.naturalWidth * scale);
+                        cropCanvas.height = Math.round(originalFrontImage.naturalHeight * scale);
+
+                        const w = cropCanvas.width;
+                        const h = cropCanvas.height;
+
+                        cropPoints = [
+                            { x: w * 0.08, y: h * 0.08 },
+                            { x: w * 0.92, y: h * 0.08 },
+                            { x: w * 0.92, y: h * 0.92 },
+                            { x: w * 0.08, y: h * 0.92 }
+                        ];
+
+                        drawCropEditor();
+                        cropStatus.textContent = "Blue dots ko Aadhaar card ke chaar corners par set karo.";
+                    };
+
+                    originalFrontImage.src = event.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            });
+
+            // Draw image and corner points
+            function drawCropEditor() {
+                const w = cropCanvas.width;
+                const h = cropCanvas.height;
+
+                cropCtx.clearRect(0, 0, w, h);
+                cropCtx.drawImage(originalFrontImage, 0, 0, w, h);
+
+                cropCtx.beginPath();
+                cropPoints.forEach((point, index) => {
+                    if (index === 0) cropCtx.moveTo(point.x, point.y);
+                    else cropCtx.lineTo(point.x, point.y);
+                });
+                cropCtx.closePath();
+
+                cropCtx.fillStyle = "rgba(13, 110, 253, 0.15)";
+                cropCtx.fill();
+
+                cropCtx.strokeStyle = "#0d6efd";
+                cropCtx.lineWidth = 3;
+                cropCtx.stroke();
+
+                cropPoints.forEach(point => {
+                    cropCtx.beginPath();
+                    cropCtx.arc(point.x, point.y, 9, 0, Math.PI * 2);
+                    cropCtx.fillStyle = "#0d6efd";
+                    cropCtx.fill();
+                    cropCtx.strokeStyle = "#ffffff";
+                    cropCtx.lineWidth = 3;
+                    cropCtx.stroke();
+                });
+            }
+
+            // Drag corner points
+            cropCanvas.addEventListener("pointerdown", function (event) {
+                const rect = cropCanvas.getBoundingClientRect();
+                const x = (event.clientX - rect.left) * cropCanvas.width / rect.width;
+                const y = (event.clientY - rect.top) * cropCanvas.height / rect.height;
+
+                activePoint = cropPoints.findIndex(point =>
+                    Math.hypot(point.x - x, point.y - y) < 25
+                );
+
+                if (activePoint !== -1) {
+                    cropCanvas.setPointerCapture(event.pointerId);
+                }
+            });
+
+            cropCanvas.addEventListener("pointermove", function (event) {
+                if (activePoint === -1) return;
+
+                const rect = cropCanvas.getBoundingClientRect();
+
+                cropPoints[activePoint] = {
+                    x: Math.max(0, Math.min(cropCanvas.width,
+                        (event.clientX - rect.left) * cropCanvas.width / rect.width)),
+                    y: Math.max(0, Math.min(cropCanvas.height,
+                        (event.clientY - rect.top) * cropCanvas.height / rect.height))
+                };
+
+                frontCropReady = false;
+                drawCropEditor();
+            });
+
+            cropCanvas.addEventListener("pointerup", () => activePoint = -1);
+            cropCanvas.addEventListener("pointercancel", () => activePoint = -1);
+
+            // Apply perspective crop
+            applyCropBtn.addEventListener("click", async function () {
+                if (!originalFrontImage.src) return;
+
+                cropStatus.textContent = "Crop process ho raha hai...";
+
+                try {
+                    // Wait for OpenCV
+                    let attempts = 0;
+                    while (!(window.cv && cv.Mat)) {
+                        await new Promise(resolve => setTimeout(resolve, 300));
+                        attempts++;
+
+                        if (attempts > 60) {
+                            throw new Error("OpenCV load nahi hua. Internet connection check karo.");
+                        }
+                    }
+
+                    const source = cv.imread(originalFrontImage);
+
+                    const scaleX = originalFrontImage.naturalWidth / cropCanvas.width;
+                    const scaleY = originalFrontImage.naturalHeight / cropCanvas.height;
+
+                    const srcPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+                        cropPoints[0].x * scaleX, cropPoints[0].y * scaleY,
+                        cropPoints[1].x * scaleX, cropPoints[1].y * scaleY,
+                        cropPoints[2].x * scaleX, cropPoints[2].y * scaleY,
+                        cropPoints[3].x * scaleX, cropPoints[3].y * scaleY
+                    ]);
+
+                    const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+
+                    const width = Math.round(Math.max(
+                        distance(cropPoints[0], cropPoints[1]),
+                        distance(cropPoints[3], cropPoints[2])
+                    ) * scaleX);
+
+                    const height = Math.round(Math.max(
+                        distance(cropPoints[0], cropPoints[3]),
+                        distance(cropPoints[1], cropPoints[2])
+                    ) * scaleY);
+
+                    const outputWidth = Math.max(1, Math.min(width, 3000));
+                    const outputHeight = Math.max(1, Math.min(height, 3000));
+
+                    const dstPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+                        0, 0,
+                        outputWidth - 1, 0,
+                        outputWidth - 1, outputHeight - 1,
+                        0, outputHeight - 1
+                    ]);
+
+                    const matrix = cv.getPerspectiveTransform(srcPoints, dstPoints);
+                    const output = new cv.Mat();
+
+                    cv.warpPerspective(
+                        source,
+                        output,
+                        matrix,
+                        new cv.Size(outputWidth, outputHeight)
+                    );
+
+                    const resultCanvas = document.createElement("canvas");
+                    cv.imshow(resultCanvas, output);
+
+                    // Update actual A4 download canvas
+                    frontCanvas = resultCanvas;
+                    frontReady = true;
+
+                    frontPreview.src = resultCanvas.toDataURL("image/jpeg", 0.95);
+                    frontPreview.hidden = false;
+                    frontLabel.hidden = true;
+
+                    checkImages();
+
+                    source.delete();
+                    srcPoints.delete();
+                    dstPoints.delete();
+                    matrix.delete();
+                    output.delete();
+
+                    frontCropReady = true;
+                    cropStatus.textContent = "Front crop successfully apply ho gaya!";
+                } catch (error) {
+                    console.error(error);
+                    cropStatus.textContent = "Error: " + error.message;
+                }
+            });
+        })();
+    </script>
+
+<!-- back ka javascript code -->
+    <script>
+        (function () {
+
+            const backInput = document.getElementById("backInput");
+            const backPreview = document.getElementById("backPreview");
+            const backLabel = document.getElementById("backLabel");
+
+            const backCropSection = document.getElementById("backCropSection");
+            const backCropCanvas = document.getElementById("backCropCanvas");
+            const backCropCtx = backCropCanvas.getContext("2d");
+
+            const applyBackCrop = document.getElementById("applyBackCrop");
+            const backCropStatus = document.getElementById("backCropStatus");
+
+            let originalBackImage = new Image();
+            let backCropPoints = [];
+            let backActivePoint = -1;
+
+            // Back image upload
+            backInput.addEventListener("change", function () {
+
+                const file = this.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+
+                    originalBackImage = new Image();
+
+                    originalBackImage.onload = function () {
+
+                        backCropSection.hidden = false;
+
+                        const maxWidth = 650;
+                        const scale = Math.min(
+                            1,
+                            maxWidth / originalBackImage.naturalWidth
+                        );
+
+                        backCropCanvas.width =
+                            Math.round(originalBackImage.naturalWidth * scale);
+
+                        backCropCanvas.height =
+                            Math.round(originalBackImage.naturalHeight * scale);
+
+                        const w = backCropCanvas.width;
+                        const h = backCropCanvas.height;
+
+                        backCropPoints = [
+                            { x: w * 0.08, y: h * 0.08 },
+                            { x: w * 0.92, y: h * 0.08 },
+                            { x: w * 0.92, y: h * 0.92 },
+                            { x: w * 0.08, y: h * 0.92 }
+                        ];
+
+                        drawBackCropEditor();
+
+                        backCropStatus.textContent =
+                            "Blue dots ko Aadhaar ke chaar corners par set karo.";
+                    };
+
+                    originalBackImage.src = event.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            });
+
+            // Draw editor
+            function drawBackCropEditor() {
+
+                const w = backCropCanvas.width;
+                const h = backCropCanvas.height;
+
+                backCropCtx.clearRect(0, 0, w, h);
+                backCropCtx.drawImage(originalBackImage, 0, 0, w, h);
+
+                backCropCtx.beginPath();
+
+                backCropPoints.forEach((point, index) => {
+                    if (index === 0) {
+                        backCropCtx.moveTo(point.x, point.y);
+                    } else {
+                        backCropCtx.lineTo(point.x, point.y);
+                    }
+                });
+
+                backCropCtx.closePath();
+
+                backCropCtx.fillStyle = "rgba(13, 110, 253, 0.15)";
+                backCropCtx.fill();
+
+                backCropCtx.strokeStyle = "#0d6efd";
+                backCropCtx.lineWidth = 3;
+                backCropCtx.stroke();
+
+                backCropPoints.forEach(point => {
+
+                    backCropCtx.beginPath();
+                    backCropCtx.arc(point.x, point.y, 9, 0, Math.PI * 2);
+
+                    backCropCtx.fillStyle = "#0d6efd";
+                    backCropCtx.fill();
+
+                    backCropCtx.strokeStyle = "#ffffff";
+                    backCropCtx.lineWidth = 3;
+                    backCropCtx.stroke();
+                });
+            }
+
+            // Drag dots
+            backCropCanvas.addEventListener("pointerdown", function (event) {
+
+                const rect = backCropCanvas.getBoundingClientRect();
+
+                const x = (event.clientX - rect.left) *
+                    backCropCanvas.width / rect.width;
+
+                const y = (event.clientY - rect.top) *
+                    backCropCanvas.height / rect.height;
+
+                backActivePoint = backCropPoints.findIndex(point =>
+                    Math.hypot(point.x - x, point.y - y) < 25
+                );
+
+                if (backActivePoint !== -1) {
+                    backCropCanvas.setPointerCapture(event.pointerId);
+                }
+            });
+
+            backCropCanvas.addEventListener("pointermove", function (event) {
+
+                if (backActivePoint === -1) return;
+
+                const rect = backCropCanvas.getBoundingClientRect();
+
+                backCropPoints[backActivePoint] = {
+                    x: Math.max(0, Math.min(
+                        backCropCanvas.width,
+                        (event.clientX - rect.left) *
+                        backCropCanvas.width / rect.width
+                    )),
+
+                    y: Math.max(0, Math.min(
+                        backCropCanvas.height,
+                        (event.clientY - rect.top) *
+                        backCropCanvas.height / rect.height
+                    ))
+                };
+
+                drawBackCropEditor();
+            });
+
+            backCropCanvas.addEventListener("pointerup", () => {
+                backActivePoint = -1;
+            });
+
+            backCropCanvas.addEventListener("pointercancel", () => {
+                backActivePoint = -1;
+            });
+
+            // Apply perspective crop
+            applyBackCrop.addEventListener("click", async function () {
+
+                if (!originalBackImage.src) return;
+
+                backCropStatus.textContent = "Back crop process ho raha hai...";
+
+                let source, srcPoints, dstPoints, matrix, output;
+
+                try {
+
+                    let attempts = 0;
+
+                    while (!(window.cv && cv.Mat)) {
+                        await new Promise(resolve => setTimeout(resolve, 300));
+                        attempts++;
+
+                        if (attempts > 60) {
+                            throw new Error("OpenCV load nahi hua. Internet check karo.");
+                        }
+                    }
+
+                    source = cv.imread(originalBackImage);
+
+                    const scaleX =
+                        originalBackImage.naturalWidth / backCropCanvas.width;
+
+                    const scaleY =
+                        originalBackImage.naturalHeight / backCropCanvas.height;
+
+                    const distance = (a, b) =>
+                        Math.hypot(a.x - b.x, a.y - b.y);
+
+                    const width = Math.round(Math.max(
+                        distance(backCropPoints[0], backCropPoints[1]),
+                        distance(backCropPoints[3], backCropPoints[2])
+                    ) * scaleX);
+
+                    const height = Math.round(Math.max(
+                        distance(backCropPoints[0], backCropPoints[3]),
+                        distance(backCropPoints[1], backCropPoints[2])
+                    ) * scaleY);
+
+                    const outputWidth = Math.max(1, Math.min(width, 3000));
+                    const outputHeight = Math.max(1, Math.min(height, 3000));
+
+                    srcPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+                        backCropPoints[0].x * scaleX,
+                        backCropPoints[0].y * scaleY,
+
+                        backCropPoints[1].x * scaleX,
+                        backCropPoints[1].y * scaleY,
+
+                        backCropPoints[2].x * scaleX,
+                        backCropPoints[2].y * scaleY,
+
+                        backCropPoints[3].x * scaleX,
+                        backCropPoints[3].y * scaleY
+                    ]);
+
+                    dstPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+                        0, 0,
+                        outputWidth - 1, 0,
+                        outputWidth - 1, outputHeight - 1,
+                        0, outputHeight - 1
+                    ]);
+
+                    matrix = cv.getPerspectiveTransform(srcPoints, dstPoints);
+                    output = new cv.Mat();
+
+                    cv.warpPerspective(
+                        source,
+                        output,
+                        matrix,
+                        new cv.Size(outputWidth, outputHeight)
+                    );
+
+                    const resultCanvas = document.createElement("canvas");
+                    cv.imshow(resultCanvas, output);
+
+                    // Update actual A4 download canvas
+                    backCanvas = resultCanvas;
+                    backReady = true;
+
+                    backPreview.src = resultCanvas.toDataURL("image/jpeg", 0.95);
+                    backPreview.hidden = false;
+                    backLabel.hidden = true;
+
+                    checkImages();
+
+                    backCropStatus.textContent =
+                        "Back crop successfully apply ho gaya!";
+
+                } catch (error) {
+
+                    console.error(error);
+                    backCropStatus.textContent = "Error: " + error.message;
+
+                } finally {
+
+                    if (source) source.delete();
+                    if (srcPoints) srcPoints.delete();
+                    if (dstPoints) dstPoints.delete();
+                    if (matrix) matrix.delete();
+                    if (output) output.delete();
+                }
+            });
+
+        })();
+    </script>
 
 </body>
+
 </html>

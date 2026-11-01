@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Aviator Demo | SabkaMitra</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:15px;min-height:100vh;
+ background:#101827;color:white;
+ font-family:Arial,system-ui,sans-serif;
+}
+.container{max-width:620px;margin:auto}
+header{text-align:center;padding:15px 0 20px}
+header h1{font-size:32px;margin:0;font-weight:950;letter-spacing:2px}
+header h1 span{color:#ff555d}
+header p{font-size:12px;color:#9eacc4;margin-top:7px}
+.balance{
+ background:linear-gradient(110deg,#173b39,#126b55);
+ border:1px solid #39d6a355;border-radius:16px;
+ padding:16px;text-align:center;margin-bottom:14px;
+}
+.balance small{color:#a5dfcc;font-weight:bold;letter-spacing:1px}
+.balance strong{display:block;font-size:clamp(26px,7vw,36px);margin-top:5px;color:#8dffca}
+.game{
+ background:#17243a;border:1px solid #ffffff18;
+ border-radius:20px;padding:12px;overflow:hidden;
+}
+.sky{
+ height:260px;position:relative;overflow:hidden;
+ border-radius:14px;
+ background:
+  radial-gradient(ellipse at 75% 15%,#28486d 0%,transparent 50%),
+  linear-gradient(160deg,#142d4b,#101827 80%);
+}
+.sky:before{
+ content:"";position:absolute;inset:0;opacity:.25;
+ background-image:radial-gradient(#fff 1px,transparent 1px);
+ background-size:32px 32px;
+}
+.multiplier{
+ position:absolute;top:40%;left:0;right:0;
+ text-align:center;font-size:clamp(42px,12vw,66px);
+ font-weight:950;z-index:2;color:#fff;
+ text-shadow:0 3px 20px #0008;
+}
+.multiplier.crashed{color:#ff555d}
+.plane{
+ position:absolute;z-index:3;left:12%;bottom:35px;
+ font-size:43px;transform:rotate(-15deg);
+ filter:drop-shadow(0 5px 8px #0008);
+}
+.plane.flying{animation:flight .5s ease-in-out infinite alternate}
+@keyframes flight{
+ from{transform:translate(0,0) rotate(-15deg)}
+ to{transform:translate(8px,-7px) rotate(-9deg)}
+}
+.trail{
+ position:absolute;left:0;bottom:45px;width:0;height:3px;
+ background:linear-gradient(90deg,transparent,#ff6b70);
+ border-radius:5px;z-index:1;
+}
+.sky.running .trail{animation:trail 8s linear forwards}
+@keyframes trail{to{width:95%}}
+.sky.running .plane{animation:flyPath 8s linear forwards,flight .5s ease-in-out infinite alternate}
+@keyframes flyPath{
+ 0%{left:12%;bottom:35px}
+ 100%{left:78%;bottom:185px}
+}
+.status{
+ text-align:center;padding:12px 5px 4px;
+ color:#b7c5db;font-size:13px;min-height:35px;
+}
+.controls{
+ display:grid;grid-template-columns:1fr 1fr;gap:10px;
+ margin-top:12px;
+}
+.inputbox{
+ background:#101c30;border:1px solid #ffffff20;
+ padding:12px;border-radius:13px;
+}
+.inputbox label{display:block;color:#9eacc4;font-size:11px;margin-bottom:8px}
+.inputbox input{
+ width:100%;background:transparent;border:0;outline:none;
+ color:white;font-size:20px;font-weight:bold;
+}
+.quick{display:flex;gap:6px;margin-top:9px}
+.quick button{
+ flex:1;background:#263650;color:#dbe5f5;
+ border:0;border-radius:7px;padding:7px 2px;font-size:11px;
+}
+.action{
+ grid-column:1/-1;border:0;border-radius:13px;
+ padding:15px;font-size:15px;font-weight:900;
+ background:#20c982;color:#082c20;cursor:pointer;
+}
+.action.cashout{background:#ffb43b;color:#402300}
+.action:disabled{opacity:.45;cursor:not-allowed}
+.history{
+ margin-top:14px;background:#17243a;border-radius:15px;padding:14px;
+}
+.history h3{font-size:13px;margin:0 0 10px}
+.history-list{display:flex;flex-wrap:wrap;gap:7px}
+.history-list span{
+ background:#27354b;color:#ff9298;
+ border-radius:8px;padding:7px 10px;font-size:12px;font-weight:bold;
+}
+.history-list span.win{color:#75e9b1}
+.result{
+ margin-top:12px;background:#17243a;border-radius:15px;
+ padding:14px;font-size:12px;color:#b8c7dd;
+}
+.result strong{color:#fff}
+.reset{
+ margin-top:12px;width:100%;padding:12px;border-radius:11px;
+ border:1px solid #ffffff25;background:#ffffff0b;color:white;
+ font-weight:bold;
+}
+.back{display:block;text-align:center;color:#9eacc4;text-decoration:none;font-size:13px;margin:20px}
+.disclaimer{text-align:center;color:#72839c;font-size:10px;margin-top:12px;line-height:1.6}
+@media(max-width:370px){.sky{height:225px}.controls{gap:7px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+ <h1>✈ <span>AVIATOR</span></h1>
+ <p>SABKAMITRA ARCADE • DEMO FLIGHT</p>
+</header>
+
+<div class="balance">
+ <small>YOUR DEMO BALANCE</small>
+ <strong id="balance">$200,000.00</strong>
+</div>
+
+<section class="game">
+ <div class="sky" id="sky">
+  <div class="trail" id="trail"></div>
+  <div class="multiplier" id="multiplier">1.00x</div>
+  <div class="plane" id="plane">✈️</div>
+ </div>
+ <div class="status" id="status" aria-live="polite">Place your demo bet and start flying!</div>
+</section>
+
+<div class="controls">
+ <div class="inputbox">
+  <label>DEMO BET AMOUNT ($)</label>
+  <input id="bet" type="number" min="1" step="1" value="1000" inputmode="decimal">
+  <div class="quick">
+   <button data-add="100">+100</button>
+   <button data-add="500">+500</button>
+   <button data-add="1000">+1K</button>
+  </div>
+ </div>
+
+ <div class="inputbox">
+  <label>YOUR POTENTIAL PAYOUT</label>
+  <div id="payout" style="font-size:20px;font-weight:bold;color:#83efb9">$1,000.00</div>
+  <div style="font-size:11px;color:#9eacc4;margin-top:9px">At current multiplier</div>
+ </div>
+
+ <button class="action" id="play">▶ START FLIGHT</button>
+</div>
+
+<div class="history">
+ <h3>📊 RECENT FLIGHTS</h3>
+ <div class="history-list" id="history">
+  <span>Waiting...</span>
+ </div>
+</div>
+
+<div class="result">
+ <div>Last result: <strong id="lastResult">No game played yet</strong></div>
+ <div style="margin-top:7px">Total profit/loss: <strong id="profit">$0.00</strong></div>
+ <div style="margin-top:7px">Games played: <strong id="played">0</strong></div>
+</div>
+
+<button class="reset" id="reset">↻ RESET DEMO BALANCE TO $200,000</button>
+
+<p class="disclaimer">
+ Demo entertainment only. Virtual coins have no real-world value.
+ No deposits, withdrawals, real-money betting or external game services.
+</p>
+
+<a class="back" href="../games.html">← Back to Games</a>
+</div>
+
+
+<script>
+(() => {
+    "use strict";
+
+    const initialBalance = 200000;
+
+    let balance = initialBalance;
+    let bet = 0;
+    let multiplier = 1;
+    let crashAt = 0;
+    let running = false;
+    let cashedOut = false;
+    let interval = null;
+    let nextFlightTimer = null;
+    let countdownInterval = null;
+    let startTime = 0;
+    let totalProfit = 0;
+    let played = 0;
+    let history = [];
+    let roundsSinceHigh = 0;
+    let autoFlights = true;
+
+    const $ = id => document.getElementById(id);
+
+    const money = n => "$" + n.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+    // Crash multiplier distribution
+    function getRandomCrash() {
+        roundsSinceHigh++;
+
+        // At least one high round within every 12 rounds
+        if (roundsSinceHigh >= 12 || Math.random() < 0.02) {
+            roundsSinceHigh = 0;
+            return 80 + Math.random() * 40;
+        }
+
+        const r = Math.random();
+
+        if (r < 0.80) {
+            return 1 + Math.random();       // 80%: 1x–2x
+        } else if (r < 0.98) {
+            return 2 + Math.random();       // 18%: 2x–3x
+        } else {
+            return 3 + Math.random() * 2;   // 2%: 3x–5x
+        }
+    }
+
+    function update() {
+        $("balance").textContent = money(balance);
+        $("payout").textContent = money(bet * multiplier);
+        $("profit").textContent = money(totalProfit);
+        $("played").textContent = played;
+    }
+
+    function stop() {
+        if (interval !== null) {
+            clearInterval(interval);
+        }
+
+        interval = null;
+        running = false;
+
+        $("sky").classList.remove("running");
+        $("plane").classList.remove("flying");
+    }
+
+    function addHistory(value, win) {
+        history.unshift({ value, win });
+        history = history.slice(0, 8);
+
+        $("history").replaceChildren();
+
+        history.forEach(item => {
+            const span = document.createElement("span");
+            span.className = item.win ? "win" : "";
+            span.textContent = item.value.toFixed(2) + "x";
+            $("history").appendChild(span);
+        });
+    }
+
+    // Automatically start the next flight after 5 seconds
+   function scheduleNextFlight() {
+    clearTimeout(nextFlightTimer);
+    clearInterval(countdownInterval);
+
+    let seconds = 10;
+
+    $("status").textContent = "⏳ Next flight in 10 seconds...";
+    $("play").textContent = "🎯 PLACE BET";
+    $("play").className = "action";
+    $("play").disabled = false;
+
+    countdownInterval = setInterval(() => {
+        seconds--;
+
+        if (seconds > 0) {
+            $("status").textContent =
+                "⏳ Next flight in " + seconds + " seconds...";
+        } else {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+
+            if (autoFlights && !running) {
+                const amount = Number($("bet").value);
+
+                if (amount >= 1 && Number.isInteger(amount) && amount <= balance) {
+                    startFlight(amount);
+                } else {
+                    startFlight(0);
+                }
+            }
+        }
+    }, 1000);
+}
+    // Finish a flight after crash
+    function finishCrash() {
+        stop();
+
+        $("multiplier").textContent = crashAt.toFixed(2) + "x";
+        $("multiplier").classList.add("crashed");
+
+        $("plane").style.display = "none";
+
+        if (cashedOut) {
+            $("status").textContent =
+                "💥 Flight crashed. Your cash-out was successful!";
+        } else {
+            $("status").textContent =
+                "💥 Plane crashed! Demo bet lost.";
+
+            if (bet > 0) {
+                totalProfit -= bet;
+                $("lastResult").textContent = "Lost " + money(bet);
+            }
+        }
+
+        played++;
+        addHistory(crashAt, cashedOut);
+
+        bet = 0;
+        update();
+
+        scheduleNextFlight();
+    }
+
+    // Cash out during a manually bet flight
+    function cashOut() {
+        if (!running || cashedOut || bet <= 0) return;
+
+        cashedOut = true;
+
+        const winnings = bet * multiplier;
+        const profit = winnings - bet;
+
+        balance += winnings;
+        totalProfit += profit;
+
+        $("lastResult").textContent =
+            "Won " + money(profit) + " profit";
+
+        $("status").textContent =
+            "✓ CASHED OUT at " +
+            multiplier.toFixed(2) + "x • " + money(winnings);
+
+        $("play").textContent = "✓ CASHED OUT";
+        $("play").disabled = true;
+
+        update();
+    }
+
+    // Start a flight: amount 0 means automatic flight without a bet
+    function startFlight(amount = 0) {
+        if (running) return;
+
+        clearTimeout(nextFlightTimer);
+        nextFlightTimer = null;
+
+        clearInterval(countdownInterval);
+countdownInterval = null;
+
+        if (amount > 0) {
+            if (!Number.isInteger(amount) || amount < 1) {
+                $("status").textContent = "Enter a valid whole-dollar bet.";
+                return;
+            }
+
+            if (amount > balance) {
+                $("status").textContent = "Insufficient demo balance!";
+                return;
+            }
+
+            bet = amount;
+            balance -= bet;
+        } else {
+            bet = 0;
+        }
+
+        multiplier = 1;
+        cashedOut = false;
+        running = true;
+        crashAt = getRandomCrash();
+        startTime = Date.now();
+
+        $("multiplier").classList.remove("crashed");
+        $("multiplier").textContent = "1.00x";
+
+        $("plane").style.display = "block";
+        $("plane").classList.add("flying");
+        $("sky").classList.add("running");
+
+        $("status").textContent = bet > 0
+            ? "✈ Flight in progress... Cash out before crash!"
+            : "✈ Automatic flight in progress...";
+
+        $("play").textContent = bet > 0
+            ? "💰 CASH OUT"
+            : "✈ Flight Running";
+
+        $("play").className = bet > 0
+            ? "action cashout"
+            : "action";
+
+        $("play").disabled = bet <= 0;
+
+        update();
+
+        interval = setInterval(() => {
+            const elapsed = (Date.now() - startTime) / 1000;
+
+            multiplier = Math.exp(elapsed * 0.12);
+
+            if (multiplier >= crashAt) {
+                multiplier = crashAt;
+                $("multiplier").textContent =
+                    multiplier.toFixed(2) + "x";
+
+                finishCrash();
+                return;
+            }
+
+            $("multiplier").textContent =
+                multiplier.toFixed(2) + "x";
+
+            update();
+        }, 50);
+    }
+
+    // Manual start button
+    function start() {
+        if (running) {
+            if (!cashedOut && bet > 0) {
+                cashOut();
+            }
+            return;
+        }
+
+        const amount = Number($("bet").value);
+
+        if (
+            !Number.isFinite(amount) ||
+            !Number.isInteger(amount) ||
+            amount < 1
+        ) {
+            $("status").textContent =
+                "Enter a valid whole-dollar bet.";
+            return;
+        }
+if (countdownInterval !== null) {
+    clearInterval(countdownInterval);
+    countdownInterval = null;
+    startFlight(amount);
+    return;
+}
+        startFlight(amount);
+    }
+
+    // Play / Cash Out button
+    $("play").addEventListener("click", start);
+
+    // Reset game
+    $("reset").addEventListener("click", () => {
+        clearTimeout(nextFlightTimer);
+        nextFlightTimer = null;
+
+        stop();
+
+        balance = initialBalance;
+        bet = 0;
+        totalProfit = 0;
+        played = 0;
+        multiplier = 1;
+        cashedOut = false;
+        history = [];
+        roundsSinceHigh = 0;
+
+        $("bet").value = 1000;
+
+        $("multiplier").classList.remove("crashed");
+        $("multiplier").textContent = "1.00x";
+
+        $("plane").style.display = "block";
+
+        $("status").textContent =
+            "Demo balance reset. Ready to fly!";
+
+        $("lastResult").textContent =
+            "No game played yet";
+
+        $("history").replaceChildren();
+
+        const waiting = document.createElement("span");
+        waiting.textContent = "Waiting...";
+        $("history").appendChild(waiting);
+
+        $("play").textContent = "▶ START FLIGHT";
+        $("play").className = "action";
+        $("play").disabled = false;
+
+        update();
+
+        // Start automatic flights again
+        if (autoFlights) {
+            startFlight(0);
+        }
+    });
+
+    // Add bet amount buttons
+    document.querySelectorAll("[data-add]").forEach(button => {
+        button.addEventListener("click", () => {
+            const input = $("bet");
+            input.value =
+                (Number(input.value) || 0) +
+                Number(button.dataset.add);
+        });
+    });
+
+    // Initial setup
+    update();
+
+    // First automatic flight starts immediately
+    startFlight(0);
+
+})();
+</script>
+
+</body>
+</html>

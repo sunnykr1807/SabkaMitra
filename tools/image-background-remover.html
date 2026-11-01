@@ -80,12 +80,66 @@ body{
 }
 .btn-download:hover{background:#0d875e;color:white}
 #status{font-size:14px;color:#687386;margin-top:15px}
-.progress{height:9px;display:none;margin-top:15px}
+.progress {
+    height: 12px;
+    display: none;
+    margin-top: 15px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #e5e7eb;
+}
+
+.progress-bar {
+    transition: width 0.3s ease;
+    font-size: 10px;
+    font-weight: bold;
+}
 footer{text-align:center;color:#8791a2;padding:30px}
 @media(max-width:576px){
     .main{margin:30px auto}
     .panel{padding:18px}
     .heading h1{font-size:28px}
+}
+
+.color-tools {
+    display: none;
+    margin-top: 22px;
+    padding: 18px;
+    background: #f8faff;
+    border: 1px solid #e5eaf3;
+    border-radius: 14px;
+}
+
+.color-tools h6 {
+    font-weight: 700;
+}
+
+.color-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 15px 0;
+}
+
+.color-swatch {
+    width: 38px;
+    height: 38px;
+    border: 2px solid #d5dce8;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.color-swatch:hover {
+    outline: 3px solid #b9d5ff;
+}
+
+#customColor {
+    width: 48px;
+    height: 38px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -136,11 +190,65 @@ footer{text-align:center;color:#8791a2;padding:30px}
 </div>
 
 <div class="progress" id="progressBox">
-<div class="progress-bar progress-bar-striped progress-bar-animated"
-id="progressBar" style="width:0%"></div>
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+         id="progressBar"
+         role="progressbar"
+         style="width:0%">
+        0%
+    </div>
 </div>
 
 <p id="status">Your image is ready.</p>
+
+<!-- BACKGROUND COLOR OPTIONS -->
+<div class="color-tools" id="colorTools">
+
+    <h6 class="text-center">Choose Background Color</h6>
+    <p class="text-center text-secondary small">
+        Select a plain color for your image
+    </p>
+
+    <div class="color-options">
+        <button class="color-swatch" style="background:#ffffff"
+            data-color="#ffffff" title="White"></button>
+
+        <button class="color-swatch" style="background:#000000"
+            data-color="#000000" title="Black"></button>
+
+        <button class="color-swatch" style="background:#ff0000"
+            data-color="#ff0000" title="Red"></button>
+
+        <button class="color-swatch" style="background:#0000ff"
+            data-color="#0000ff" title="Blue"></button>
+
+        <button class="color-swatch" style="background:#008000"
+            data-color="#008000" title="Green"></button>
+
+        <button class="color-swatch" style="background:#ffff00"
+            data-color="#ffff00" title="Yellow"></button>
+
+        <button class="color-swatch" style="background:#ffc0cb"
+            data-color="#ffc0cb" title="Pink"></button>
+
+        <button class="color-swatch" style="background:#808080"
+            data-color="#808080" title="Grey"></button>
+    </div>
+
+    <div class="text-center">
+        <label class="fw-bold me-2" for="customColor">
+            Custom Color:
+        </label>
+        <input type="color" id="customColor" value="#ffffff">
+    </div>
+
+    <div class="text-center mt-3">
+        <button class="btn btn-outline-primary btn-sm" id="transparentBtn">
+            <i class="bi bi-grid-3x3"></i>
+            Transparent Background
+        </button>
+    </div>
+
+</div>
 
 <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
 <button class="btn-main" id="removeBtn">
@@ -187,6 +295,12 @@ const progressBar = document.getElementById("progressBar");
 let selectedFile = null;
 let originalURL = null;
 let resultURL = null;
+
+let removedBlob = null;
+
+const colorTools = document.getElementById("colorTools");
+const customColor = document.getElementById("customColor");
+const transparentBtn = document.getElementById("transparentBtn");
 
 function clearURLs() {
     if (originalURL) URL.revokeObjectURL(originalURL);
@@ -241,26 +355,74 @@ removeBtn.addEventListener("click", async function() {
     if (!selectedFile) return;
 
     removeBtn.disabled = true;
+    progressBox.style.display = "flex";
+    progressBar.style.width = "0%";
+    progressBar.textContent = "0%";
     statusText.textContent = "Loading AI model...";
-    progressBox.style.display = "block";
+
+    function updateProgress(percent, message) {
+        const value = Math.min(99, Math.max(0, Math.round(percent)));
+
+        progressBar.style.width = value + "%";
+        progressBar.textContent = value + "%";
+        statusText.textContent = message;
+    }
 
     try {
-      const imgly = await import(
-    "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm"
-);
+        const imgly = await import(
+            "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm"
+        );
 
-const removeBackground =
-    imgly.removeBackground || imgly.default;
+        const removeBackground =
+            imgly.removeBackground || imgly.default;
 
         const blob = await removeBackground(selectedFile, {
             model: "small",
-            output: { format: "image/png" }
+            output: { format: "image/png" },
+
+            progress: (key, current, total) => {
+
+                if (key.startsWith("fetch:")) {
+                    const percent = total > 0
+                        ? (current / total) * 40
+                        : 0;
+
+                    updateProgress(
+                        percent,
+                        "Downloading AI model..."
+                    );
+                }
+
+                else if (key === "compute:decode") {
+                    updateProgress(45, "Preparing image...");
+                }
+
+                else if (key === "compute:inference") {
+                    updateProgress(50, "AI is removing background...");
+                }
+
+                else if (key === "compute:mask") {
+                    updateProgress(85, "Cleaning image edges...");
+                }
+
+                else if (key === "compute:encode") {
+                    updateProgress(95, "Finalizing image...");
+                }
+            }
         });
+
+        removedBlob = blob;
+
+        if (resultURL) URL.revokeObjectURL(resultURL);
 
         resultURL = URL.createObjectURL(blob);
         resultImage.src = resultURL;
 
+        colorTools.style.display = "block";
+
         progressBar.style.width = "100%";
+        progressBar.textContent = "100%";
+
         statusText.textContent = "Background removed successfully!";
 
         downloadBtn.href = resultURL;
@@ -269,10 +431,15 @@ const removeBackground =
 
     } catch (error) {
         console.error(error);
-        statusText.textContent = "AI processing failed. Check your internet and try again.";
+
+        statusText.textContent =
+            "AI processing failed. Check your internet and try again.";
+
         removeBtn.disabled = false;
     }
 });
+
+
 
 resetBtn.addEventListener("click", function() {
     clearURLs();
@@ -284,6 +451,99 @@ resetBtn.addEventListener("click", function() {
     removeBtn.disabled = false;
     removeBtn.innerHTML = '<i class="bi bi-magic"></i> Remove Background';
     progressBox.style.display = "none";
+    removedBlob = null;
+colorTools.style.display = "none";
+progressBar.style.width = "0%";
+progressBar.textContent = "";
+});
+
+// APPLY BACKGROUND COLOR
+async function applyBackgroundColor(color) {
+
+    if (!removedBlob) return;
+
+    statusText.textContent = "Applying background color...";
+
+    const img = new Image();
+    const tempURL = URL.createObjectURL(removedBlob);
+
+    img.onload = async function () {
+
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+
+        const ctx = canvas.getContext("2d");
+
+        // Fill selected background color
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw transparent subject over background
+        ctx.drawImage(img, 0, 0);
+
+        canvas.toBlob(function (blob) {
+
+            URL.revokeObjectURL(tempURL);
+
+            if (!blob) {
+                statusText.textContent = "Could not create image.";
+                return;
+            }
+
+            if (resultURL) URL.revokeObjectURL(resultURL);
+
+            resultURL = URL.createObjectURL(blob);
+            resultImage.src = resultURL;
+
+            downloadBtn.href = resultURL;
+            downloadBtn.download = "SabkaMitra-New-Background.png";
+
+            statusText.textContent = "Background color applied successfully!";
+
+        }, "image/png");
+    };
+
+    img.onerror = function () {
+        URL.revokeObjectURL(tempURL);
+        statusText.textContent = "Could not apply background color.";
+    };
+
+    img.src = tempURL;
+}
+
+
+// PRESET COLOR BUTTONS
+document.querySelectorAll(".color-swatch").forEach(button => {
+
+    button.addEventListener("click", function () {
+        applyBackgroundColor(this.dataset.color);
+    });
+
+});
+
+
+// CUSTOM COLOR PICKER
+customColor.addEventListener("input", function () {
+    applyBackgroundColor(this.value);
+});
+
+
+// TRANSPARENT BACKGROUND
+transparentBtn.addEventListener("click", function () {
+
+    if (!removedBlob) return;
+
+    if (resultURL) URL.revokeObjectURL(resultURL);
+
+    resultURL = URL.createObjectURL(removedBlob);
+
+    resultImage.src = resultURL;
+    downloadBtn.href = resultURL;
+    downloadBtn.download = "SabkaMitra-Transparent.png";
+
+    statusText.textContent = "Transparent background restored!";
+
 });
 </script>
 

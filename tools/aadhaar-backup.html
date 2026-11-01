@@ -1,0 +1,911 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aadhaar Image Downloader | SabkaMitra</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f6fb;
+            font-family: Arial, sans-serif;
+            color: #172033;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e8edf4;
+            padding: 16px 0;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            color: #176bdb;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: #16a477;
+        }
+
+        .back-link {
+            color: #667085;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* MAIN */
+        .main-container {
+            max-width: 1050px;
+            margin: 45px auto;
+            padding: 0 18px;
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: #7b8495;
+            font-size: 15px;
+        }
+
+        /* UPLOAD PANEL */
+        .upload-panel {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 18px;
+            border: 1px solid #e9edf4;
+            box-shadow: 0 8px 30px rgba(20, 40, 80, 0.05);
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-weight: 750;
+            font-size: 19px;
+            margin-bottom: 5px;
+        }
+
+        .section-subtitle {
+            color: #8490a2;
+            font-size: 13px;
+        }
+
+        .upload-box {
+            border: 2px dashed #cbd6e6;
+            border-radius: 13px;
+            padding: 20px;
+            background: #f9fbff;
+            transition: 0.25s;
+        }
+
+        .upload-box:hover {
+            border-color: #176bdb;
+            background: #f1f6ff;
+        }
+
+        .upload-icon {
+            width: 43px;
+            height: 43px;
+            background: #e8f1ff;
+            color: #176bdb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 11px;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .form-control {
+            font-size: 13px;
+            padding: 11px;
+        }
+
+        /* BUTTONS */
+        .download-btn {
+            background: #176bdb;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .download-btn:hover:not(:disabled) {
+            background: #1055b5;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .download-btn:disabled {
+            background: #a9bdd9;
+            cursor: not-allowed;
+        }
+
+        /* PREVIEW */
+        .preview-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid #e9edf4;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(20, 40, 80, 0.05);
+        }
+
+        .paper {
+            position: relative;
+            width: 100%;
+            max-width: 794px;
+            aspect-ratio: 210 / 297;
+            margin: auto;
+            background: #ffffff;
+            border: 1px solid #dce2eb;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .aadhar-row {
+            position: absolute;
+            top: 5.05%;
+            left: 7.14%;
+            width: 85.72%;
+            display: flex;
+            gap: 3.81%;
+        }
+
+        .aadhar-box {
+            width: 47.78%;
+            aspect-ratio: 86 / 54;
+            border: 1.5px solid #bfc8d5;
+            border-radius: 5px;
+            background: #f5f7fa;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+      .aadhar-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+        .placeholder {
+            color: #8994a5;
+            font-size: clamp(7px, 1.5vw, 13px);
+            text-align: center;
+            padding: 5px;
+        }
+
+        .paper-label {
+            position: absolute;
+            top: 1.8%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #9aa2b1;
+            font-size: clamp(7px, 1vw, 11px);
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: #7d8798;
+            line-height: 1.6;
+        }
+
+        .status-text {
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #98a1b1;
+            font-size: 13px;
+        }
+
+        @media(max-width: 600px) {
+            .main-container {
+                margin: 28px auto;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+
+            .upload-panel,
+            .preview-card {
+                padding: 17px;
+            }
+
+            .preview-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .aadhar-box {
+                border-width: 1px;
+            }
+        }
+
+        /* PRINT */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            body {
+                background: white;
+            }
+
+            .navbar,
+            .page-heading,
+            .upload-panel,
+            .preview-heading,
+            footer,
+            .info-text {
+                display: none !important;
+            }
+
+            .main-container {
+                margin: 0;
+                padding: 0;
+                max-width: none;
+            }
+
+            .preview-card {
+                padding: 0;
+                border: none;
+                box-shadow: none;
+            }
+
+            .paper {
+                width: 210mm;
+                height: 297mm;
+                max-width: none;
+                border: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+
+    <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+
+        <a href="../index.html" class="brand">
+            <i class="bi bi-stars"></i>
+            Sabka<span>Mitra</span>
+        </a>
+
+        <a href="../index.html" class="back-link">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+
+    </div>
+</nav>
+
+
+<!-- MAIN CONTENT -->
+<main class="main-container">
+
+    <div class="page-heading">
+        <h1>Aadhaar Image Downloader</h1>
+        <p>Upload front and back images and create a single printable A4 JPG.</p>
+    </div>
+
+
+    <!-- UPLOAD PANEL -->
+    <section class="upload-panel">
+
+        <div class="mb-4">
+            <h5 class="section-title">
+                <i class="bi bi-cloud-arrow-up text-primary"></i>
+                Upload Your Images
+            </h5>
+
+            <p class="section-subtitle">
+                Select both sides of your Aadhaar card to create your image.
+            </p>
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- FRONT -->
+            <div class="col-md-6">
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">
+                        <i class="bi bi-card-image"></i>
+                    </div>
+
+                    <label class="form-label" for="frontInput">
+                        Front Side Image
+                    </label>
+
+                    <input
+                        class="form-control"
+                        type="file"
+                        id="frontInput"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+
+                    <small class="text-secondary">
+                        Upload front side photo
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- BACK -->
+            <div class="col-md-6">
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">
+                        <i class="bi bi-card-image"></i>
+                    </div>
+
+                    <label class="form-label" for="backInput">
+                        Back Side Image
+                    </label>
+
+                    <input
+                        class="form-control"
+                        type="file"
+                        id="backInput"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+
+                    <small class="text-secondary">
+                        Upload back side photo
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DOWNLOAD BUTTON -->
+        <div class="mt-4">
+
+            <button
+                id="downloadBtn"
+                class="download-btn w-100"
+                disabled
+            >
+                <i class="bi bi-download"></i>
+                Download Image (JPG)
+            </button>
+
+            <p class="status-text text-secondary" id="statusText">
+                Please upload both images to continue.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PREVIEW PANEL -->
+    <section class="preview-card">
+
+        <div class="preview-heading">
+
+            <div>
+                <h5 class="section-title mb-1">
+                    <i class="bi bi-eye text-primary"></i>
+                    A4 Page Preview
+                </h5>
+
+                <p class="section-subtitle mb-0">
+                    Both images will appear side-by-side.
+                </p>
+            </div>
+
+            <span class="badge text-bg-primary">
+                A4 Portrait
+            </span>
+
+        </div>
+
+
+        <!-- A4 PAPER -->
+        <div class="paper">
+
+            <div class="paper-label">
+                A4 IMAGE LAYOUT PREVIEW
+            </div>
+
+            <div class="aadhar-row">
+
+                <!-- FRONT PREVIEW -->
+                <div class="aadhar-box">
+
+                    <span class="placeholder" id="frontLabel">
+                        <i class="bi bi-image fs-4 d-block"></i>
+                        Front Side
+                    </span>
+
+                    <img
+                        id="frontPreview"
+                        alt="Front side preview"
+                        hidden
+                    >
+
+                </div>
+
+
+                <!-- BACK PREVIEW -->
+                <div class="aadhar-box">
+
+                    <span class="placeholder" id="backLabel">
+                        <i class="bi bi-image fs-4 d-block"></i>
+                        Back Side
+                    </span>
+
+                    <img
+                        id="backPreview"
+                        alt="Back side preview"
+                        hidden
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <p class="info-text text-center mt-4 mb-0">
+            <i class="bi bi-info-circle"></i>
+            Images are processed locally in your browser. Nothing is uploaded to our server.
+        </p>
+
+    </section>
+
+</main>
+
+
+<footer>
+    © 2026 SabkaMitra. All rights reserved.
+</footer>
+
+
+<!-- JAVASCRIPT -->
+
+<script>
+const frontInput = document.getElementById("frontInput");
+const backInput = document.getElementById("backInput");
+
+const frontPreview = document.getElementById("frontPreview");
+const backPreview = document.getElementById("backPreview");
+
+const frontLabel = document.getElementById("frontLabel");
+const backLabel = document.getElementById("backLabel");
+
+const downloadBtn = document.getElementById("downloadBtn");
+const statusText = document.getElementById("statusText");
+
+let frontReady = false;
+let backReady = false;
+
+let frontCanvas = null;
+let backCanvas = null;
+
+let cvReady = false;
+
+window.addEventListener("load", () => {
+    if (window.cv && window.cv.Mat) {
+        cvReady = true;
+    } else if (window.cv) {
+        window.cv.onRuntimeInitialized = () => {
+            cvReady = true;
+        };
+    }
+});
+
+function checkImages() {
+    downloadBtn.disabled = !(frontReady && backReady);
+}
+
+function showCanvas(canvas, preview, label, side) {
+    canvas.toBlob(blob => {
+        if (!blob) {
+            statusText.textContent = "Image processing failed.";
+            return;
+        }
+
+        const url = URL.createObjectURL(blob);
+
+        preview.onload = () => {
+            preview.hidden = false;
+            label.style.display = "none";
+
+            if (side === "front") frontReady = true;
+            if (side === "back") backReady = true;
+
+            checkImages();
+            URL.revokeObjectURL(url);
+        };
+
+        preview.src = url;
+    }, "image/jpeg", 0.95);
+}
+
+// Detect card boundary and correct perspective
+function detectAadhaar(source) {
+    if (!cvReady || !window.cv || !cv.Mat) {
+        throw new Error("OpenCV is still loading. Please wait and try again.");
+    }
+
+    const inputMat = cv.imread(source);
+    const gray = new cv.Mat();
+    const blurred = new cv.Mat();
+    const edges = new cv.Mat();
+    const contours = new cv.MatVector();
+    const hierarchy = new cv.Mat();
+
+    let bestContour = null;
+    let bestArea = 0;
+    let resultCanvas = document.createElement("canvas");
+
+    try {
+        cv.cvtColor(inputMat, gray, cv.COLOR_RGBA2GRAY);
+        cv.GaussianBlur(gray, blurred, new cv.Size(5, 5), 0);
+        cv.Canny(blurred, edges, 50, 150);
+
+        const kernel = cv.getStructuringElement(
+            cv.MORPH_RECT,
+            new cv.Size(5, 5)
+        );
+
+        cv.dilate(edges, edges, kernel);
+        kernel.delete();
+
+        cv.findContours(
+            edges,
+            contours,
+            hierarchy,
+            cv.RETR_LIST,
+            cv.CHAIN_APPROX_SIMPLE
+        );
+
+        for (let i = 0; i < contours.size(); i++) {
+            const contour = contours.get(i);
+            const area = cv.contourArea(contour);
+
+            if (area < inputMat.cols * inputMat.rows * 0.02) {
+                contour.delete();
+                continue;
+            }
+
+            const perimeter = cv.arcLength(contour, true);
+            const approx = new cv.Mat();
+
+            cv.approxPolyDP(
+                contour,
+                approx,
+                0.02 * perimeter,
+                true
+            );
+
+            if (approx.rows === 4 && area > bestArea) {
+                bestArea = area;
+
+                if (bestContour) bestContour.delete();
+
+                bestContour = approx.clone();
+            }
+
+            approx.delete();
+            contour.delete();
+        }
+
+        if (!bestContour) {
+            throw new Error("Aadhaar boundary not detected.");
+        }
+
+        const points = [];
+
+        for (let i = 0; i < 4; i++) {
+            points.push({
+                x: bestContour.intAt(i, 0),
+                y: bestContour.intAt(i, 1)
+            });
+        }
+
+        // Order points: top-left, top-right,
+        // bottom-right, bottom-left
+        const sum = points.map(p => p.x + p.y);
+        const diff = points.map(p => p.x - p.y);
+
+        const tl = points[sum.indexOf(Math.min(...sum))];
+        const br = points[sum.indexOf(Math.max(...sum))];
+        const tr = points[diff.indexOf(Math.max(...diff))];
+        const bl = points[diff.indexOf(Math.min(...diff))];
+
+        const srcPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+            tl.x, tl.y,
+            tr.x, tr.y,
+            br.x, br.y,
+            bl.x, bl.y
+        ]);
+
+        const dstPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+            0, 0,
+            1015, 0,
+            1015, 638,
+            0, 638
+        ]);
+
+        const transform = cv.getPerspectiveTransform(
+            srcPoints,
+            dstPoints
+        );
+
+        const warped = new cv.Mat();
+
+        cv.warpPerspective(
+            inputMat,
+            warped,
+            transform,
+            new cv.Size(1015, 638)
+        );
+
+        resultCanvas.width = 1015;
+        resultCanvas.height = 638;
+
+        cv.imshow(resultCanvas, warped);
+
+        srcPoints.delete();
+        dstPoints.delete();
+        transform.delete();
+        warped.delete();
+
+        return resultCanvas;
+
+    } finally {
+        inputMat.delete();
+        gray.delete();
+        blurred.delete();
+        edges.delete();
+        contours.delete();
+        hierarchy.delete();
+
+        if (bestContour) bestContour.delete();
+    }
+}
+
+function loadImage(input, preview, label, side) {
+    const file = input.files[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+        alert("Please select a valid image.");
+        input.value = "";
+        return;
+    }
+
+    if (file.size > 15 * 1024 * 1024) {
+        alert("Image size should be less than 15 MB.");
+        input.value = "";
+        return;
+    }
+
+    if (side === "front") {
+        frontReady = false;
+        frontCanvas = null;
+    } else {
+        backReady = false;
+        backCanvas = null;
+    }
+
+    downloadBtn.disabled = true;
+    statusText.textContent = "Detecting Aadhaar card...";
+
+    const image = new Image();
+    const url = URL.createObjectURL(file);
+
+    image.onload = () => {
+        try {
+            const detectedCanvas = detectAadhaar(image);
+
+            if (side === "front") {
+                frontCanvas = detectedCanvas;
+            } else {
+                backCanvas = detectedCanvas;
+            }
+
+            showCanvas(
+                detectedCanvas,
+                preview,
+                label,
+                side
+            );
+
+            statusText.textContent =
+                "Aadhaar card detected successfully!";
+
+        } catch (error) {
+            console.warn(error);
+
+            // Fallback: use the complete original image.
+            // No automatic crop is applied.
+            const canvas = document.createElement("canvas");
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(image, 0, 0);
+
+            if (side === "front") {
+                frontCanvas = canvas;
+            } else {
+                backCanvas = canvas;
+            }
+
+            showCanvas(canvas, preview, label, side);
+
+            statusText.textContent =
+                "Card boundary not detected. Original image used. Please check preview.";
+        }
+
+        URL.revokeObjectURL(url);
+    };
+
+    image.onerror = () => {
+        URL.revokeObjectURL(url);
+        alert("Could not load image.");
+    };
+
+    image.src = url;
+}
+
+frontInput.addEventListener("change", () => {
+    loadImage(frontInput, frontPreview, frontLabel, "front");
+});
+
+backInput.addEventListener("change", () => {
+    loadImage(backInput, backPreview, backLabel, "back");
+});
+
+// Download A4 JPG
+downloadBtn.addEventListener("click", () => {
+    if (!frontReady || !backReady) return;
+
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = "Creating Image...";
+
+    try {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = 2480;
+        canvas.height = 3508;
+
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const marginX = 177;
+        const marginY = 177;
+        const cardW = 1015;
+        const cardH = 638;
+        const gap = 94;
+
+        ctx.drawImage(
+            frontCanvas,
+            marginX,
+            marginY,
+            cardW,
+            cardH
+        );
+
+        ctx.drawImage(
+            backCanvas,
+            marginX + cardW + gap,
+            marginY,
+            cardW,
+            cardH
+        );
+
+        canvas.toBlob(blob => {
+            if (!blob) {
+                alert("Image creation failed.");
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML =
+                    '<i class="bi bi-download"></i> Download Image (JPG)';
+                return;
+            }
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = "SabkaMitra-A4-Image.jpg";
+
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+
+            downloadBtn.disabled = false;
+            downloadBtn.innerHTML =
+                '<i class="bi bi-download"></i> Download Image (JPG)';
+
+            statusText.textContent = "Your JPG image is ready!";
+            statusText.className = "status-text text-success";
+
+        }, "image/jpeg", 0.95);
+
+    } catch (error) {
+        console.error(error);
+
+        alert("Something went wrong.");
+
+        downloadBtn.disabled = false;
+        downloadBtn.innerHTML =
+            '<i class="bi bi-download"></i> Download Image (JPG)';
+    }
+});
+</script>
+
+
+</body>
+</html>

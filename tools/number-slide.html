@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111827">
+<title>Number Slide | SabkaMitra</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;padding:20px;
+ font-family:system-ui,Arial,sans-serif;color:#fff;
+ background:radial-gradient(circle at top,#293d67,#101827 65%);
+}
+.container{max-width:480px;margin:auto}
+header{text-align:center;padding:18px 0 22px}
+.logo{font-size:31px;font-weight:950;letter-spacing:2px}
+.logo span{color:#8b9cff}
+header p{color:#aebbd0;font-size:13px}
+.panel{
+ background:#ffffff0c;border:1px solid #ffffff1b;
+ border-radius:22px;padding:18px;margin-bottom:15px;
+ box-shadow:0 15px 40px #0003;
+}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.stat{background:#ffffff0b;border-radius:13px;padding:12px 4px}
+.stat strong{display:block;font-size:23px;color:#a9b5ff}
+.stat small{font-size:11px;color:#aebbd0}
+.board{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:8px;width:100%;aspect-ratio:1;margin:18px auto 0;
+ touch-action:manipulation;
+}
+.tile{
+ border:1px solid #ffffff20;border-radius:13px;
+ background:linear-gradient(145deg,#657cf3,#4357bc);
+ color:white;font-size:clamp(21px,7vw,34px);
+ font-weight:900;display:grid;place-items:center;
+ box-shadow:0 4px 0 #303e8e;
+ transition:transform .1s,background .15s;
+ cursor:pointer;user-select:none;
+ -webkit-tap-highlight-color:transparent;
+}
+.tile:active{transform:scale(.94)}
+.tile.empty{
+ background:#ffffff08;border:1px dashed #ffffff20;
+ box-shadow:none;cursor:default;
+}
+.tile:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.status{text-align:center;color:#c5ceec;font-size:13px;min-height:22px;margin-top:14px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+button.control{
+ border:0;border-radius:12px;padding:13px;
+ background:#697cf5;color:white;font-weight:800;font-size:13px;
+ cursor:pointer;
+}
+button.control.secondary{background:#ffffff14;color:#e8ebff;border:1px solid #ffffff20}
+button.control:disabled{opacity:.5;cursor:not-allowed}
+.instructions{color:#aebbd0;font-size:12px;line-height:1.8}
+.instructions strong{color:#fff}
+.back{display:block;text-align:center;text-decoration:none;color:#b8c3e0;font-size:13px;margin:18px}
+.win-message{
+ display:none;text-align:center;margin-top:14px;
+ padding:13px;border-radius:12px;
+ background:#26a87926;color:#8df0c4;font-weight:800;
+}
+@media(max-width:360px){
+ body{padding:12px}
+ .panel{padding:13px}
+ .board{gap:6px}
+ .tile{border-radius:9px}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<header>
+ <div class="logo">NUMBER <span>SLIDE</span></div>
+ <p>Arrange the numbers. Train your brain!</p>
+</header>
+
+<section class="panel">
+ <div class="stats">
+  <div class="stat"><strong id="moves">0</strong><small>MOVES</small></div>
+  <div class="stat"><strong id="time">00:00</strong><small>TIME</small></div>
+  <div class="stat"><strong id="best">—</strong><small>BEST MOVES</small></div>
+ </div>
+
+ <div class="board" id="board" aria-label="Number puzzle board"></div>
+
+ <div class="status" id="status" aria-live="polite">Tap a nearby tile to move it.</div>
+ <div class="win-message" id="win">🎉 Puzzle Solved! Excellent work!</div>
+
+ <div class="controls">
+  <button class="control" id="shuffle">🔀 New Game</button>
+  <button class="control secondary" id="reset">↻ Restart</button>
+ </div>
+</section>
+
+<section class="panel instructions">
+ <strong>How to play?</strong><br>
+ • Tap any tile next to the empty space.<br>
+ • Move tiles to arrange numbers from 1 to 15.<br>
+ • Complete the puzzle in minimum moves.<br>
+ • Try to beat your best score!
+</section>
+
+<a href="../games.html" class="back">← Back to Games</a>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+const boardEl=document.getElementById("board");
+const movesEl=document.getElementById("moves");
+const timeEl=document.getElementById("time");
+const bestEl=document.getElementById("best");
+const statusEl=document.getElementById("status");
+const winEl=document.getElementById("win");
+const shuffleBtn=document.getElementById("shuffle");
+const resetBtn=document.getElementById("reset");
+
+let tiles=[];
+let moves=0;
+let seconds=0;
+let timer=null;
+let started=false;
+let finished=false;
+let best=null;
+
+try{
+ const saved=localStorage.getItem("numberSlideBest");
+ if(saved!==null && /^\d+$/.test(saved)) best=Number(saved);
+}catch(e){best=null;}
+
+function updateStats(){
+ movesEl.textContent=moves;
+ timeEl.textContent=
+  String(Math.floor(seconds/60)).padStart(2,"0")+":"+
+  String(seconds%60).padStart(2,"0");
+ bestEl.textContent=best===null?"—":best;
+}
+
+function startTimer(){
+ if(started || finished)return;
+ started=true;
+ timer=setInterval(()=>{
+  seconds++;
+  updateStats();
+ },1000);
+}
+
+function stopTimer(){
+ if(timer!==null)clearInterval(timer);
+ timer=null;
+}
+
+function render(){
+ boardEl.replaceChildren();
+
+ tiles.forEach((value,index)=>{
+  const cell=document.createElement("button");
+  cell.type="button";
+  cell.className="tile"+(value===0?" empty":"");
+  cell.textContent=value===0?"":String(value);
+  cell.disabled=value===0 || finished;
+  cell.setAttribute("aria-label",
+   value===0?"Empty space":"Move tile "+value);
+  cell.addEventListener("click",()=>moveTile(index));
+  boardEl.appendChild(cell);
+ });
+ updateStats();
+}
+
+function isAdjacent(index,empty){
+ const row=Math.floor(index/4);
+ const col=index%4;
+ const emptyRow=Math.floor(empty/4);
+ const emptyCol=empty%4;
+ return Math.abs(row-emptyRow)+Math.abs(col-emptyCol)===1;
+}
+
+function isSolved(){
+ return tiles.every((v,i)=>v===(i===15?0:i+1));
+}
+
+function moveTile(index){
+ if(finished)return;
+ const empty=tiles.indexOf(0);
+ if(!isAdjacent(index,empty))return;
+
+ startTimer();
+ [tiles[index],tiles[empty]]=[tiles[empty],tiles[index]];
+ moves++;
+ render();
+
+ if(isSolved()){
+  finished=true;
+  stopTimer();
+  statusEl.textContent="You completed the puzzle!";
+  winEl.style.display="block";
+
+  if(best===null || moves<best){
+   best=moves;
+   try{localStorage.setItem("numberSlideBest",String(best));}catch(e){}
+  }
+  updateStats();
+  render();
+ }
+}
+
+function shuffle(){
+ stopTimer();
+ tiles=Array.from({length:15},(_,i)=>i+1);
+ tiles.push(0);
+
+ // Start from solved state and make legal random moves.
+ // This guarantees every generated puzzle is solvable.
+ let previousEmpty=-1;
+ for(let step=0;step<250;step++){
+  const empty=tiles.indexOf(0);
+  const options=[];
+  for(let i=0;i<16;i++){
+   if(isAdjacent(i,empty) && i!==previousEmpty)options.push(i);
+  }
+  const choices=options.length?options:(()=>{
+   const all=[];
+   for(let i=0;i<16;i++)if(isAdjacent(i,empty))all.push(i);
+   return all;
+  })();
+  const chosen=choices[Math.floor(Math.random()*choices.length)];
+  [tiles[empty],tiles[chosen]]=[tiles[chosen],tiles[empty]];
+  previousEmpty=empty;
+ }
+
+ // Avoid an already solved starting board.
+ if(isSolved()){
+  const empty=tiles.indexOf(0);
+  const first=empty===15?14:15;
+  [tiles[empty],tiles[first]]=[tiles[first],tiles[empty]];
+ }
+
+ moves=0;
+ seconds=0;
+ started=false;
+ finished=false;
+ winEl.style.display="none";
+ statusEl.textContent="Tap a nearby tile to move it.";
+ render();
+}
+
+function restart(){
+ stopTimer();
+ tiles=Array.from({length:15},(_,i)=>i+1);
+ tiles.push(0);
+ moves=0;
+ seconds=0;
+ started=false;
+ finished=false;
+ winEl.style.display="none";
+ statusEl.textContent="Fresh board! Start solving.";
+ render();
+}
+
+shuffleBtn.addEventListener("click",shuffle);
+resetBtn.addEventListener("click",restart);
+
+restart();
+shuffle();
+})();
+</script>
+</body>
+</html>

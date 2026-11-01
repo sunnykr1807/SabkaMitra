@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>XO Arena | SabkaMitra</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,Arial,sans-serif;
+  background:radial-gradient(circle at top,#263c64,#101827 60%);
+  color:#fff;min-height:100vh;padding:18px;
+}
+.container{max-width:520px;margin:auto}
+header{text-align:center;padding:20px 0 24px}
+.logo{font-size:38px;font-weight:900;letter-spacing:5px}
+.logo span:first-child{color:#65d8ff}
+.logo span:last-child{color:#ff85b8}
+header p{color:#aebbd0;margin-top:8px;font-size:14px}
+.panel{
+  background:#ffffff0d;border:1px solid #ffffff1c;
+  border-radius:22px;padding:20px;margin-bottom:16px;
+  box-shadow:0 15px 40px #0003;
+}
+h2{font-size:17px;margin-bottom:14px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;cursor:pointer}
+.mode{
+  border:1px solid #ffffff25;background:#ffffff0c;color:#dce8ff;
+  border-radius:13px;padding:13px 8px;font-weight:700;
+}
+.mode.active{background:#5c7cfa;color:white;border-color:#8da3ff}
+.scoreboard{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;text-align:center}
+.score{
+  background:#ffffff0b;border-radius:14px;padding:13px 5px;
+}
+.score strong{display:block;font-size:26px;margin-bottom:3px}
+.score small{color:#aebbd0}
+#scoreX{color:#65d8ff}#scoreO{color:#ff85b8}
+.status{text-align:center;font-weight:700;font-size:17px;margin:18px 0 15px}
+.board{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:10px;max-width:390px;margin:auto;
+}
+.cell{
+  aspect-ratio:1;border:1px solid #ffffff20;
+  border-radius:17px;background:#ffffff0d;
+  color:white;font-size:clamp(42px,12vw,68px);
+  font-weight:900;display:grid;place-items:center;
+  transition:background .15s,transform .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.cell:active{transform:scale(.95)}
+.cell:disabled{cursor:default}
+.cell.x{color:#65d8ff;text-shadow:0 0 20px #65d8ff55}
+.cell.o{color:#ff85b8;text-shadow:0 0 20px #ff85b855}
+.cell.win{background:#3bcb8b30;border-color:#3bcb8b}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:19px}
+.action{
+  padding:13px;border:0;border-radius:13px;
+  font-weight:800;background:#5c7cfa;color:white;
+}
+.action.secondary{background:#ffffff13;color:#e5edff;border:1px solid #ffffff20}
+.note{text-align:center;color:#8494ad;font-size:12px;margin:18px 0 5px}
+.home{display:block;text-align:center;color:#aebbd0;text-decoration:none;margin:18px}
+@media(max-width:360px){body{padding:12px}.panel{padding:15px}.board{gap:7px}}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <header>
+    <div class="logo"><span>X</span><span>O</span> ARENA</div>
+    <p>Think smart. Make your move. Win the game.</p>
+  </header>
+
+  <section class="panel">
+    <h2>Choose Game Mode</h2>
+    <div class="modes">
+      <button class="mode active" id="friendMode">👥 2 Players</button>
+      <button class="mode" id="computerMode">🤖 vs Computer</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="scoreboard">
+      <div class="score"><strong id="scoreX">0</strong><small>Player X</small></div>
+      <div class="score"><strong id="scoreDraw">0</strong><small>Draws</small></div>
+      <div class="score"><strong id="scoreO">0</strong><small id="oLabel">Player O</small></div>
+    </div>
+
+    <div class="status" id="status" aria-live="polite">Player X's turn</div>
+
+    <div class="board" id="board" aria-label="Tic Tac Toe board">
+      <button class="cell" aria-label="Cell 1"></button>
+      <button class="cell" aria-label="Cell 2"></button>
+      <button class="cell" aria-label="Cell 3"></button>
+      <button class="cell" aria-label="Cell 4"></button>
+      <button class="cell" aria-label="Cell 5"></button>
+      <button class="cell" aria-label="Cell 6"></button>
+      <button class="cell" aria-label="Cell 7"></button>
+      <button class="cell" aria-label="Cell 8"></button>
+      <button class="cell" aria-label="Cell 9"></button>
+    </div>
+
+    <div class="actions">
+      <button class="action" id="restart">↻ New Round</button>
+      <button class="action secondary" id="reset">Reset Scores</button>
+    </div>
+  </section>
+
+  <p class="note">🔒 Private game • No account • No data sent</p>
+  <a class="home" href="../index.html">← Back to SabkaMitra</a>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const cells = [...document.querySelectorAll(".cell")];
+  const statusText = document.getElementById("status");
+  const scoreXEl = document.getElementById("scoreX");
+  const scoreOEl = document.getElementById("scoreO");
+  const scoreDrawEl = document.getElementById("scoreDraw");
+  const friendBtn = document.getElementById("friendMode");
+  const computerBtn = document.getElementById("computerMode");
+  const oLabel = document.getElementById("oLabel");
+
+  const wins = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  let board = Array(9).fill("");
+  let turn = "X";
+  let gameOver = false;
+  let computerMode = false;
+  let scores = {X:0,O:0,draw:0};
+
+  function winner(state) {
+    for (const line of wins) {
+      const [a,b,c] = line;
+      if (state[a] && state[a] === state[b] && state[a] === state[c]) {
+        return {player:state[a],line};
+      }
+    }
+    return null;
+  }
+
+  function render() {
+    cells.forEach((cell,i) => {
+      cell.textContent = board[i];
+      cell.className = "cell" + (board[i] ? " " + board[i].toLowerCase() : "");
+      cell.disabled = gameOver || !!board[i] || (computerMode && turn === "O");
+      cell.setAttribute("aria-label",
+        "Cell " + (i+1) + (board[i] ? ", " + board[i] : ", empty"));
+    });
+    scoreXEl.textContent = scores.X;
+    scoreOEl.textContent = scores.O;
+    scoreDrawEl.textContent = scores.draw;
+  }
+
+  function finish(result) {
+    gameOver = true;
+    if (result) {
+      scores[result.player]++;
+      statusText.textContent = computerMode && result.player === "O"
+        ? "🤖 Computer wins!"
+        : "🎉 Player " + result.player + " wins!";
+      result.line.forEach(i => cells[i].classList.add("win"));
+    } else {
+      scores.draw++;
+      statusText.textContent = "🤝 It's a draw!";
+    }
+    render();
+  }
+
+  function checkEnd() {
+    const result = winner(board);
+    if (result) {
+      finish(result);
+      return true;
+    }
+    if (board.every(Boolean)) {
+      finish(null);
+      return true;
+    }
+    return false;
+  }
+
+  function makeMove(index) {
+    if (gameOver || board[index]) return;
+    board[index] = turn;
+    if (checkEnd()) return;
+    turn = turn === "X" ? "O" : "X";
+    statusText.textContent = "Player " + turn + "'s turn";
+    render();
+    if (computerMode && turn === "O") computerMove();
+  }
+
+  // Minimax AI: computer plays optimally.
+  function minimax(state, isMax) {
+    const result = winner(state);
+    if (result) return result.player === "O" ? 10 : -10;
+    if (state.every(Boolean)) return 0;
+
+    let best = isMax ? -Infinity : Infinity;
+    for (let i=0;i<9;i++) {
+      if (state[i]) continue;
+      state[i] = isMax ? "O" : "X";
+      const value = minimax(state,!isMax);
+      state[i] = "";
+      best = isMax ? Math.max(best,value) : Math.min(best,value);
+    }
+    return best;
+  }
+
+  function computerMove() {
+    if (gameOver) return;
+    let bestScore = -Infinity;
+    let bestIndex = -1;
+    for (let i=0;i<9;i++) {
+      if (board[i]) continue;
+      board[i] = "O";
+      const score = minimax(board,false);
+      board[i] = "";
+      if (score > bestScore) {
+        bestScore = score;
+        bestIndex = i;
+      }
+    }
+    if (bestIndex !== -1) makeMove(bestIndex);
+  }
+
+  function newRound() {
+    board = Array(9).fill("");
+    turn = "X";
+    gameOver = false;
+    statusText.textContent = "Player X's turn";
+    render();
+  }
+
+  function setMode(isComputer) {
+    computerMode = isComputer;
+    friendBtn.classList.toggle("active",!isComputer);
+    computerBtn.classList.toggle("active",isComputer);
+    oLabel.textContent = isComputer ? "Computer O" : "Player O";
+    scores = {X:0,O:0,draw:0};
+    newRound();
+  }
+
+  cells.forEach((cell,index) => {
+    cell.addEventListener("click",() => makeMove(index));
+  });
+
+  friendBtn.addEventListener("click",() => setMode(false));
+  computerBtn.addEventListener("click",() => setMode(true));
+  document.getElementById("restart").addEventListener("click",newRound);
+  document.getElementById("reset").addEventListener("click",() => {
+    scores = {X:0,O:0,draw:0};
+    newRound();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
