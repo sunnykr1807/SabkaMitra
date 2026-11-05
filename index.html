@@ -97,6 +97,46 @@
                             <i class="bi bi-controller"></i> Games
                         </a>
                     </li>
+
+
+                    <li class="nav-item dropdown notification-nav">
+                        <button class="nav-link notification-bell" id="notificationBell" data-bs-toggle="dropdown"
+                            aria-expanded="false" aria-label="Notifications">
+                            <i class="bi bi-bell"></i>
+                            <span class="notification-dot"></span>
+                        </button>
+
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown">
+                            <div class="notification-drop-header">
+                                <strong>Notifications</strong>
+                                <span>Latest updates</span>
+                            </div>
+
+
+                            <div id="notificationList">
+                                <div class="notification-drop-item">
+                                    <i class="bi bi-hourglass-split"></i>
+                                    <div>
+                                        <strong>Loading notifications...</strong>
+                                        <p>Please wait while we load updates.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="border-top p-2 text-center">
+                                <button type="button" class="btn btn-sm btn-outline-primary" id="adminOpenBtn">
+                                    <i class="bi bi-shield-lock me-1"></i>
+                                    Admin Panel
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </li>
+
+
                     <li>
                         <button id="themeToggle" class="theme-toggle">
                             <i class="bi bi-moon-stars"></i><span>Dark mode</span>
@@ -350,6 +390,182 @@
                     <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
                 </a>
 
+
+                <!-- PDF TOOLS - COMING SOON -->
+
+                <div class="tool-card" data-category="pdf" data-name="jpg to pdf convert jpg images">
+                    <span class="tool-icon icon-red"><i class="bi bi-filetype-jpg"></i></span>
+                    <span class="tool-card-content">
+                        <strong>JPG to PDF</strong>
+                        <small>Convert JPG images into PDF files.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="png to pdf convert png images">
+                    <span class="tool-icon icon-red"><i class="bi bi-filetype-png"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PNG to PDF</strong>
+                        <small>Convert PNG images into PDF files.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="word to pdf doc docx">
+                    <span class="tool-icon icon-blue"><i class="bi bi-file-earmark-word"></i></span>
+                    <span class="tool-card-content">
+                        <strong>Word to PDF</strong>
+                        <small>Convert Word documents into PDF.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf to word doc docx">
+                    <span class="tool-icon icon-blue"><i class="bi bi-file-earmark-word"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF to Word</strong>
+                        <small>Convert PDF files into editable Word documents.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="text to pdf">
+                    <span class="tool-icon icon-red"><i class="bi bi-file-text"></i></span>
+                    <span class="tool-card-content">
+                        <strong>Text to PDF</strong>
+                        <small>Convert plain text into PDF.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf merge combine join">
+                    <span class="tool-icon icon-violet"><i class="bi bi-files"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Merger</strong>
+                        <small>Combine multiple PDF files into one.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf split separate pages">
+                    <span class="tool-icon icon-violet"><i class="bi bi-scissors"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Splitter</strong>
+                        <small>Separate PDF pages into different files.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf compressor compress reduce size">
+                    <span class="tool-icon icon-green"><i class="bi bi-file-zip"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Compressor</strong>
+                        <small>Reduce the size of PDF files.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf to jpg">
+                    <span class="tool-icon icon-orange"><i class="bi bi-filetype-jpg"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF to JPG</strong>
+                        <small>Convert PDF pages into JPG images.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf to png">
+                    <span class="tool-icon icon-orange"><i class="bi bi-filetype-png"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF to PNG</strong>
+                        <small>Convert PDF pages into PNG images.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf to excel">
+                    <span class="tool-icon icon-green"><i class="bi bi-file-earmark-excel"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF to Excel</strong>
+                        <small>Extract PDF tables into Excel format.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf repair fix">
+                    <span class="tool-icon icon-red"><i class="bi bi-tools"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Repair</strong>
+                        <small>Try to repair damaged PDF files.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf rotate">
+                    <span class="tool-icon icon-blue"><i class="bi bi-arrow-clockwise"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Rotate</strong>
+                        <small>Rotate PDF pages in any direction.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf extract pages">
+                    <span class="tool-icon icon-violet"><i class="bi bi-file-earmark-plus"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Extract Pages</strong>
+                        <small>Extract selected pages from a PDF.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf remove delete pages">
+                    <span class="tool-icon icon-red"><i class="bi bi-file-earmark-minus"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Remove Pages</strong>
+                        <small>Remove unwanted pages from a PDF.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf organize reorder pages">
+                    <span class="tool-icon icon-blue"><i class="bi bi-list-ol"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Organize</strong>
+                        <small>Rearrange PDF pages easily.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf sign signature">
+                    <span class="tool-icon icon-green"><i class="bi bi-pen"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Sign</strong>
+                        <small>Add your signature to PDF documents.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf watermark">
+                    <span class="tool-icon icon-violet"><i class="bi bi-droplet"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Watermark</strong>
+                        <small>Add a watermark to PDF pages.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="pdf" data-name="pdf page numbers">
+                    <span class="tool-icon icon-orange"><i class="bi bi-123"></i></span>
+                    <span class="tool-card-content">
+                        <strong>PDF Page Numbers</strong>
+                        <small>Add page numbers to PDF documents.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+
+
                 <a class="tool-card" href="tools/image-crop.html" data-category="image"
                     data-name="photo crop image crop">
                     <span class="tool-icon icon-violet"><i class="bi bi-crop"></i></span>
@@ -423,6 +639,35 @@
                     <span class="tool-arrow"><i class="bi bi-arrow-up-right"></i></span>
                 </a>
 
+
+                <!-- NEW IMAGE TOOLS -->
+
+                <div class="tool-card" data-category="image" data-name="image editor photo editor">
+                    <span class="tool-icon icon-blue"><i class="bi bi-image"></i></span>
+                    <span class="tool-card-content">
+                        <strong>Image Editor</strong>
+                        <small>Edit photos with useful editing options.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="image" data-name="ai image cropper smart crop">
+                    <span class="tool-icon icon-violet"><i class="bi bi-magic"></i></span>
+                    <span class="tool-card-content">
+                        <strong>AI Image Cropper</strong>
+                        <small>Smart AI-powered image cropping.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
+
+                <div class="tool-card" data-category="image" data-name="passport photo maker photo size">
+                    <span class="tool-icon icon-orange"><i class="bi bi-person-bounding-box"></i></span>
+                    <span class="tool-card-content">
+                        <strong>Passport Photo Maker</strong>
+                        <small>Create passport-size photos easily.</small>
+                        <small class="coming-soon-badge">Coming Soon</small>
+                    </span>
+                </div>
 
 
                 <a class="tool-card" href="tools/qr-code-generator.html" data-category="image"
@@ -819,6 +1064,474 @@
 
 
     </script>
+
+
+    <script type="module">
+        // FIREBASE NOTIFICATION SYSTEM
+
+        import { initializeApp } from
+            "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            orderBy,
+            limit,
+            onSnapshot
+        } from
+            "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+
+        // FIREBASE CONFIGURATION
+        const firebaseConfig = {
+            apiKey: "AIzaSyCutFi0lx1C_ncGkEbU94vzrbyy7T2pwxY",
+            authDomain: "sabkamitra-b9b6f.firebaseapp.com",
+            projectId: "sabkamitra-b9b6f",
+            storageBucket: "sabkamitra-b9b6f.firebasestorage.app",
+            messagingSenderId: "117920542180",
+            appId: "1:117920542180:web:4586d83a9892bbc2096bf1",
+            measurementId: "G-5R5N5P529C"
+        };
+
+
+        // INITIALIZE FIREBASE
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+
+        // HTML ELEMENTS
+        const notificationList = document.getElementById("notificationList");
+        const notificationDot = document.querySelector(".notification-dot");
+
+
+        // ICONS FOR NOTIFICATION TYPES
+        function getNotificationIcon(type) {
+            if (type === "New Tool") return "bi-stars";
+            if (type === "Website Update") return "bi-arrow-repeat";
+            return "bi-megaphone";
+        }
+
+
+        // SHOW NOTIFICATIONS
+        function showNotifications(snapshot) {
+
+            notificationList.replaceChildren();
+
+            if (notificationDot) {
+                notificationDot.style.display =
+                    snapshot.empty ? "none" : "block";
+            }
+
+            if (snapshot.empty) {
+                const emptyMessage = document.createElement("div");
+                emptyMessage.className = "notification-drop-item";
+                emptyMessage.textContent = "No notifications available.";
+                notificationList.appendChild(emptyMessage);
+                return;
+            }
+
+            snapshot.forEach((documentSnapshot) => {
+
+                const data = documentSnapshot.data();
+
+                const item = document.createElement("div");
+                item.className = "notification-drop-item";
+
+                const icon = document.createElement("i");
+                icon.className =
+                    "bi " + getNotificationIcon(data.type);
+
+                const content = document.createElement("div");
+
+                const title = document.createElement("strong");
+                title.textContent = data.title || "SabkaMitra Update";
+
+                const message = document.createElement("p");
+                message.textContent = data.message || "";
+
+                const category = document.createElement("small");
+                category.textContent = data.type || "Announcement";
+
+                content.append(title, message, category);
+
+                if (data.createdAt && data.createdAt.toDate) {
+                    const date = document.createElement("small");
+                    date.textContent = " • " +
+                        data.createdAt.toDate().toLocaleDateString("en-IN");
+                    content.appendChild(date);
+                }
+
+                item.append(icon, content);
+                notificationList.appendChild(item);
+            });
+        }
+
+
+        // LOAD LATEST 3 PUBLISHED NOTIFICATIONS
+        const notificationQuery = query(
+            collection(db, "notifications"),
+            where("status", "==", "published"),
+            orderBy("createdAt", "desc"),
+            limit(3)
+        );
+
+
+        // REAL-TIME LISTENER
+        onSnapshot(
+            notificationQuery,
+            showNotifications,
+            (error) => {
+                console.error("Notification error:", error);
+
+                notificationList.textContent =
+                    "Notifications could not be loaded. Please try again later.";
+            }
+        );
+
+    </script>
+
+
+    <script type="module">
+        import { getApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp,
+            query,
+            orderBy,
+            limit,
+            onSnapshot,
+            deleteDoc,
+            doc
+        } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+        const ADMIN_UID = "EPqrJK7CA0VZ3ctAsFPsSATOAgL2";
+
+        const app = getApp();
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const modalElement = document.getElementById("adminModal");
+        const adminModal = new bootstrap.Modal(modalElement);
+
+        const loginBox = document.getElementById("adminLoginBox");
+        const panelBox = document.getElementById("adminPanelBox");
+        const statusBox = document.getElementById("adminStatus");
+        const adminList = document.getElementById("adminNotificationList");
+
+        let stopAdminListener = null;
+
+        function setAdminStatus(message, isError = false) {
+            statusBox.textContent = message;
+            statusBox.className = isError
+                ? "small mt-3 text-danger"
+                : "small mt-3 text-success";
+        }
+
+        function showAdminPanel() {
+            loginBox.hidden = true;
+            panelBox.hidden = false;
+            setAdminStatus("Admin login successful!");
+            loadAdminNotifications();
+        }
+
+        function showAdminLogin() {
+            loginBox.hidden = false;
+            panelBox.hidden = true;
+
+            if (stopAdminListener) {
+                stopAdminListener();
+                stopAdminListener = null;
+            }
+        }
+
+        // OPEN ADMIN MODAL
+        document.getElementById("adminOpenBtn").addEventListener("click", () => {
+            adminModal.show();
+
+            if (auth.currentUser) {
+                if (auth.currentUser.uid === ADMIN_UID) {
+                    showAdminPanel();
+                } else {
+                    signOut(auth);
+                    showAdminLogin();
+                }
+            } else {
+                showAdminLogin();
+            }
+        });
+
+        // ADMIN LOGIN
+        document.getElementById("adminLoginBtn").addEventListener("click", async () => {
+            const email = document.getElementById("adminEmail").value.trim();
+            const password = document.getElementById("adminPassword").value;
+
+            if (!email || !password) {
+                setAdminStatus("Email aur password dono bharo.", true);
+                return;
+            }
+
+            const button = document.getElementById("adminLoginBtn");
+            button.disabled = true;
+
+            try {
+                const result = await signInWithEmailAndPassword(auth, email, password);
+
+                if (result.user.uid !== ADMIN_UID) {
+                    await signOut(auth);
+                    throw new Error("This account is not authorized as admin.");
+                }
+
+                document.getElementById("adminPassword").value = "";
+                showAdminPanel();
+
+            } catch (error) {
+                console.error("Admin login error:", error);
+                setAdminStatus("Login failed: " + error.message, true);
+            } finally {
+                button.disabled = false;
+            }
+        });
+
+        // PUBLISH NOTIFICATION
+        document.getElementById("publishNotificationBtn").addEventListener("click", async () => {
+            if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+                setAdminStatus("Admin login required.", true);
+                return;
+            }
+
+            const title = document.getElementById("adminTitle").value.trim();
+            const message = document.getElementById("adminMessage").value.trim();
+            const type = document.getElementById("adminType").value;
+
+            if (title.length < 3 || message.length < 5) {
+                setAdminStatus("Title (minimum 3) aur message (minimum 5 characters) likho.", true);
+                return;
+            }
+
+            const button = document.getElementById("publishNotificationBtn");
+            button.disabled = true;
+
+            try {
+                await addDoc(collection(db, "notifications"), {
+                    title: title,
+                    message: message,
+                    type: type,
+                    status: "published",
+                    createdAt: serverTimestamp()
+                });
+
+                document.getElementById("adminTitle").value = "";
+                document.getElementById("adminMessage").value = "";
+
+                setAdminStatus("Notification successfully published!");
+
+            } catch (error) {
+                console.error("Publish error:", error);
+                setAdminStatus("Publish failed: " + error.message, true);
+            } finally {
+                button.disabled = false;
+            }
+        });
+
+        // LOAD ADMIN NOTIFICATION HISTORY
+        function loadAdminNotifications() {
+            if (stopAdminListener) stopAdminListener();
+
+            adminList.textContent = "Loading notifications...";
+
+            const adminQuery = query(
+                collection(db, "notifications"),
+                orderBy("createdAt", "desc"),
+                limit(20)
+            );
+
+            stopAdminListener = onSnapshot(adminQuery, (snapshot) => {
+                adminList.replaceChildren();
+
+                if (snapshot.empty) {
+                    adminList.textContent = "No notifications found.";
+                    return;
+                }
+
+                snapshot.forEach((itemSnapshot) => {
+                    const data = itemSnapshot.data();
+
+                    const row = document.createElement("div");
+                    row.className = "border rounded p-2 mb-2";
+
+                    const title = document.createElement("strong");
+                    title.textContent = data.title || "Untitled";
+
+                    const message = document.createElement("p");
+                    message.className = "small mb-2";
+                    message.textContent = data.message || "";
+
+                    const removeButton = document.createElement("button");
+                    removeButton.className = "btn btn-sm btn-outline-danger";
+                    removeButton.textContent = "Delete";
+
+                    removeButton.addEventListener("click", async () => {
+                        if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+                            setAdminStatus("Admin login required.", true);
+                            return;
+                        }
+
+                        if (!confirm("Is notification ko delete karna hai?")) return;
+
+                        try {
+                            await deleteDoc(doc(db, "notifications", itemSnapshot.id));
+                            setAdminStatus("Notification deleted.");
+                        } catch (error) {
+                            setAdminStatus("Delete failed: " + error.message, true);
+                        }
+                    });
+
+                    row.append(title, message, removeButton);
+                    adminList.appendChild(row);
+                });
+
+            }, (error) => {
+                console.error("Admin list error:", error);
+                adminList.textContent = "Could not load notification history.";
+            });
+        }
+
+        // ADMIN LOGOUT
+        document.getElementById("adminLogoutBtn").addEventListener("click", async () => {
+            try {
+                if (stopAdminListener) {
+                    stopAdminListener();
+                    stopAdminListener = null;
+                }
+
+                await signOut(auth);
+                showAdminLogin();
+                setAdminStatus("You have logged out.");
+
+            } catch (error) {
+                setAdminStatus("Logout failed: " + error.message, true);
+            }
+        });
+
+        modalElement.addEventListener("hidden.bs.modal", () => {
+            if (stopAdminListener) {
+                stopAdminListener();
+                stopAdminListener = null;
+            }
+        });
+
+
+
+        // SECRET ADMIN PANEL SHORTCUT
+        document.addEventListener("keydown", (event) => {
+
+            if (
+                event.altKey &&
+                event.shiftKey &&
+                event.key.toLowerCase() === "a"
+            ) {
+                event.preventDefault();
+
+                const modal = document.getElementById("adminModal");
+
+                if (modal) {
+                    adminModal.show();
+
+                    if (auth.currentUser?.uid === ADMIN_UID) {
+                        showAdminPanel();
+                    } else {
+                        showAdminLogin();
+                    }
+                }
+            }
+
+        });
+
+
+    </script>
+
+
+    <!-- SABKAMITRA ADMIN MODAL -->
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-shield-lock me-2"></i>
+                        SabkaMitra Admin
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="adminLoginBox">
+                        <p class="text-secondary">Admin login karke notifications manage karo.</p>
+
+                        <label class="form-label">Admin Email</label>
+                        <input type="email" id="adminEmail" class="form-control mb-3" placeholder="Admin email">
+
+                        <label class="form-label">Password</label>
+                        <input type="password" id="adminPassword" class="form-control mb-3"
+                            placeholder="Admin password">
+
+                        <button class="btn btn-primary w-100" id="adminLoginBtn">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            Login
+                        </button>
+                    </div>
+
+                    <div id="adminPanelBox" hidden>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <strong>Publish Notification</strong>
+                            <button class="btn btn-sm btn-outline-danger" id="adminLogoutBtn">Logout</button>
+                        </div>
+
+                        <label class="form-label">Notification Title</label>
+                        <input type="text" id="adminTitle" class="form-control mb-3" maxlength="80"
+                            placeholder="Example: New Tool Launched">
+
+                        <label class="form-label">Message</label>
+                        <textarea id="adminMessage" class="form-control mb-3" rows="3" maxlength="300"
+                            placeholder="Write your notification..."></textarea>
+
+                        <label class="form-label">Notification Type</label>
+                        <select id="adminType" class="form-select mb-3">
+                            <option value="New Tool">New Tool</option>
+                            <option value="Website Update">Website Update</option>
+                            <option value="Announcement">Announcement</option>
+                        </select>
+
+                        <button class="btn btn-primary w-100" id="publishNotificationBtn">
+                            <i class="bi bi-send me-1"></i>
+                            Publish Notification
+                        </button>
+
+                        <hr>
+                        <h6 class="mb-2">Recent Notifications</h6>
+                        <div id="adminNotificationList">
+                            Loading...
+                        </div>
+                    </div>
+
+                    <p id="adminStatus" class="small mt-3 mb-0" role="status" aria-live="polite"></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 

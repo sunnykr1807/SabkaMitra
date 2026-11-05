@@ -2179,3 +2179,288 @@ body.dark .stats-card {
         animation: none !important;
     }
 }
+
+
+
+/* notification */
+
+
+
+/* NAVBAR NOTIFICATION BELL */
+
+.notification-nav {
+    position: relative;
+}
+
+.notification-bell {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5eaf2;
+    border-radius: 12px;
+    color: var(--text-primary, #263248);
+    font-size: 19px;
+    background: transparent;
+}
+
+.notification-bell:hover {
+    background: #f1f4fa;
+}
+
+.notification-dot {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.notification-dropdown {
+    width: 330px;
+    padding: 0;
+    margin-top: 12px !important;
+    border: 1px solid #e8edf4;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0,0,0,.12);
+}
+
+.notification-drop-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.notification-drop-header strong {
+    font-size: 15px;
+}
+
+.notification-drop-header span,
+.notification-drop-item small {
+    font-size: 11px;
+    color: #8994a5;
+}
+
+.notification-drop-item {
+    display: flex;
+    gap: 12px;
+    padding: 15px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.notification-drop-item > i {
+    font-size: 19px;
+    color: #6254d9;
+}
+
+.notification-drop-item strong {
+    font-size: 13px;
+    display: block;
+}
+
+.notification-drop-item p {
+    font-size: 12px;
+    color: #8994a5;
+    margin: 4px 0;
+}
+
+body[data-theme="dark"] .notification-bell {
+    color: #fff;
+    border-color: #394354;
+}
+
+body[data-theme="dark"] .notification-dropdown {
+    background: #1c2432;
+    color: #f1f5f9;
+    border-color: #394354;
+}
+
+body[data-theme="dark"] .notification-drop-item {
+    border-color: #394354;
+}
+
+@media(max-width:991px) {
+    .notification-dropdown {
+        position: absolute !important;
+        right: 0 !important;
+        left: auto !important;
+    }
+}
+
+
+
+
+
+/* font fix */
+
+
+
+
+/* NOTIFICATION TEXT - READABLE SIZE */
+
+.notification-drop-header strong {
+    font-size: 17px;
+}
+
+.notification-drop-header span {
+    font-size: 13px;
+}
+
+.notification-drop-item strong {
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.notification-drop-item p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 5px 0;
+}
+
+.notification-drop-item small {
+    font-size: 12px;
+}
+
+/* Better spacing */
+.notification-drop-item {
+    padding: 17px;
+    gap: 14px;
+}
+
+.notification-drop-item > i {
+    font-size: 21px;
+}
+
+@media (max-width: 576px) {
+    .notification-dropdown {
+        width: min(330px, calc(100vw - 30px));
+    }
+
+    .notification-drop-item strong {
+        font-size: 14px;
+    }
+
+    .notification-drop-item p {
+        font-size: 13px;
+    }
+}
+
+
+
+
+
+/* ===== SABKAMITRA ADMIN PANEL TEXT FIX ===== */
+
+#adminModal .modal-content {
+    background: #ffffff !important;
+    color: #172033 !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+}
+
+#adminModal .modal-title,
+#adminModal .form-label,
+#adminModal h6,
+#adminModal strong {
+    color: #172033 !important;
+    font-weight: 700 !important;
+}
+
+#adminModal .modal-title {
+    font-size: 23px !important;
+}
+
+#adminModal .form-label {
+    font-size: 16px !important;
+    margin-bottom: 9px;
+}
+
+#adminModal input,
+#adminModal textarea,
+#adminModal select {
+    color: #263247 !important;
+    background-color: #ffffff !important;
+    font-size: 16px !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+#adminModal input::placeholder,
+#adminModal textarea::placeholder {
+    color: #64748b !important;
+    opacity: 1;
+}
+
+#adminModal #adminPanelBox h6 {
+    font-size: 19px !important;
+    margin-top: 20px;
+    margin-bottom: 14px;
+}
+
+#adminModal #adminNotificationList .border {
+    background: #f8fafc !important;
+    border: 1px solid #dbe3ef !important;
+    border-radius: 10px;
+    padding: 14px !important;
+    margin-bottom: 12px !important;
+}
+
+#adminModal #adminNotificationList strong {
+    display: block;
+    font-size: 17px !important;
+    margin-bottom: 6px;
+}
+
+#adminModal #adminNotificationList p {
+    color: #475569 !important;
+    font-size: 15px !important;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+#adminModal #adminStatus {
+    font-size: 15px !important;
+    font-weight: 600;
+}
+
+#adminModal .modal-header,
+#adminModal .modal-footer {
+    border-color: #e2e8f0 !important;
+}
+
+#adminModal #publishNotificationBtn {
+    font-size: 17px !important;
+    font-weight: 600;
+    padding: 12px;
+}
+
+
+
+
+
+/* Hide Admin Panel button from normal visitors */
+#adminOpenBtn {
+    display: none !important;
+}
+
+
+/* for coming soon badge */
+
+.coming-soon-badge {
+    display: inline-block;
+    width: fit-content;
+    margin-top: 7px;
+    padding: 4px 9px;
+    border-radius: 20px;
+    background: #fff3cd;
+    color: #946200;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
